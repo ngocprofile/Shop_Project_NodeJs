@@ -1,0 +1,240 @@
+/* === Cấu trúc Header chính === */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    border-bottom: 1px solid #e5e7eb; /* gray-200 */
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+    position: relative; /* Cần cho MegaMenu */
+}
+
+.nav {
+    display: flex;
+    height: 4rem; /* 64px */
+    align-items: center;
+    justify-content: space-between;
+    container-type: inline-size;
+    max-width: 1280px; /* container */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem; /* px-6 */
+    padding-right: 1.5rem;
+}
+
+/* === Logo === */
+.logo {
+    flex-shrink: 0;
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 700; /* font-bold */
+    color: black;
+    letter-spacing: 0.05em; /* tracking-wider */
+    text-decoration: none;
+}
+
+/* === 2. Điều hướng Desktop === */
+.desktopNav {
+    display: none; /* Ẩn trên mobile */
+}
+
+.desktopNavList {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* gap-6 */
+}
+
+.desktopNavItem {
+    position: static; /* Cần cho MegaMenu */
+    list-style: none;
+}
+
+.desktopNavLink {
+    display: flex;
+    align-items: center;
+    height: 4rem; /* h-16 */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    color: #4b5563; /* text-gray-600 */
+    text-decoration: none;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent; /* Cho hiệu ứng active */
+}
+
+.desktopNavLink:hover {
+    color: black;
+}
+
+.desktopNavLink.active { /* Class 'active' từ NavLink */
+    color: black;
+    border-bottom-color: black;
+}
+
+.navIcon {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 0.25rem;
+    color: #9ca3af; /* text-gray-400 */
+}
+
+/* === 3. Các nút Hành động (Desktop) === */
+.desktopActions {
+    display: none; /* Ẩn trên mobile */
+    align-items: center;
+    gap: 1rem; /* gap-4 */
+}
+
+.actionIcon {
+    position: relative;
+    color: #4b5563; /* text-gray-600 */
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.actionIcon:hover {
+    color: black;
+}
+
+.iconSvg {
+    width: 1.5rem; /* h-6 w-6 */
+    height: 1.5rem;
+}
+
+.cartBadge {
+    position: absolute;
+    top: -0.5rem; /* -top-2 */
+    right: -0.5rem; /* -right-2 */
+    display: flex;
+    height: 1.25rem; /* h-5 w-5 */
+    width: 1.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px; /* rounded-full */
+    background-color: black;
+    font-size: 0.75rem; /* text-xs */
+    font-weight: 700;
+    color: white;
+}
+
+/* === 4. Mobile Menu Toggle === */
+.mobileMenuToggle {
+    display: flex; /* Hiển thị trên mobile */
+    align-items: center;
+    gap: 1rem;
+}
+
+.mobileMenuToggle button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4b5563;
+}
+.mobileMenuToggle button:hover {
+    color: black;
+}
+
+/* === 5. Mobile Menu Drawer === */
+.mobileDrawer {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* shadow-lg */
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    max-height: 0;
+}
+
+.mobileDrawer.open {
+    max-height: calc(100vh - 4rem); /* 100vh trừ đi chiều cao header */
+    overflow-y: auto;
+}
+
+.mobileDrawerContent {
+    padding: 0.5rem 1rem 1rem 1rem; /* pt-2 pb-4 px-4 */
+}
+
+.mobileSearch {
+    width: 100%;
+    border-radius: 0.5rem; /* rounded-lg */
+    border: 1px solid #d1d5db; /* border-gray-300 */
+    padding: 0.5rem 1rem; /* px-4 py-2 */
+    font-size: 0.875rem; /* text-sm */
+    margin-bottom: 1rem;
+}
+
+/* (Thêm style cho MobileNavLinks nếu cần) */
+/* ... */
+
+/* === Mega Menu (CSS Thuần) === */
+.megaMenu {
+    position: absolute;
+    top: 100%; /* Ngay dưới header */
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid #f3f4f6;
+    
+    /* Ẩn/Hiện bằng CSS */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Khi hover vào .desktopNavItem (cha) */
+.desktopNavItem:hover .megaMenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.megaMenuContent {
+    max-width: 1280px;
+    margin: auto;
+    padding: 2rem 1.5rem; /* py-8 px-6 */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.megaMenuColumn h4 {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.megaMenuColumn ul {
+    list-style: none;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* space-y-3 */
+}
+
+.megaMenuColumn a {
+    font-size: 0.875rem;
+    color: #4b5563;
+    text-decoration: none;
+}
+.megaMenuColumn a:hover {
+    color: black;
+}
+
+
+/* === Responsive Breakpoints (Điểm ngắt) === */
+/* Tương đương 'md:' của Tailwind (768px) */
+@media (min-width: 768px) {
+    .desktopNav {
+        display: flex;
+    }
+    .desktopActions {
+        display: flex;
+    }
+    .mobileMenuToggle {
+        display: none;
+    }
+}

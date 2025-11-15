@@ -1,0 +1,371 @@
+/* Trang chung */
+.productPage {
+  /* Không cần style */
+}
+
+/* Header của trang (Tiêu đề + Nút Add) */
+.pageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.pageHeader h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0;
+}
+
+/* Card (khung trắng) */
+.card {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.cardBody {
+    padding: 1.5rem;
+    overflow-x: auto; /* Giúp bảng cuộn ngang trên mobile */
+}
+
+/* Bảng */
+.productTable {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.productTable th,
+.productTable td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.productTable th {
+    background-color: #f7fafc;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.productTable td {
+    font-size: 0.9rem;
+    color: #2d3748;
+}
+
+/* Ô Hành động */
+.actionCell {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.actionButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s;
+}
+
+.editButton {
+    color: #3182ce; /* Màu xanh */
+}
+.editButton:hover {
+    background-color: #ebf8ff;
+}
+
+.deleteButton {
+    color: #e53e3e; /* Màu đỏ */
+}
+.deleteButton:hover {
+    background-color: #fff5f5;
+}
+
+/* Thẻ Badge (Dùng chung) */
+.badge {
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badgeSuccess {
+    background-color: #c6f6d5;
+    color: #2f855a;
+}
+
+.badgeDanger {
+    background-color: #fed7d7;
+    color: #c53030;
+}
+
+.badgeWarning {
+    background-color: #fefcbf;
+    color: #b7791f;
+}
+
+.badgeDefault {
+    background-color: #e2e8f0;
+    color: #4a5568;
+}
+
+
+/* Nút bấm (Dùng chung) */
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.buttonPrimary {
+    background-color: #1a202c;
+    color: #ffffff;
+}
+.buttonPrimary:hover {
+    background-color: #2d3748;
+}
+
+.buttonSecondary {
+    background-color: #e2e8f0;
+    color: #2d3748;
+}
+.buttonSecondary:hover {
+    background-color: #cbd5e0;
+}
+
+
+/* === CSS cho Form (Dùng chung) === */
+
+.formGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+.columnRight {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.cardHeader {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.cardHeader h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.formGroup {
+    margin-bottom: 1.25rem;
+}
+
+.formGroup label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.formInput,
+.formTextarea,
+.formSelect {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 0.375rem;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.formInput:focus,
+.formTextarea:focus,
+.formSelect:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+}
+
+.formTextarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.note {
+    font-size: 0.85rem;
+    color: #4a5568;
+    background-color: #f7fafc;
+    border-left: 3px solid #e2e8f0;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+}
+
+.formToggle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.formToggle p {
+    font-size: 0.9rem;
+    color: #4a5568;
+    margin: 0;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 28px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #2f855a;
+}
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+.formActions {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+}
+.formActions .button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 1.5rem 0;
+}
+
+@media (max-width: 992px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* === CSS cho Filter (Dùng chung) === */
+
+.filtersContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filterGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filterLabel {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+/* Thanh tìm kiếm (dùng chung) */
+.searchBar {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    padding: 0 0.75rem;
+}
+
+.searchIcon {
+    color: #a0aec0;
+    margin-right: 0.5rem;
+}
+
+.searchInput {
+    border: none;
+    outline: none;
+    padding: 0.6rem 0.25rem;
+    font-size: 0.9rem;
+    width: 280px;
+}
+
+/* === CSS RIÊNG CHO TRANG USER === */
+.userCell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.userAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.userName {
+    font-weight: 600;
+    color: #2d3748;
+}
+.userEmail {
+    font-size: 0.85rem;
+    color: #718096;
+}

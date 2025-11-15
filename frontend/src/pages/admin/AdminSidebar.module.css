@@ -1,0 +1,76 @@
+/* Bố cục chính */
+.adminLayout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f7fafc; /* Màu nền xám nhạt cho nội dung */
+}
+
+/* Nội dung chính */
+.adminContent {
+    flex: 1; /* Chiếm hết phần còn lại */
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    background-color: #1a202c; /* Màu nền tối */
+    color: #e2e8f0; /* Màu chữ nhạt */
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebarHeader {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid #2d3748;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+/* Navigation */
+.sidebarNav {
+    flex: 1;
+    padding: 1rem 0;
+}
+
+.sidebarNav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    color: #a0aec0; /* Màu chữ xám */
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    border-left: 3px solid transparent;
+}
+
+.navLink:hover {
+    background-color: #2d3748; /* Màu nền khi hover */
+    color: #ffffff;
+}
+
+.navLink.active {
+    background-color: #2d3748;
+    color: #ffffff;
+    border-left-color: #3182ce; /* Màu xanh active */
+}
+
+.navLink span {
+    font-size: 0.9rem;
+}
