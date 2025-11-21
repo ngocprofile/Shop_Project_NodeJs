@@ -1,0 +1,160 @@
+/* --- Layout Tổng --- */
+.productPage {
+    padding: 30px;
+    background-color: #f8f9fa; /* Màu nền xám nhẹ cho toàn trang */
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #2d3748;
+}
+
+.pageHeader {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pageHeader h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+}
+
+/* --- Stats Grid (Lưới thống kê) --- */
+.statsGrid {
+    display: grid;
+    /* Tự động chia cột, tối thiểu 240px/thẻ */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.statCard {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.statCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e0;
+}
+
+.statCard h4 {
+    margin: 0 0 10px 0;
+    font-size: 0.95rem;
+    color: #718096;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.statCard p {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d3748;
+    line-height: 1.2;
+}
+
+/* --- General Card (Khung chứa nội dung) --- */
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.cardHeader {
+    padding: 20px 24px;
+    border-bottom: 1px solid #edf2f7;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cardTitle {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.cardBody {
+    padding: 24px;
+}
+
+/* --- Quick Actions (Lối tắt) --- */
+.quickActions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+/* --- Buttons --- */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+/* Nút chính (Màu xanh hoặc đen tùy brand) */
+.buttonPrimary {
+    background-color: #3182ce;
+    color: white;
+    box-shadow: 0 4px 6px rgba(49, 130, 206, 0.3);
+}
+
+.buttonPrimary:hover {
+    background-color: #2b6cb0;
+    transform: translateY(-1px);
+}
+
+/* Nút phụ (Màu xám hoặc trắng) */
+.buttonSecondary {
+    background-color: white;
+    color: #4a5568;
+    border: 1px solid #cbd5e0;
+}
+
+.buttonSecondary:hover {
+    background-color: #f7fafc;
+    border-color: #a0aec0;
+    color: #2d3748;
+    transform: translateY(-1px);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .productPage {
+        padding: 15px;
+    }
+    
+    .statsGrid {
+        grid-template-columns: 1fr; /* 1 cột trên mobile */
+    }
+
+    .quickActions {
+        grid-template-columns: 1fr;
+    }
+
+    .statCard p {
+        font-size: 1.8rem;
+    }
+}

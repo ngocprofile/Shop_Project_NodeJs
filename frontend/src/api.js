@@ -1,4 +1,3 @@
-// frontend/src/api.js
 import axios from 'axios';
 
 const API = axios.create({
@@ -27,13 +26,18 @@ API.interceptors.response.use(
         const refreshToken = localStorage.getItem('refreshToken');
         if (!refreshToken) throw new Error('No refresh token');
 
+        // Lưu ý: axios.post gốc (không phải API.post) được dùng ở đây
+        // để tránh vòng lặp interceptor
         const res = await axios.post('/api/auth/refresh-token', { token: refreshToken });
         const { accessToken } = res.data;
 
         localStorage.setItem('accessToken', accessToken);
         API.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
+        
+        // Cập nhật header cho request gốc và thử lại
+        originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
         return API(originalRequest);
+
       } catch (refreshError) {
         localStorage.clear();
         window.location.href = '/login';

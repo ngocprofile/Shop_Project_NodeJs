@@ -4,37 +4,41 @@ import mongoose from "mongoose";
 const cartItemSchema = new mongoose.Schema({
     product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Product", // liên kết tới sản phẩm trong DB
+        ref: "Product", 
         required: true,
     },
-    variant: {
+    // 🎯 CẬP NHẬT: Thay thế 'variant' cũ bằng 2 trường mới
+    colorVariant: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Variant", // nếu sản phẩm có phân loại (màu, size,...)
+        ref: "ColorVariant", // Để lấy màu sắc và hình ảnh
+        required: true,
     },
+    sizeInventory: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "SizeInventory", // Để lấy kích cỡ và kiểm tra tồn kho
+        required: true,
+    },
+    // ----------------------------------------------------
     quantity: {
         type: Number,
         required: true,
-        min: 1, // ít nhất 1 sản phẩm
+        min: 1, 
     },
     price: {
         type: Number,
-        required: true, // giá hiện tại tại thời điểm thêm vào giỏ (đã giảm nếu có voucher)
+        required: true, // Giá bán của SizeInventory tại thời điểm thêm
     },
     discount: {
         type: Number,
-        default: 0, // số tiền giảm trên từng sản phẩm
-    },
-    voucherCode: {
-        type: String,
-        default: null, // mã voucher tự động áp (nếu có)
+        default: 0, // Số tiền giảm (nếu có flash sale/voucher sản phẩm)
     },
     finalPrice: {
         type: Number,
-        required: true, // giá cuối cùng = price - discount
+        required: true, // = price - discount
     },
     addedAt: {
         type: Date,
-        default: Date.now, // ngày giờ thêm vào giỏ
+        default: Date.now, 
     },
 });
 
@@ -42,36 +46,58 @@ const cartItemSchema = new mongoose.Schema({
 const cartSchema = new mongoose.Schema(
     {
         user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true, // chủ sở hữu giỏ hàng
-        unique: true,   // mỗi user chỉ có 1 giỏ hàng duy nhất
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true, 
+            unique: true, 
         },
-        items: [cartItemSchema], // danh sách sản phẩm trong giỏ
+        items: [cartItemSchema], 
+        
+        // Tổng số lượng sản phẩm (để hiển thị badge trên icon giỏ hàng nhanh)
+        totalQuantity: {
+            type: Number,
+            default: 0
+        },
+        
         subtotal: {
-        type: Number,
-        default: 0, // tổng tiền sản phẩm trước giảm
+            type: Number,
+            default: 0, // Tổng tiền hàng (chưa trừ voucher đơn hàng)
         },
+        
+        // Voucher áp dụng cho toàn bộ đơn hàng (Cart level)
+        appliedVoucher: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Voucher",
+            default: null
+        },
+        
         totalDiscount: {
-        type: Number,
-        default: 0, // tổng tiền giảm (nếu có voucher)
+            type: Number,
+            default: 0, // Tổng tiền giảm giá
         },
+        
         totalPrice: {
-        type: Number,
-        default: 0, // tổng tiền phải trả (đã giảm)
-        },
-        updatedAt: {
-        type: Date,
-        default: Date.now, // cập nhật mỗi khi thay đổi giỏ hàng
+            type: Number,
+            default: 0, // Tổng thanh toán cuối cùng
         },
     },
     {
-        timestamps: true, // tự động thêm createdAt, updatedAt
+        timestamps: true, 
     }
 );
 
-// Cập nhật tự động thời gian khi thay đổi giỏ hàng
+// Middleware: Tự động tính toán lại tổng tiền mỗi khi lưu
 cartSchema.pre("save", function (next) {
+    // 1. Tính tổng số lượng item
+    this.totalQuantity = this.items.reduce((sum, item) => sum + item.quantity, 0);
+
+    // 2. Tính Subtotal (Tổng tiền các món hàng sau khi đã trừ giảm giá từng món)
+    this.subtotal = this.items.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
+
+    // 3. Tính Total Price (Tạm thời = Subtotal, voucher đơn hàng sẽ tính ở Controller lúc checkout)
+    // Nếu có logic voucher đơn hàng lưu trực tiếp trong DB thì trừ ở đây
+    this.totalPrice = Math.max(this.subtotal - this.totalDiscount, 0);
+
     this.updatedAt = Date.now();
     next();
 });

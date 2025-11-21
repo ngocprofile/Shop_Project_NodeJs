@@ -1,0 +1,350 @@
+/* --- Layout Tổng --- */
+.productPage {
+    padding: 24px;
+    background-color: #f1f5f9;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #334155;
+}
+
+.pageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.pageHeader h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+}
+
+/* --- Card Container --- */
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.cardHeader {
+    padding: 16px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cardHeader h3, .cardHeader h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.cardBody {
+    padding: 24px;
+}
+
+/* --- Form Layout --- */
+.formGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Cột trái rộng gấp đôi cột phải */
+    gap: 24px;
+    align-items: start;
+}
+
+.columnLeft, .columnRight {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* --- Form Controls --- */
+.formGroup {
+    margin-bottom: 16px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.formInput, .formTextarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    background-color: #fff;
+}
+
+.formInput:focus, .formTextarea:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.formInput:disabled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.formTextarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.note {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+/* --- Radio Group --- */
+.radioGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #334155;
+}
+
+.radioLabel input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* --- Toggle Switch (Trạng thái) --- */
+.formToggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #cbd5e1;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #10b981; /* Màu xanh lá khi active */
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+/* --- Buttons & Actions --- */
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+    padding-bottom: 40px; /* Thêm khoảng trắng dưới cùng */
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.buttonPrimary {
+    background-color: #2563eb;
+    color: white;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.buttonPrimary:hover:not(:disabled) {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.buttonPrimary:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.buttonSecondary {
+    background-color: white;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+}
+
+.buttonSecondary:hover {
+    background-color: #f1f5f9;
+    color: #334155;
+    border-color: #94a3b8;
+}
+
+/* --- Table Styles --- */
+.productTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.productTable th {
+    text-align: left;
+    padding: 12px 16px;
+    background-color: #f8fafc;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.productTable td {
+    padding: 16px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #334155;
+    vertical-align: middle;
+}
+
+.productTable tr:last-child td {
+    border-bottom: none;
+}
+
+.productTable tr:hover {
+    background-color: #fafbfd;
+}
+
+/* --- Badges --- */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.badgeSuccess {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badgeWarning {
+    background-color: #fef9c3;
+    color: #854d0e;
+}
+
+.badgeDanger {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* --- Action Buttons inside Table --- */
+.actionCell {
+    display: flex;
+    gap: 8px;
+}
+
+.actionButton {
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+}
+
+.editButton {
+    background-color: #eff6ff;
+    color: #3b82f6;
+}
+.editButton:hover {
+    background-color: #dbeafe;
+}
+
+.deleteButton {
+    background-color: #fef2f2;
+    color: #ef4444;
+}
+.deleteButton:hover {
+    background-color: #fee2e2;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .columnRight {
+        flex-direction: column-reverse; /* Đẩy phần trạng thái lên trên nếu cần, hoặc giữ nguyên */
+    }
+}

@@ -1,0 +1,303 @@
+/* --- 1. CẤU TRÚC CHUNG & VARIABLES --- */
+.productListContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1f2937;
+}
+
+/* --- 2. HEADER TRANG --- */
+.pageHeader {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.categoryTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: capitalize;
+    letter-spacing: -0.5px;
+}
+
+.productCount {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-left: 12px;
+}
+
+/* Nút mở filter trên mobile */
+.mobileFilterBtn {
+    display: none; /* Ẩn trên desktop */
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mobileFilterBtn:hover {
+    border-color: #000;
+    background-color: #f9fafb;
+}
+
+/* --- 3. LAYOUT GRID (Sidebar + Content) --- */
+.layoutGrid {
+    display: grid;
+    grid-template-columns: 260px 1fr; /* Sidebar 260px - Content phần còn lại */
+    gap: 40px;
+    position: relative;
+}
+
+/* --- 4. SIDEBAR (BỘ LỌC) --- */
+.sidebar {
+    /* Sticky: Giữ sidebar đứng yên khi cuộn trang */
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding-right: 10px; /* Tạo khoảng cách thanh cuộn */
+}
+
+/* Header của sidebar (Chỉ hiện trên mobile) */
+.sidebarHeader {
+    display: none; 
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebarHeader h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.closeFilterBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* Nhóm Filter */
+.filterGroup {
+    margin-bottom: 32px;
+}
+
+.filterGroup h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* List Checkbox */
+.checkboxList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #4b5563;
+    transition: color 0.2s;
+}
+
+.checkboxLabel:hover {
+    color: #000;
+}
+
+.checkboxLabel input[type="checkbox"] {
+    accent-color: #000; /* Màu checkbox khi tick */
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Thanh trượt giá (Range Slider Custom) */
+.priceDisplay {
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #000;
+}
+
+.rangeInput {
+    width: 100%;
+    -webkit-appearance: none; /* Bỏ style mặc định */
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* Style cái cục tròn để kéo (Thumb) */
+.rangeInput::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #000;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.rangeInput::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #000;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+/* Nút Áp dụng */
+.applyBtn {
+    width: 100%;
+    padding: 12px;
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 10px;
+}
+
+.applyBtn:hover {
+    background-color: #333;
+}
+
+/* --- 5. MAIN CONTENT --- */
+.mainContent {
+    flex: 1;
+}
+
+/* Toolbar Sắp xếp */
+.toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.sortWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.sortSelect {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.9rem;
+    color: #374151;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Product Grid (Lưới sản phẩm) */
+.productGrid {
+    display: grid;
+    /* Tự động chia cột: Tối thiểu 220px, còn lại chia đều */
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); 
+    gap: 24px;
+}
+
+/* Các trạng thái Loading/Empty */
+.loadingState, .emptyState {
+    text-align: center;
+    padding: 60px 0;
+    font-size: 1.1rem;
+    color: #6b7280;
+    width: 100%;
+    grid-column: 1 / -1;
+}
+
+/* --- 6. RESPONSIVE (MOBILE & TABLET) --- */
+@media (max-width: 900px) {
+    .pageHeader {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .mobileFilterBtn {
+        display: flex; /* Hiện nút lọc */
+        width: 100%;
+        justify-content: center;
+    }
+
+    .layoutGrid {
+        display: block; /* Bỏ grid layout, chuyển sang block */
+    }
+
+    /* Biến Sidebar thành Drawer (Trượt từ trái sang) */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 80%; /* Chiếm 80% màn hình */
+        max-width: 320px;
+        background: white;
+        z-index: 1000;
+        padding: 20px;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        transform: translateX(-100%); /* Ẩn sang trái */
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar.showMobile {
+        transform: translateX(0); /* Trượt ra */
+    }
+
+    .sidebarHeader {
+        display: flex; /* Hiện header của sidebar */
+    }
+
+    /* Overlay (Lớp nền đen mờ) */
+    .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        animation: fadeIn 0.3s;
+    }
+
+    .productGrid {
+        /* Mobile hiển thị 2 cột */
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 12px;
+    }
+}
+
+/* Hiệu ứng fade cho overlay */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

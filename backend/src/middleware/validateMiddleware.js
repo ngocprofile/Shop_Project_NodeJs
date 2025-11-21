@@ -49,6 +49,95 @@ const validate = (schema) => {
     };
 };
 
+const objectId = Joi.string().hex().length(24).messages({
+    'string.hex': 'ID phải là một chuỗi 24 ký tự hex.',
+    'string.length': 'ID phải có đúng 24 ký tự.'
+});
+const hexColorRegex = /^#([0-9A-F]{3}){1,2}$/i;
+
+// ===================================================
+// A. SIZE INVENTORY: TÁCH BIỆT KEYS VÀ SCHEMA
+// ===================================================
+
+const SIZE_OPTIONS = [
+    // === Kích cỡ Quần áo (Quốc tế/Việt Nam) ===
+    'XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL',
+    
+    // === Kích cỡ Đặc biệt (Cho quần áo hoặc phụ kiện) ===
+    'OS',         // One Size (Giữ lại theo code cũ, nhưng nên dùng 'One Size' hoặc 'Free Size')
+    'One Size',   // Một kích cỡ (Phù hợp với tất cả)
+    'Free Size',  // Kích cỡ tự do (Phổ biến ở VN)
+
+    // === Kích cỡ Giày dép (Phổ biến: EU) ===
+    '35', '35.5', '36', '36.5', '37', '37.5', '38', '38.5', '39', '39.5',
+    '40', '40.5', '41', '41.5', '42', '42.5', '43', '43.5', '44', '44.5',
+    '45', '45.5', '46', '47', '48', '49', '50'
+];
+
+// ⚠️ QUAN TRỌNG: Đây là Object thuần chứa các rule (KEYS), KHÔNG PHẢI Joi.object()
+// Dùng cái này để spread (...) vào các schema khác
+const sizeInventoryKeys = {
+    size: Joi.string().trim().uppercase().max(20).required().valid(...SIZE_OPTIONS).messages({
+        'any.only': 'Kích thước không hợp lệ. Vui lòng chọn size tiêu chuẩn.',
+        'any.required': 'Kích thước (size) là bắt buộc.',
+    }),
+    price: Joi.number().min(0).precision(2).required().messages({
+        'any.required': 'Giá bán size là bắt buộc.',
+    }),
+    stock: Joi.number().integer().min(0).default(0).messages({
+        'number.integer': 'Tồn kho phải là số nguyên.'
+    }),
+    finalPrice: Joi.number().min(0).precision(2).optional(),
+};
+
+// ⚠️ QUAN TRỌNG: Đây là Joi Schema hoàn chỉnh, dùng để validate nested Array
+const sizeInventorySchema = Joi.object(sizeInventoryKeys);
+
+// ===================================================
+// B. COLOR VARIANT SCHEMA
+// ===================================================
+
+const colorVariantCreateSchema = Joi.object({
+    color: Joi.string().trim().uppercase().max(50).required().messages({ 
+        'string.max': 'Tên màu không được quá 50 ký tự.',
+        'any.required': 'Tên màu là bắt buộc.'
+    }),
+    colorCode: Joi.string().trim().uppercase().max(7).required().regex(hexColorRegex).messages({
+        'any.required': 'Mã màu (Color Code) là bắt buộc.',
+        'string.pattern.base': 'Mã màu không hợp lệ (Ví dụ: #FF0000).',
+    }),
+    // ✅ Dùng sizeInventorySchema (Joi Object) ở đây là ĐÚNG vì nằm trong items()
+    sizes: Joi.array().items(sizeInventorySchema).min(1).required().messages({
+        'array.min': 'Biến thể màu cần ít nhất một kích cỡ và tồn kho.',
+        'any.required': 'Thông tin kích cỡ và tồn kho là bắt buộc.',
+    }),
+    image: Joi.string().uri().optional().allow(null, ''), 
+});
+
+// =================================================================
+// 🛠️ HELPER SCHEMAS
+// =================================================================
+
+// Helper cho định dạng ObjectId (24 ký tự hex)
+const JoiObjectId = Joi.string().hex().length(24).messages({
+    'string.hex': 'ID không hợp lệ (phải là chuỗi hex 24 ký tự).',
+    'string.length': 'ID phải có đúng 24 ký tự.',
+});
+
+// Helper cho Object hình ảnh đơn lẻ (sử dụng trong mảng images của Variant)
+const imageObjectSchema = Joi.object({
+    url: Joi.string().uri().required().messages({ 'string.uri': 'URL ảnh không hợp lệ.' }),
+    public_id: Joi.string().allow(null).default(null),
+    isMain: Joi.boolean().default(false)
+});
+
+// Helper cho Variant khi tạo (chưa có _id)
+const variantCreateSchema = Joi.object({
+    color: Joi.string().trim().max(50).required(),
+    size: Joi.string().trim().max(50).required(),
+    price: Joi.number().min(0).precision(2).required(),
+    stock: Joi.number().integer().min(0).default(0),
+});
 // Schemas đầy đủ cho TẤT CẢ các controller/model (User, Product, Order, Feedback, Voucher, Shipping, Notification, Media, Category, Brand, Staff, Auth)
 export const schemas = {
   // ========== AUTH CONTROLLER ==========
@@ -245,129 +334,115 @@ export const schemas = {
         })
     },
 
-    // ========== PRODUCT CONTROLLER ==========
-    // Create Product (admin/staff POST /products)
+    // ========== 1. PRODUCT CONTROLLER ==========
+    
+    // 1.1. Create Product
     createProduct: {
         body: Joi.object({
-            name: Joi.string().min(3).max(100).required().messages({
-                'string.base': 'Tên sản phẩm phải là chuỗi.',
-                'string.min': 'Tên sản phẩm phải ít nhất 3 ký tự.',
-                'string.max': 'Tên sản phẩm không được quá 100 ký tự.',
-                'any.required': 'Tên sản phẩm là bắt buộc.'
-            }),
-            description: Joi.string().max(500).optional().messages({
-                'string.base': 'Mô tả phải là chuỗi.',
-                'string.max': 'Mô tả không được quá 500 ký tự.'
-            }),
-            price: Joi.number().min(0).precision(2).required().messages({
-                'number.base': 'Giá phải là số.',
-                'number.min': 'Giá phải lớn hơn hoặc bằng 0.',
-                'number.precision': 'Giá phải có tối đa 2 chữ số thập phân.',
-                'any.required': 'Giá là bắt buộc.'
-            }),
-            category: Joi.string().required().messages({
-                'string.base': 'Danh mục phải là chuỗi.',
-                'any.required': 'Danh mục là bắt buộc.'
-            }),
-            brand: Joi.string().optional().messages({
-                'string.base': 'Thương hiệu phải là chuỗi.'
-            }),
-            stock: Joi.number().min(0).default(0).messages({
-                'number.base': 'Số lượng tồn kho phải là số.',
-                'number.min': 'Số lượng tồn kho không được âm.'
-            }),
-            images: Joi.array().items(Joi.string().uri()).optional().messages({
-                'array.base': 'Hình ảnh phải là mảng.',
-                'array.uri': 'URL hình ảnh không hợp lệ.'
-            })
+            name: Joi.string().min(3).max(100).required(),
+            description: Joi.string().max(10000).required(),
+            basePrice: Joi.number().min(0).precision(2).required(),
+            category: JoiObjectId.required(),
+            brand: JoiObjectId.optional(),
+            gender: Joi.string().valid('Nam', 'Nữ', 'Unisex').optional(),
+            material: Joi.string().max(100).optional(),
+            
+            // Variants lồng nhau
+            variants: Joi.array().items(colorVariantCreateSchema).optional(),
+            
+            // ColorCode (Optional ở cấp Product)
+            colorCode: Joi.string().trim().uppercase().max(7).optional().regex(hexColorRegex),
         })
     },
 
-    // Update Product (admin/staff PUT /products/:id)
+    // 1.2. Update Product
     updateProduct: {
         body: Joi.object({
-            name: Joi.string().min(3).max(100).optional().messages({
-                'string.base': 'Tên sản phẩm phải là chuỗi.',
-                'string.min': 'Tên sản phẩm phải ít nhất 3 ký tự.',
-                'string.max': 'Tên sản phẩm không được quá 100 ký tự.'
-            }),
-            description: Joi.string().max(500).optional().messages({
-                'string.base': 'Mô tả phải là chuỗi.',
-                'string.max': 'Mô tả không được quá 500 ký tự.'
-            }),
-            price: Joi.number().min(0).precision(2).optional().messages({
-                'number.base': 'Giá phải là số.',
-                'number.min': 'Giá phải lớn hơn hoặc bằng 0.',
-                'number.precision': 'Giá phải có tối đa 2 chữ số thậpân.'
-            }),
-            category: Joi.string().optional().messages({
-                'string.base': 'Danh mục phải là chuỗi.'
-            }),
-            brand: Joi.string().optional().messages({
-                'string.base': 'Thương hiệu phải là chuỗi.'
-            }),
-            stock: Joi.number().min(0).optional().messages({
-                'number.base': 'Số lượng tồn kho phải là số.',
-                'number.min': 'Số lượng tồn kho không được âm.'
-            })
-        }).min(1),  // Ít nhất 1 field
+            name: Joi.string().min(3).max(100).optional(),
+            description: Joi.string().max(10000).optional(),
+            basePrice: Joi.number().min(0).precision(2).optional(),
+            category: JoiObjectId.optional(),
+            brand: JoiObjectId.optional(),
+            gender: Joi.string().valid('Nam', 'Nữ', 'Unisex').optional(),
+            material: Joi.string().max(100).optional(),
+            isActive: Joi.boolean().optional(),
+            featuredImage: Joi.string().valid('null').uri().allow(null, '').optional(),
+            gallery: Joi.array().items(Joi.string().uri()).optional(),
+            colorCode: Joi.string().trim().uppercase().max(7).optional().regex(hexColorRegex),
+        }).min(1), // Cần ít nhất 1 trường để update
         params: Joi.object({
-            id: Joi.string().required().messages({
-                'string.base': 'ID sản phẩm phải là chuỗi.',
-                'any.required': 'ID sản phẩm là bắt buộc.'
-            })
+            id: JoiObjectId.required()
         })
     },
-
-    // Add Variant (admin/staff POST /products/:productId/variants)
+    
+    // 1.3. Add Variant to existing Product (Nested)
     addVariant: {
         body: Joi.object({
-            size: Joi.string().optional().messages({
-                'string.base': 'Kích thước phải là chuỗi.'
-            }),
-            color: Joi.string().optional().messages({
-                'string.base': 'Màu sắc phải là chuỗi.'
-            }),
-            price: Joi.number().min(0).optional().messages({
-                'number.base': 'Giá biến thể phải là số.',
-                'number.min': 'Giá biến thể phải lớn hơn hoặc bằng 0.'
-            }),
-            stock: Joi.number().min(0).default(0).messages({
-                'number.base': 'Số lượng tồn kho biến thể phải là số.',
-                'number.min': 'Số lượng tồn kho biến thể không được âm.'
-            })
-        }).min(1),
+            variants: Joi.array().items(colorVariantCreateSchema).min(1).required()
+        }),
         params: Joi.object({
-            productId: Joi.string().required().messages({
-                'string.base': 'ID sản phẩm phải là chuỗi.',
-                'any.required': 'ID sản phẩm là bắt buộc.'
-            })
+            productId: JoiObjectId.required()
+        })
+    },
+    
+    // ========== 2. COLOR VARIANT CONTROLLER ==========
+
+    // 2.1. Create Color Variant (Tạo Màu mới)
+    createColorVariant: {
+        body: Joi.object({
+            product: JoiObjectId.required(),
+            color: Joi.string().trim().uppercase().max(50).required(),
+            colorCode: Joi.string().trim().uppercase().max(7).required().regex(hexColorRegex),
+            sizes: Joi.array().items(sizeInventorySchema).min(1).required(),
         })
     },
 
-    // Update Variant (admin/staff PUT /products/variants/:id)
-    updateVariant: {
+    // 2.2. Update Color Variant
+    updateColorVariant: {
         body: Joi.object({
-            size: Joi.string().optional().messages({
-                'string.base': 'Kích thước phải là chuỗi.'
-            }),
-            color: Joi.string().optional().messages({
-                'string.base': 'Màu sắc phải là chuỗi.'
-            }),
-            price: Joi.number().min(0).optional().messages({
-                'number.base': 'Giá biến thể phải là số.',
-                'number.min': 'Giá biến thể phải lớn hơn hoặc bằng 0.'
-            }),
-            stock: Joi.number().min(0).optional().messages({
-                'number.base': 'Số lượng tồn kho biến thể phải là số.',
-                'number.min': 'Số lượng tồn kho biến thể không được âm.'
-            })
+            color: Joi.string().trim().uppercase().max(50).optional(), 
+            colorCode: Joi.string().trim().uppercase().max(7).optional().regex(hexColorRegex),
+            image: Joi.string().valid('null').uri().allow(null, '').optional(),
         }).min(1),
         params: Joi.object({
-            id: Joi.string().required().messages({
-                'string.base': 'ID biến thể phải là chuỗi.',
-                'any.required': 'ID biến thể là bắt buộc.'
-            })
+            id: JoiObjectId.required()
+        })
+    },
+    
+    // ========== 3. SIZE INVENTORY CONTROLLER ==========
+
+    // 3.1. Create Size Inventory
+    createSizeInventory: {
+        body: Joi.object({
+            variant: JoiObjectId.required(),
+            // ✅ Dùng spread operator (...) với KEYS là chính xác
+            ...sizeInventoryKeys, 
+        })
+    },
+    
+    // 3.2. Update Size Inventory
+    updateSizeInventory: {
+        body: Joi.object({
+            // ✅ Lấy lại các KEYS nhưng chuyển thành optional()
+            size: sizeInventoryKeys.size.optional(),
+            price: sizeInventoryKeys.price.optional(),
+            stock: sizeInventoryKeys.stock.optional(),
+            finalPrice: sizeInventoryKeys.finalPrice.optional(),
+        }).min(1),
+        params: Joi.object({
+            id: JoiObjectId.required()
+        })
+    },
+    
+    mongoIdParam: {
+        params: Joi.object({
+            id: JoiObjectId.required()
+        })
+    },
+    
+    mongoIdProductIdParam: {
+        params: Joi.object({
+            productId: JoiObjectId.required()
         })
     },
 
@@ -479,82 +554,125 @@ export const schemas = {
     },
 
     // ========== VOUCHER CONTROLLER ==========
+
     // Create Voucher (admin POST /vouchers)
     createVoucher: {
         body: Joi.object({
-            code: Joi.string().alphanum().min(5).max(20).required().messages({
-                'string.base': 'Mã voucher phải là chuỗi.',
-                'string.alphanum': 'Mã voucher phải là chữ và số.',
+            // Khối Thông tin
+            code: Joi.string().alphanum().min(5).max(20).trim().uppercase().required().messages({
+                'string.alphanum': 'Mã voucher chỉ được chứa chữ và số.',
                 'string.min': 'Mã voucher phải ít nhất 5 ký tự.',
                 'string.max': 'Mã voucher không được quá 20 ký tự.',
                 'any.required': 'Mã voucher là bắt buộc.'
             }),
-            // 💡 SỬA LỖI: Đổi 'discount' thành 'value' để khớp với Controller
-            value: Joi.number().min(0).max(100).required().messages({
-                'number.base': 'Giá trị (value) phải là số.',
-                'number.min': 'Giá trị phải lớn hơn hoặc bằng 0%.',
-                'number.max': 'Giá trị không được quá 100%.',
-                'any.required': 'Giá trị (value) là bắt buộc.'
+            title: Joi.string().required().messages({
+                'any.required': 'Tên hiển thị (title) là bắt buộc.'
             }),
-            type: Joi.string().valid("percentage", "fixed").default("percentage").messages({
-                'any.only': 'Loại giảm giá phải là percentage hoặc fixed.'
+            description: Joi.string().allow('').optional(),
+
+            // Khối Giảm giá
+            discountType: Joi.string().valid("percentage", "fixed" , "freeship").required().messages({
+                'any.only': 'Loại giảm giá phải là "percentage", "fixed" hoặc "freeship".',
+                'any.required': 'Loại giảm giá là bắt buộc.'
             }),
-            minOrderValue: Joi.number().min(0).default(0).messages({
-                'number.base': 'Giá trị đơn hàng tối thiểu phải là số.',
-                'number.min': 'Giá trị đơn hàng tối thiểu không được âm.'
+
+            discountValue: Joi.number().min(0).required().messages({
+                'number.base': 'Giá trị giảm phải là số.',
+                'number.min': 'Giá trị giảm không được âm.',
+                'any.required': 'Giá trị giảm là bắt buộc.'
             }),
-            expiryDate: Joi.date().min('now').required().messages({
-                'date.base': 'Ngày hết hạn phải là ngày hợp lệ.',
-                'date.min': 'Ngày hết hạn phải trong tương lai.',
-                'any.required': 'Ngày hết hạn là bắt buộc.'
-            })
+
+            // --- 1. SỬA LỖI LOGIC Ở ĐÂY ---
+            // (Chỉ cấm khi là 'fixed', cho phép khi là 'percentage' và 'freeship')
+            maxDiscountAmount: Joi.when('discountType', {
+                is: 'fixed', // KHI LÀ 'fixed'
+                then: Joi.forbidden(), // THÌ CẤM
+                otherwise: Joi.number().min(0).optional().default(0).messages({ // NGƯỢC LẠI (là 'percentage' hoặc 'freeship')
+                    'number.min': 'Giảm/Trợ giá tối đa không được âm.'
+                }) 
+            }),
+            // --- (Hết phần sửa) ---
+
+            // Khối Điều kiện & Giới hạn
+            minOrderValue: Joi.number().min(0).optional().default(0).messages({
+                'number.min': 'Giá trị đơn tối thiểu không được âm.'
+            }),
+            usageLimit: Joi.number().integer().min(0).optional().default(0).messages({
+                'number.integer': 'Tổng lượt dùng phải là số nguyên.',
+                'number.min': 'Tổng lượt dùng không được âm.'
+            }),
+            perUserLimit: Joi.number().integer().min(1).optional().default(1).messages({
+                'number.integer': 'Giới hạn mỗi người dùng phải là số nguyên.',
+                'number.min': 'Giới hạn mỗi người dùng ít nhất là 1.'
+            }),
+
+            // Khối Thời gian
+            startDate: Joi.date().min('now').required().messages({
+                'date.base': 'Ngày bắt đầu phải là ngày hợp lệ.',
+                'date.min': 'Ngày bắt đầu phải là từ bây giờ trở đi.',
+                'any.required': 'Ngày bắt đầu là bắt buộc.'
+            }),
+            endDate: Joi.date().greater(Joi.ref('startDate')).required().messages({
+                'date.base': 'Ngày kết thúc phải là ngày hợp lệ.',
+                'date.greater': 'Ngày kết thúc phải sau ngày bắt đầu.',
+                'any.required': 'Ngày kết thúc là bắt buộc.'
+            }),
+            
+            // Khối Áp dụng (Khớp Model)
+            applicableProducts: Joi.array().items(objectId).optional().default([]),
+            applicableBrands: Joi.array().items(objectId).optional().default([]),
+            applicableCategories: Joi.array().items(objectId).optional().default([]),
+
+            isActive: Joi.boolean().optional().default(true)
         })
     },
 
     // Update Voucher (admin PUT /vouchers/:id)
     updateVoucher: {
         body: Joi.object({
-            code: Joi.string().alphanum().min(5).max(20).optional().messages({
-                'string.base': 'Mã voucher phải là chuỗi.',
-                'string.alphanum': 'Mã voucher phải là chữ và số.',
-                'string.min': 'Mã voucher phải ít nhất 5 ký tự.',
-                'string.max': 'Mã voucher không được quá 20 ký tự.'
-            }),
-            // 💡 SỬA LỖI: Đổi 'discount' thành 'value' để khớp với Controller
-            value: Joi.number().min(0).max(100).optional().messages({
-                'number.base': 'Giá trị (value) phải là số.',
-                'number.min': 'Giá trị phải lớn hơn hoặc bằng 0%.',
-                'number.max': 'Giá trị không được quá 100%.'
-            }),
-            type: Joi.string().valid("percentage", "fixed").optional().messages({
-                'any.only': 'Loại giảm giá phải là percentage hoặc fixed.'
-            }),
-            minOrderValue: Joi.number().min(0).optional().messages({
-                'number.base': 'Giá trị đơn hàng tối thiểu phải là số.',
-                'number.min': 'Giá trị đơn hàng tối thiểu không được âm.'
-            }),
-            expiryDate: Joi.date().min('now').optional().messages({
-                'date.base': 'Ngày hết hạn phải là ngày hợp lệ.',
-                'date.min': 'Ngày hết hạn phải trong tương lai.'
-            })
-        }).min(1),  // Ít nhất 1 field để cập nhật
+            code: Joi.string().alphanum().min(5).max(20).trim().uppercase().optional(),
+            title: Joi.string().optional(),
+            description: Joi.string().allow('').optional(),
+            
+            // --- 2. SỬA LỖI Ở ĐÂY (Thêm "freeship") ---
+            discountType: Joi.string().valid("percentage", "fixed", "freeship").optional(),
+            
+            discountValue: Joi.number().min(0).optional(),
+            maxDiscountAmount: Joi.number().min(0).optional(), // (Khi update, Joi.when rất phức tạp, để controller xử lý)
+            minOrderValue: Joi.number().min(0).optional(),
+            usageLimit: Joi.number().integer().min(0).optional(),
+            perUserLimit: Joi.number().integer().min(1).optional(),
+            startDate: Joi.date().min('now').optional(),
+            endDate: Joi.date().optional(),
+            
+            applicableProducts: Joi.array().items(objectId).optional(),
+            applicableBrands: Joi.array().items(objectId).optional(),
+            applicableCategories: Joi.array().items(objectId).optional(),
+            
+            isActive: Joi.boolean().optional()
+        }).min(1).messages({
+            'object.min': 'Cần ít nhất một trường để cập nhật.'
+        }), 
+        
         params: Joi.object({
-            id: Joi.string().required().messages({
-                'string.base': 'ID voucher phải là chuỗi.',
-                'any.required': 'ID voucher là bắt buộc.'
-            })
+            id: objectId.required()
         })
     },
 
     // Validate Voucher (public POST /vouchers/validate)
+    // (Schema này đã ĐÚNG)
     validateVoucher: {
         body: Joi.object({
-            code: Joi.string().alphanum().min(5).max(20).required().messages({
-                'string.base': 'Mã voucher phải là chuỗi.',
-                'string.alphanum': 'Mã voucher phải là chữ và số.',
-                'string.min': 'Mã voucher phải ít nhất 5 ký tự.',
-                'string.max': 'Mã voucher không được quá 20 ký tự.',
+            code: Joi.string().alphanum().trim().uppercase().required().messages({
                 'any.required': 'Mã voucher là bắt buộc.'
+            }),
+            userId: objectId.required().messages({
+                'any.required': 'ID người dùng là bắt buộc.'
+            }),
+            orderValue: Joi.number().min(0).required().messages({
+                'number.base': 'Giá trị đơn hàng phải là số.',
+                'number.min': 'Giá trị đơn hàng không được âm.',
+                'any.required': 'Giá trị đơn hàng là bắt buộc.'
             })
         })
     },

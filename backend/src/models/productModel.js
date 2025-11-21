@@ -3,79 +3,103 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema(
     {
         name: {
-        type: String,
-        required: true,
-        trim: true,
-        },
-        description: {
-        type: String,
-        required: true,
-        },
-        brand: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Brand",
-        },
-        category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-        },
-        basePrice: {
-        type: Number,
-        required: true,
-        },
-
-        // 🖼️ Ảnh sản phẩm
-        images: [
-        {
-            url: {
             type: String,
             required: true,
-            },
-            public_id: {
-            type: String,
-            default: null,
-            },
-            isMain: {
-            type: Boolean,
-            default: false,
-            },
+            trim: true,
         },
-        ],
+        // 🔗 URL thân thiện (SEO). VD: "ao-thun-trang"
+        slug: {
+            type: String,
+            unique: true,
+            lowercase: true,
+            index: true,
+        },
+        description: {
+            type: String,
+            required: true,
+        },
+        brand: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Brand",
+        },
+        category: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category",
+        },
+        
+        // 💰 GIÁ CẢ
+        basePrice: {
+            type: Number,
+            required: true,
+            min: 0,
+        },
+        finalPrice: {
+            type: Number,
+            default: 0,
+            min: 0,
+        },
+        // Voucher đang áp dụng (nếu có)
+        appliedVoucher: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Voucher",
+            default: null,
+        },
 
+        // 🖼️ HÌNH ẢNH
+        // Ảnh đại diện (hiện ở ProductCard)
+        featuredImage: {
+            type: String,
+            default: "",
+        },
+        // Ảnh chi tiết (hiện ở trang ProductDetail - Slider)
+        gallery: {
+            type: [String],
+            default: [],
+        },
+
+        // ⭐ ĐÁNH GIÁ (Phục vụ ProductCard)
+        averageRating: {
+            type: Number,
+            default: 0,
+            min: 0,
+            max: 5,
+            index: true, // Index để sort theo rating nhanh
+        },
+        reviewCount: {
+            type: Number,
+            default: 0,
+        },
+
+        // 📈 THỐNG KÊ (Phục vụ sort "Bán chạy nhất")
+        sold: {
+            type: Number,
+            default: 0,
+            index: true,
+        },
+
+        // 🏷️ THUỘC TÍNH KHÁC
         gender: {
-        type: String,
-        enum: ["Nam", "Nữ", "Unisex"],
-        default: "Unisex",
+            type: String,
+            enum: ["Nam", "Nữ", "Unisex"],
+            default: "Unisex",
         },
         material: {
-        type: String,
-        trim: true,
+            type: String,
+            trim: true,
         },
 
+        // 🌟 CẬP NHẬT: Tham chiếu đến mô hình ColorVariant mới
         variants: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Variant",
-        },
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "ColorVariant", // ⬅️ ĐÃ THAY ĐỔI
+            },
         ],
 
-        // 💰 Giá cuối cùng sau khi áp voucher (tự động tính toán)
-        finalPrice: {
-        type: Number,
-        default: 0,
-        },
-
-        // 🏷️ Lưu voucher hiện tại nếu đang được áp dụng
-        appliedVoucher: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Voucher",
-        default: null,
-        },
-
-        // ⚙️ Trạng thái hiển thị
+        // ⚙️ TRẠNG THÁI
         isActive: {
-        type: Boolean,
-        default: true,
+            type: Boolean,
+            default: true,
         },
     },
     {
@@ -83,9 +107,24 @@ const productSchema = new mongoose.Schema(
     }
 );
 
-// 🔄 Tự động cập nhật finalPrice nếu có basePrice
-productSchema.pre("save", async function (next) {
-    if (!this.finalPrice || this.finalPrice === 0) {
+// --- MIDDLEWARE ---
+
+// 1. Tự động tạo Slug từ Name trước khi lưu (nếu chưa có slug)
+productSchema.pre("save", function (next) {
+    if (!this.slug && this.name) {
+        this.slug = this.name
+            .toLowerCase()
+            .trim()
+            .replace(/[^\w\s-]/g, "") // Xóa ký tự đặc biệt
+            .replace(/[\s_-]+/g, "-") // Thay khoảng trắng bằng -
+            .replace(/^-+|-+$/g, ""); // Cắt - ở đầu/cuối
+    }
+    next();
+});
+
+// 2. Tự động set finalPrice = basePrice nếu không có giá giảm
+productSchema.pre("save", function (next) {
+    if (this.finalPrice === undefined || this.finalPrice === null || this.finalPrice === 0) {
         this.finalPrice = this.basePrice;
     }
     next();

@@ -1,113 +1,138 @@
-/* src/components/Footer.module.css */
-
+/* =========================================
+   1. CONTAINER & LAYOUT
+   ========================================= */
 .footer {
-    background-color: #212529; /* Tương đương bg-dark của Bootstrap */
-    color: #f8f9fa; /* text-light */
-    padding: 3rem 0; /* py-5 */
-    margin-top: auto; /* mt-auto: Đẩy footer xuống dưới cùng */
+  background-color: #111111; /* Nền đen sâu */
+  color: #ffffff;
+  padding: 80px 0 30px 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin-top: auto; /* Đẩy footer xuống đáy trang */
 }
 
 .container {
-    max-width: 1140px; /* Tương đương .container của Bootstrap */
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 15px;
-    padding-right: 15px;
+  max-width: 1440px; /* Giới hạn chiều rộng nội dung */
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .grid {
-    display: grid;
-    /* Thiết kế 4 cột. 
-        Để giống code gốc (col-md-4, col-md-2, col-md-2, col-md-4), 
-        chúng ta có thể dùng 2fr 1fr 1fr 2fr.
-        Nhưng layout 4 cột đều nhau (1fr 1fr 1fr 1fr) thường đẹp hơn.
-        Ở đây tôi dùng 4 cột đều nhau.
-    */
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem; /* Khoảng cách giữa các cột */
+  display: grid;
+  /* Tự động chia cột: Mobile 1 cột, Tablet 2 cột, Desktop 4 cột */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-bottom: 60px;
 }
 
 .column {
-  /* Không cần style gì thêm, grid đã xử lý */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
+/* =========================================
+   2. TYPOGRAPHY
+   ========================================= */
+/* Logo Style */
+.logoTitle {
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+/* Cột tiêu đề */
 .title {
-    font-weight: 700; /* fw-bold */
-    margin-bottom: 1.25rem;
-    font-size: 1.1rem; /* h5/h6 */
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  color: #fff;
+  letter-spacing: 1px;
 }
 
 .description {
-    color: #adb5bd; /* Màu xám nhạt hơn */
-    line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #a1a1a1; /* Màu xám nhạt để dịu mắt hơn màu trắng tinh */
+  margin-bottom: 24px;
+  max-width: 300px;
 }
 
-.socialIcons {
-    display: flex;
-    gap: 1.5rem; /* Tương đương gap-3 */
-    margin-top: 1rem;
-}
-
-.socialIconLink {
-    color: #f8f9fa;
-    text-decoration: none;
-    font-size: 1.5rem; /* fs-4 */
-    transition: color 0.2s ease-in-out;
-}
-
-.socialIconLink:hover {
-    color: #ced4da; /* Nhạt hơn khi hover */
-}
-
+/* =========================================
+   3. LINKS & NAVIGATION
+   ========================================= */
 .linkList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem; /* Khoảng cách giữa các link */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linkList li {
+  margin-bottom: 14px;
 }
 
 .linkItem {
-    color: #f8f9fa;
-    text-decoration: none;
-    transition: color 0.2s ease-in-out;
+  text-decoration: none;
+  color: #a1a1a1; /* Màu mặc định: Xám */
+  font-size: 14px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  position: relative;
 }
 
+/* Hiệu ứng hover: Sáng lên và trượt sang phải */
 .linkItem:hover {
-    color: #fff;
-    text-decoration: underline;
+  color: #ffffff;
+  transform: translateX(6px); 
 }
 
+/* =========================================
+   4. SOCIAL ICONS
+   ========================================= */
+.socialIcons {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.socialIconLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #222; /* Nền icon xám đen */
+  color: #fff;
+  border-radius: 50%; /* Hình tròn */
+  transition: all 0.3s ease;
+}
+
+.socialIconLink:hover {
+  background-color: #fff; /* Hover vào thì nền trắng */
+  color: #000; /* Icon đen */
+  transform: translateY(-3px); /* Nổi lên nhẹ */
+}
+
+/* =========================================
+   5. COPYRIGHT & DIVIDER
+   ========================================= */
 .divider {
-    border: 0;
-    border-top: 1px solid #495057; /* hr bg-light */
-    margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid #333;
+  margin-bottom: 30px;
 }
 
 .copyright {
-    text-align: center;
-    color: #adb5bd; /* text-light small */
-    font-size: 0.875rem;
+  display: flex;
+  justify-content: space-between; /* Tách copyright và policy sang 2 bên */
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 12px;
+  color: #666;
 }
 
-/* === Responsive cho di động === */
-@media (max-width: 768px) {
-    .grid {
-        grid-template-columns: 1fr 1fr; /* Chuyển thành 2 cột trên tablet */
-        gap: 2.5rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .grid {
-        grid-template-columns: 1fr; /* Chuyển thành 1 cột trên mobile */
-        gap: 2.5rem;
-    }
-
-    .title {
-        margin-bottom: 1rem;
-    }
+.copyright span {
+  opacity: 0.8;
 }

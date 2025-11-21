@@ -1,17 +1,16 @@
-// app.js 
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import morgan from "morgan";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // Import middleware
-import errorMiddleware from "./middleware/errorMiddleware.js"; // Global error handler
-import notFound from "./middleware/notFound.js"; // 404 handler
-
-// Import activity log middleware (global tùy chọn)
-import { activityLogMiddleware, postActivityLog } from "./middleware/activityLogMiddleware.js";
+import { activityLogMiddleware } from "./middleware/activityLogMiddleware.js"; // Chỉ cần pre-log
+import errorMiddleware from "./middleware/errorMiddleware.js";
+import notFound from "./middleware/notFound.js";
 
 // Import routes
 import activityLogRoutes from "./routes/activityLogRoutes.js";
@@ -25,70 +24,69 @@ import orderRoutes from "./routes/orderRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import shippingRoutes from "./routes/shippingRoutes.js";
 import staffRoutes from "./routes/staffRoutes.js";
+import statRoutes from "./routes/statsRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+// import variantRoutes from "./routes/variantRoutes.js"; // ❌ ĐÃ XÓA/HỢP NHẤT
+import cartRoutes from "./routes/cartRoutes.js";
 import voucherRoutes from "./routes/voucherRoutes.js";
 
 dotenv.config();
-// Không gọi connectDB() ở đây - gọi ở server.js
+
+// --- 1. THIẾT LẬP __dirname CHO ES MODULES ---
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
 // 🧱 Middleware cơ bản
-app.use(express.json({ limit: "10kb" })); // Giới hạn kích thước body
+app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: process.env.CLIENT_URL || "*", credentials: true }));
-app.use(helmet()); // Bảo vệ header HTTP
-//app.use(xssClean()); // Ngăn tấn công XSS
-app.use(morgan("dev")); // Ghi log request
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+app.use(morgan("dev"));
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 2000, standardHeaders: true, legacyHeaders: false }));
 
-// 🚨 Giới hạn request (rate limit) - JSON message
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 phút
-    max: 100, // tối đa 100 request / 15 phút
-    standardHeaders: true,
-    legacyHeaders: false,
-    handler: (req, res) => {
-        res.status(429).json({ 
-            success: false, 
-            message: "⚠️ Too many requests, please try again later!" 
-        });
-    }
+// Middleware 1: Logging
+app.use('/uploads', (req, res, next) => {
+    console.log(`[Static Serve] Đang cố gắng phục vụ file: ${req.originalUrl}`); 
+    next();
 });
-app.use(limiter);
 
-// 🧩 Global Activity Log (di chuyển trước routes để log tất cả)
+// 🏆 Middleware 2: PHỤC VỤ FILE TĨNH
+app.use(
+    '/uploads', 
+    express.static(path.join(__dirname, '../uploads'))
+);
+
+// 🧩 Global Activity Log (Chỉ PRE-log)
 app.use((req, res, next) => {
-    if (req.user) {  // Chỉ log nếu đã auth
-        // Pre-log tất cả actions
-        activityLogMiddleware([])(req, res, next);  // [] = log tất cả
-
-        // Post-log chỉ cho PUT/DELETE (success/fail)
-        if (req.method === 'PUT' || req.method === 'DELETE') {
-            postActivityLog(req, res, next);
-        } else {
-            next();
-        }
+    if (req.user) {
+        // Chỉ chuẩn bị data log, không gọi postActivityLog ở đây
+        activityLogMiddleware([])(req, res, next); 
     } else {
-        next();  // Bỏ qua anonymous
+        next(); 
     }
 });
+
 
 // 🧭 Routes chính
 app.get("/", (req, res) => {
     res.status(200).json({ message: "✅ API is running..." });
 });
 
-// Auth routes (public)
+// Đăng ký các Routes
 app.use("/api/auth", authRoutes);
 
-// Public routes (không cần protect)
-app.use("/api/products", productRoutes); // Một số public như GET
-app.use("/api/vouchers", voucherRoutes); // Active vouchers public
-app.use("/api/shipping", shippingRoutes); // GET methods public
-app.use("/api/categories", categoryRoutes); // Public GET
-app.use("/api/brands", brandRoutes); // Public GET
+// ✅ ĐÃ HỢP NHẤT: Tất cả biến thể, size đều nằm dưới Product Routes
+app.use("/api/products", productRoutes); 
 
-// Protected routes (cần protect - nhưng đã tích hợp trong routes files)
+app.use("/api/vouchers", voucherRoutes);
+app.use("/api/shipping", shippingRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/brands", brandRoutes);
+// app.use("/api/variants", variantRoutes); // ❌ ĐÃ HỦY ĐĂNG KÝ
+
+// Protected routes
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/feedback", feedbackRoutes);
@@ -96,6 +94,8 @@ app.use("/api/staff", staffRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/media", mediaRoutes);
 app.use("/api/activity-logs", activityLogRoutes);
+app.use("/api/stats", statRoutes);
+app.use("/api/cart", cartRoutes);
 
 // 🧩 Bắt lỗi không tìm thấy route (404)
 app.use(notFound);

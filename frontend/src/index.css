@@ -14,3 +14,34 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+/* === TÙY CHỈNH CHO REACT-SELECT === */
+
+/* Lớp vỏ ngoài (control) */
+.react-select__control {
+  width: 100%;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  min-height: 40px;
+  background-color: #fff;
+  box-shadow: none !important; /* Tắt box-shadow mặc định */
+}
+
+/* Lớp vỏ ngoài khi được focus */
+.react-select__control--is-focused {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 1px #4a90e2 !important; /* Thêm !important để ghi đè */
+}
+
+/* Chữ placeholder (vd: "Chọn...") */
+.react-select__placeholder {
+  color: #a0aec0;
+}
+
+/* Menu xổ xuống */
+.react-select__menu {
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  z-index: 10; /* Đảm bảo nó nổi lên trên */
+}

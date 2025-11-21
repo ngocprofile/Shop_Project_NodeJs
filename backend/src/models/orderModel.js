@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Voucher from "./voucherModel.js";
+import Voucher from "./colorVariantModel.js";
 
 // ----------------------------
 // 🔹 Schema cho từng sản phẩm trong đơn hàng

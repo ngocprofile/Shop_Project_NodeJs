@@ -1,7 +1,9 @@
-import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
-import { sendCustomEmail, sendWelcomeEmail } from "../utils/emailUtils.js"; // Import emailUtils cho welcome và custom email
-import { validateEmail, validateEnum, validatePhone } from "../utils/validationUtils.js"; // Import validationUtils cho extra checks
+import { sendCustomEmail, sendWelcomeEmail } from "../utils/emailUtils.js";
+import { validateEmail, validateEnum, validatePhone } from "../utils/validationUtils.js";
+
+// --- 1. IMPORT THÊM ĐỂ DÙNG CHO VÍ VOUCHER ---
+import Voucher from "../models/voucherModel.js";
 
 /**
  * 📜 [GET] /api/users/profile
@@ -9,13 +11,50 @@ import { validateEmail, validateEnum, validatePhone } from "../utils/validationU
  */
 export const getUserProfile = async (req, res, next) => {
     try {
-        const user = await User.findById(req.user._id).select("-password");
+        // Đã thêm populate để lấy chi tiết voucher trong ví
+        const user = await User.findById(req.user._id)
+            .select("-password")
+            .populate("collectedVouchers"); // <-- Populate ví voucher
+
         if (!user) {
             const error = new Error("Không tìm thấy người dùng");
             error.statusCode = 404;
             return next(error);
         }
         res.status(200).json(user);
+    } catch (error) {
+        next(error); // Chuyền lỗi cho errorMiddleware
+    }
+};
+
+/**
+ * 📊 [GET] /api/users/stats
+ * 👉 (Chỉ Admin) Lấy thống kê người dùng
+ */
+export const getUserStats = async (req, res, next) => {
+    try {
+        // 1. Lấy ngày bắt đầu của hôm nay (00:00:00)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // 2. Tạo các promise để chạy song song
+        const totalUsersPromise = User.countDocuments({});
+        const newUsersTodayPromise = User.countDocuments({
+            createdAt: { $gte: today }
+        });
+
+        // 3. Chạy song song 2 câu lệnh đếm
+        const [totalUsers, newUsersToday] = await Promise.all([
+            totalUsersPromise,
+            newUsersTodayPromise
+        ]);
+
+        // 4. Trả về kết quả
+        res.status(200).json({
+            totalUsers,
+            newUsersToday
+        });
+
     } catch (error) {
         next(error); // Chuyền lỗi cho errorMiddleware
     }
@@ -63,8 +102,8 @@ export const updateUserProfile = async (req, res, next) => {
 
         // Nếu có thay đổi mật khẩu
         if (password) {
-            const salt = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(password, salt);
+            // (Lưu ý: hook pre-save trong userModel sẽ tự hash)
+            user.password = password; 
         }
 
         if (avatar !== undefined) user.avatar = avatar;
@@ -92,6 +131,71 @@ export const updateUserProfile = async (req, res, next) => {
     }
 };
 
+
+// --- 2. THÊM HÀM MỚI ĐỂ XỬ LÝ "NHẬN VOUCHER" ---
+
+/**
+ * 📥 [POST] /api/users/collect-voucher/:voucherId
+ * 👉 Lưu voucher vào 'ví' của người dùng
+ * @access Private (Khách hàng)
+ */
+export const collectVoucher = async (req, res, next) => {
+    try {
+        const { voucherId } = req.params;
+        const userId = req.user._id; // Lấy từ middleware 'protect'
+
+        // 1. Kiểm tra voucher có thật và hợp lệ không
+        const voucher = await Voucher.findById(voucherId);
+        if (!voucher) {
+            const error = new Error("Không tìm thấy voucher này.");
+            error.statusCode = 404;
+            return next(error);
+        }
+
+        // 2. Kiểm tra xem voucher còn hoạt động không (dùng virtual field 'isValidNow')
+        // (Giả sử voucherModel có virtual 'isValidNow' như đã bàn)
+        if (!voucher.isValidNow) {
+             const error = new Error("Voucher này đã hết hạn hoặc hết lượt.");
+             error.statusCode = 400;
+             return next(error);
+        }
+
+        // 3. Tìm người dùng
+        const user = await User.findById(userId);
+        if (!user) {
+            const error = new Error("Không tìm thấy người dùng.");
+            error.statusCode = 404;
+            return next(error);
+        }
+
+        // 4. Kiểm tra xem họ đã nhận voucher này chưa
+        const alreadyCollected = user.collectedVouchers.some(
+            (vId) => vId.toString() === voucherId
+        );
+
+        if (alreadyCollected) {
+            const error = new Error("Bạn đã lưu voucher này rồi.");
+            error.statusCode = 400;
+            return next(error);
+        }
+
+        // 5. Thêm voucher vào 'ví' và lưu lại
+        user.collectedVouchers.push(voucherId);
+        await user.save();
+
+        res.status(200).json({ 
+            message: "Đã lưu voucher thành công!",
+            collectedVouchers: user.collectedVouchers // Gửi lại danh sách mới
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+// --- CÁC HÀM CỦA ADMIN (Giữ nguyên) ---
+
 /**
  * 🧩 [GET] /api/users
  * 👉 (Chỉ Admin) Lấy danh sách tất cả người dùng
@@ -111,20 +215,16 @@ export const getAllUsers = async (req, res, next) => {
  */
 export const getUserById = async (req, res, next) => {
     try {
-        // Lấy ID từ req.params (đã được validate ở routes)
         const user = await User.findById(req.params.id).select("-password");
 
         if (!user) {
             const error = new Error("Không tìm thấy người dùng");
             error.statusCode = 404;
-            return next(error); // Chuyển cho errorMiddleware
+            return next(error); 
         }
-
-        // Trả về thông tin user
         res.status(200).json(user);
 
     } catch (error) {
-        // Lỗi này cũng bắt các trường hợp ID không hợp lệ (ví dụ: ID sai định dạng ObjectId)
         next(error); // Chuyền lỗi cho errorMiddleware
     }
 };
@@ -135,18 +235,15 @@ export const getUserById = async (req, res, next) => {
  */
 export const createUser = async (req, res, next) => {
     try {
-        // Sử dụng req.validated.body từ middleware validate
         const { name, email, password, role, avatar } = req.validated.body;
 
-        // Extra check với validationUtils (bổ sung, e.g., role enum)
-        const roleCheck = validateEnum(role || 'user', ['user', 'staff', 'admin']);
+        const roleCheck = validateEnum(role || 'customer', ['customer', 'staff', 'admin']);
         if (!roleCheck.isValid) {
             const error = new Error(roleCheck.message);
             error.statusCode = 400;
             return next(error);
         }
 
-        // Kiểm tra email trùng
         const userExists = await User.findOne({ email });
         if (userExists) {
             const error = new Error("Email đã tồn tại");
@@ -154,19 +251,15 @@ export const createUser = async (req, res, next) => {
             return next(error);
         }
 
-        // Hash mật khẩu
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
+        // Hook pre-save trong Model sẽ tự hash mật khẩu
         const newUser = await User.create({
             name,
             email,
-            password: hashedPassword,
-            role: role || "user", // mặc định là user
+            password: password, 
+            role: role || "customer", 
             avatar: avatar || "",
         });
 
-        // Gửi email chào mừng cho user mới
         await sendWelcomeEmail(newUser.email, newUser.name);
 
         res.status(201).json({
@@ -189,7 +282,6 @@ export const createUser = async (req, res, next) => {
  */
 export const deleteUser = async (req, res, next) => {
     try {
-        // Sử dụng req.params.id (validated in routes)
         const user = await User.findById(req.params.id);
         if (!user) {
             const error = new Error("Không tìm thấy người dùng");
@@ -198,10 +290,8 @@ export const deleteUser = async (req, res, next) => {
         }
 
         const userEmail = user.email; // Lưu email trước khi xóa
-
         await user.deleteOne();
 
-        // Gửi email thông báo xóa tài khoản (optional, có thể bỏ nếu nhạy cảm)
         const htmlContent = `<h1>Tài Khoản Đã Bị Xóa</h1><p>Tài khoản của bạn đã bị xóa khỏi hệ thống. Nếu có thắc mắc, liên hệ hỗ trợ.</p>`;
         await sendCustomEmail(userEmail, 'Tài Khoản Đã Bị Xóa - Shop API', htmlContent);
 
@@ -217,28 +307,22 @@ export const deleteUser = async (req, res, next) => {
  */
 export const updateUserRole = async (req, res, next) => {
     try {
-        // Vai trò đã được kiểm tra bởi Joi middleware
         const { role } = req.validated.body; 
-
-        // BỎ QUA: Không cần kiểm tra validateEnum ở đây nữa.
-
         const user = await User.findById(req.params.id);
+
         if (!user) {
             const error = new Error("Không tìm thấy người dùng");
             error.statusCode = 404;
             return next(error);
         }
         
-        // --- Logic Cập nhật ---
         const oldRole = user.role;
         user.role = role;
         await user.save();
 
-        // Gửi email thông báo thay đổi role
         if (role !== oldRole) {
             const message = role === 'staff' ? 'Bạn đã được thăng chức thành nhân viên!' : `Vai trò của bạn đã được cập nhật thành ${role}.`;
             const htmlContent = `<h1>Thông Báo Thay Đổi Vai Trò</h1><p>${message}</p>`;
-            // Lưu ý: Kiểm tra lại tham số của hàm sendCustomEmail trong file emailUtils của bạn
             await sendCustomEmail(user.email, user.name, 'Thay Đổi Vai Trò - Shop API', htmlContent); 
         }
 
@@ -249,7 +333,6 @@ export const updateUserRole = async (req, res, next) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
-                // Có thể thêm isActive nếu cần
             },
         });
     } catch (error) {
@@ -264,10 +347,7 @@ export const updateUserRole = async (req, res, next) => {
 export const updateUserStatus = async (req, res, next) => {
     try {
         const userId = req.params.id;
-        // Trạng thái đã được kiểm tra bởi Joi middleware
         const { isActive } = req.validated.body; 
-
-        // BỎ QUA: Không cần kiểm tra typeof boolean ở đây nữa.
 
         const user = await User.findById(userId);
 
@@ -277,21 +357,17 @@ export const updateUserStatus = async (req, res, next) => {
             return next(error);
         }
 
-        // Không cho phép Admin tự khóa tài khoản của mình
         if (user._id.toString() === req.user._id.toString() && isActive === false) {
             const error = new Error("Admin không thể tự khóa tài khoản của mình");
             error.statusCode = 403;
             return next(error);
         }
         
-        // --- Logic Cập nhật ---
         user.isActive = isActive;
         await user.save();
 
-        // Gửi email thông báo
         const statusMessage = isActive ? 'Đã được mở khóa' : 'Đã bị khóa';
         const htmlContent = `<h1>Thông Báo Cập Nhật Tài Khoản</h1><p>Tài khoản của bạn đã được cập nhật trạng thái: ${statusMessage}.</p>`;
-        // Lưu ý: Kiểm tra lại tham số của hàm sendCustomEmail trong file emailUtils của bạn
         await sendCustomEmail(user.email, user.name, 'Cập Nhật Trạng Thái Tài Khoản', htmlContent);
 
         res.status(200).json({

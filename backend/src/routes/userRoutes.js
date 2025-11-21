@@ -1,10 +1,12 @@
 import express from "express";
 import {
+    collectVoucher,
     createUser,
     deleteUser,
     getAllUsers,
     getUserById,
     getUserProfile,
+    getUserStats,
     updateUserProfile,
     updateUserRole,
     updateUserStatus,
@@ -29,6 +31,23 @@ router.get("/profile", protect, activityLogMiddleware(['get profile']), getUserP
  */
 router.put("/profile", protect, validate(schemas.updateProfile), activityLogMiddleware(['put profile', 'update profile']), postActivityLog, updateUserProfile);
 
+
+// --- 2. THÊM ROUTE MỚI CHO VÍ VOUCHER ---
+/**
+ * @route   POST /api/users/collect-voucher/:voucherId
+ * @desc    (Khách hàng) Lưu voucher vào ví
+ * @access  Private (Đăng nhập)
+ */
+router.post(
+    "/collect-voucher/:voucherId",
+    protect, // Bắt buộc đăng nhập để biết user là ai
+    // (Giả sử bạn sẽ thêm 1 schema validate cho params.voucherId)
+    // validate(schemas.collectVoucherParam), 
+    collectVoucher
+);
+// --- (Hết phần thêm) ---
+
+
 /**
  * @route   GET /api/users
  * @desc    Lấy danh sách tất cả người dùng
@@ -36,8 +55,19 @@ router.put("/profile", protect, validate(schemas.updateProfile), activityLogMidd
  */
 router.get("/", protect, authorizeRoles("admin"), activityLogMiddleware(['get users']), getAllUsers);
 
-// === 2. THÊM ROUTE MỚI Ở ĐÂY ===
-// (Đặt route /:id CỤ THỂ này TRƯỚC các route /:id chung chung khác nếu có)
+/**
+ * @route   GET /api/users/stats
+ * @desc    Lấy thống kê người dùng (Dashboard)
+ * @access  Private (Chỉ Admin)
+ */
+router.get(
+    "/stats",
+    protect,
+    authorizeRoles("admin"),
+    activityLogMiddleware(['get user stats']),
+    getUserStats
+);
+
 /**
  * @route   GET /api/users/:id
  * @desc    Lấy thông tin người dùng theo ID
@@ -47,7 +77,7 @@ router.get(
     "/:id",
     protect,
     authorizeRoles("admin"),
-    validate(schemas.mongoIdParam), // <-- Giả sử bạn có schema này để validate req.params.id
+    validate(schemas.mongoIdParam), // <-- Validate req.params.id
     activityLogMiddleware(['get user by id']),
     getUserById
 );
@@ -60,27 +90,27 @@ router.get(
 router.post("/", protect, authorizeRoles("admin"), validate(schemas.createUser), activityLogMiddleware(['post user', 'create user']), createUser);
 
 /**
- * @route   PUT /api/users/:id/status
- * @desc    Cập nhật trạng thái hoạt động (Khóa/Mở khóa tài khoản)
- * @access  Private (Chỉ Admin)
- */
-
-
-/**
  * @route   DELETE /api/users/:id
  * @desc    Xóa người dùng
  * @access  Private (Chỉ Admin)
  */
 router.delete("/:id", protect, authorizeRoles("admin"), validate(schemas.deleteUser), activityLogMiddleware(['delete user']), postActivityLog, deleteUser);
+
+/**
+ * @route   PUT /api/users/:id/status
+ * @desc    Cập nhật trạng thái hoạt động (Khóa/Mở khóa tài khoản)
+ * @access  Private (Chỉ Admin)
+ */
 router.put(
     "/:id/status",
     protect,
     authorizeRoles("admin"),
-    validate(schemas.updateUserStatus), // <-- Giả sử bạn có schema này
+    validate(schemas.updateUserStatus), 
     activityLogMiddleware(['put user status', 'lock user']),
     postActivityLog,
     updateUserStatus
 );
+
 /**
  * @route   PUT /api/users/:id/role
  * @desc    Cập nhật vai trò người dùng

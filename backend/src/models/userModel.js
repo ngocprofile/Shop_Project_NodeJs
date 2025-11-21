@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
-  {
+    {
         name: {
         type: String,
         required: [true, "Tên người dùng là bắt buộc"],
@@ -46,6 +46,16 @@ const userSchema = new mongoose.Schema(
         type: Date,
         default: null,
         },
+
+        // --- 📥 THÊM VÍ VOUCHER ---
+        // (Lưu các voucher mà người dùng đã bấm 'Nhận'/'Lưu')
+        collectedVouchers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Voucher",
+        },
+        ],
+        // --- (Hết phần thêm) ---
     },
     { timestamps: true }
 );

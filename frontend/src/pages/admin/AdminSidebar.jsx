@@ -2,7 +2,8 @@ import {
     LayoutDashboard,
     Package,
     ShoppingCart,
-    Users,
+    Ticket,
+    Users
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import styles from './AdminSidebar.module.css';
@@ -59,6 +60,17 @@ const AdminSidebar = () => {
                 >
                 <Users size={20} />
                 <span>Khách hàng</span>
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
+                    to="/admin/vouchers"
+                    className={({ isActive }) =>
+                        `${styles.navLink} ${isActive ? styles.active : ''}`
+                    }
+                >
+                    <Ticket size={20} />
+                    <span>Voucher</span>
                 </NavLink>
             </li>
             </ul>

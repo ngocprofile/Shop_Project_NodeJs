@@ -341,3 +341,214 @@
         transform: rotate(360deg);
     }
 }
+
+/* --- STYLES CHO VÍ VOUCHER --- */
+
+/* Badge số lượng voucher trên sidebar */
+.navBadge {
+    display: inline-block;
+    background-color: #ef4444; /* Màu đỏ */
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.1rem 0.4rem;
+    border-radius: 99px;
+    margin-left: 0.5rem;
+}
+
+/* Lưới hiển thị các voucher đã lưu */
+.walletGrid {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 cột */
+    gap: 1rem;
+}
+
+/* 2 cột trên màn hình lớn hơn */
+@media (min-width: 768px) {
+    .walletGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Card cho 1 voucher trong ví */
+.walletVoucherCard {
+    display: flex;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fdfdfd;
+}
+
+.walletCardLogo {
+    flex: 0 0 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+    border-right: 1px dashed #d1d5db;
+    font-weight: 700;
+    color: #4b5563;
+}
+
+.walletCardContent {
+    padding: 0.75rem 1rem;
+    flex: 1;
+    /* (Fix lỗi flexbox kinh điển) */
+    min-width: 0;
+}
+
+.walletCardTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.walletCardType {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #ef4444; /* Màu đỏ */
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.walletCardExpiry {
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+/* (Copy từ VoucherDashboard nếu bạn muốn thêm link "Điều kiện") */
+.detailsLink {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    color: #3b82f6; /* Màu xanh */
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 0.25rem;
+    cursor: pointer;
+}
+
+/* Trạng thái rỗng cho Ví Voucher */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    gap: 1rem;
+}
+
+/* --- MODAL CHI TIẾT (Copy từ VoucherDashboard) --- */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modalContent {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.modalHeader h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    padding: 0.25rem;
+}
+.closeButton:hover {
+    color: #1f2937;
+}
+
+.modalBody h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.modalBody p {
+    font-size: 0.95rem;
+    color: #4b5563;
+    margin-bottom: 1rem;
+}
+
+/* Danh sách (HSD, Đơn tối thiểu...) */
+.detailList {
+    list-style-type: none; /* Bỏ dấu chấm */
+    padding-left: 0;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: #374151;
+}
+
+.detailList li {
+    margin-bottom: 0.5rem;
+    display: flex;
+}
+.detailList li strong {
+    width: 150px;
+    flex-shrink: 0;
+    color: #6b7280; /* Màu xám cho label */
+}
+
+/* Phần ghi chú cuối modal */
+.modalNote {
+    font-size: 0.85rem !important;
+    font-style: italic;
+    color: #6b7280 !important;
+    background-color: #f9fafb;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-top: 1.5rem;
+}
+
+/* Link "Điều kiện" (nếu bạn thêm vào WalletVoucherCard) */
+.detailsLink {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    color: #3b82f6; /* Màu xanh */
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 0.25rem;
+    cursor: pointer;
+}

@@ -5,6 +5,7 @@ import {
     getActiveVouchers,
     getAllVouchers,
     getVoucherById,
+    getVoucherDashboardData,
     updateVoucher,
     validateVoucher,
 } from "../controllers/voucherController.js";
@@ -23,6 +24,16 @@ router.get("/active", getActiveVouchers);
 
 // ✅ Kiểm tra hợp lệ voucher theo mã (vẫn giữ nếu cần test thủ công)
 router.post("/validate", validate(schemas.validateVoucher), validateVoucher);
+
+// --- 2. THÊM ROUTE MỚI CHO KHO VOUCHER ---
+/**
+ * @route   GET /api/vouchers/dashboard
+ * @desc    Lấy dữ liệu 5 phần cho trang "Kho Voucher" của khách hàng
+ * @access  Public
+ */
+router.get("/dashboard", getVoucherDashboardData);
+// --- (Hết phần thêm) ---
+
 
 /**
  * 🧾 Admin Routes

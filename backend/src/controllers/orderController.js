@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
+import Variant from "../models/colorVariantModel.js"; // Import Variant để kiểm tra tồn kho
 import Order from "../models/orderModel.js";
 import Product from "../models/productModel.js";
 import User from "../models/userModel.js"; // Import User để lấy thông tin user
-import Variant from "../models/variantModel.js";
 import { sendCustomEmail, sendOrderConfirmationEmail } from "../utils/emailUtils.js"; // Import emailUtils cho confirmation email
 import { validateEnum, validatePositiveNumber, validateQuantity } from "../utils/validationUtils.js"; // Import validationUtils cho extra checks
 

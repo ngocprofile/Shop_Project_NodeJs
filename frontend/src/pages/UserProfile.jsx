@@ -4,25 +4,26 @@ import {
     Camera,
     CheckCircle,
     Edit3,
+    Info,
     LogOut,
     Mail,
     Shield,
     ShieldCheck,
+    Ticket,
     User,
+    X,
     XCircle
 } from 'lucide-react';
-import { useEffect, useState } from 'react'; // SỬA 1: Thêm useEffect
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; // <-- 3. THÊM Link
 import useAuth from '../hooks/CheckToken';
 
-import api from '../api'; // SỬA 2: Import file api (giả sử nằm ở /src/utils/api.js)
+import api from '../api';
 import styles from './UserProfile.module.css';
 
 // ===========================================
-// (Các component con giữ nguyên, không đổi)
+// (Component con 1: ProfileInfoView)
 // ===========================================
-
-// 2. Tách phần hiển thị thông tin ra component con
 const ProfileInfoView = ({ user }) => {
     const [isEditing, setIsEditing] = useState(false);
     const avatarSrc = user.avatar || `https://placehold.co/150x150/E2E8F0/4A5568?text=${user.name ? user.name.charAt(0) : 'A'}`;
@@ -128,7 +129,9 @@ const ProfileInfoView = ({ user }) => {
     );
 };
 
-// 3. Component cho Lịch sử mua hàng
+// ===========================================
+// (Component con 2: OrderHistoryView)
+// ===========================================
 const OrderHistoryView = () => (
     <div className={styles.card}>
         <div className={styles.cardHeader}>
@@ -141,7 +144,9 @@ const OrderHistoryView = () => (
     </div>
 );
 
-// 4. Component cho Đổi mật khẩu
+// ===========================================
+// (Component con 3: ChangePasswordView)
+// ===========================================
 const ChangePasswordView = () => (
     <div className={styles.card}>
         <div className={styles.cardHeader}>
@@ -171,37 +176,178 @@ const ChangePasswordView = () => (
     </div>
 );
 
+// ===========================================
+// 4. THÊM COMPONENT VOUCHER MODAL
+// (Copy component này từ VoucherDashboard.jsx qua)
+// ===========================================
+const VoucherModal = ({ voucher, onClose }) => {
+    if (!voucher) return null;
+
+    return (
+        <div className={styles.modalOverlay} onClick={onClose}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                <div className={styles.modalHeader}>
+                    <h3>Chi tiết Ưu đãi</h3>
+                    <button className={styles.closeButton} onClick={onClose}>
+                        <X size={24} />
+                    </button>
+                </div>
+                <div className={styles.modalBody}>
+                    <h4>{voucher.title}</h4>
+                    <p>{voucher.description || "Không có mô tả chi tiết."}</p>
+                    <ul className={styles.detailList}>
+                        <li>
+                            <strong>Hạn sử dụng:</strong> 
+                            {new Date(voucher.endDate).toLocaleString('vi-VN')}
+                        </li>
+                        <li>
+                            <strong>Đơn hàng tối thiểu:</strong> 
+                            {voucher.minOrderValue.toLocaleString()} VND
+                        </li>
+                        <li>
+                            <strong>Giới hạn/người:</strong> 
+                            {voucher.perUserLimit} lần
+                        </li>
+                    </ul>
+                    <p className={styles.modalNote}>
+                        Mã voucher (nếu có) sẽ được tự động áp dụng tại trang thanh toán.
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 
 // ===========================================
-// (Component chính - ĐÃ CẬP NHẬT LOGIC)
+// 5. CẬP NHẬT COMPONENT WALLET VOUCHER CARD
+// (Thêm prop 'onViewDetails' và link "Điều kiện")
+// ===========================================
+const WalletVoucherCard = ({ voucher, onViewDetails }) => {
+    
+    // (Hàm formatVoucherType... giữ nguyên)
+    const formatVoucherType = () => {
+        const { discountType, discountValue, maxDiscountAmount } = voucher;
+        if (discountType === 'freeship') {
+            if (maxDiscountAmount > 0) return `Miễn phí vận chuyển (Tối đa ${maxDiscountAmount.toLocaleString()}đ)`;
+            return "Miễn phí vận chuyển";
+        }
+        if (discountType === 'fixed') return `Giảm ${discountValue.toLocaleString()} VND`;
+        if (discountType === 'percentage') {
+            if (maxDiscountAmount > 0) return `Giảm ${discountValue}% (Tối đa ${maxDiscountAmount.toLocaleString()} VND)`;
+            return `Giảm ${discountValue}%`;
+        }
+        return "Ưu đãi";
+    };
+
+    const formatEndDate = () => {
+        return new Date(voucher.endDate).toLocaleString('vi-VN', {
+            day: '2-digit', month: '2-digit', year: 'numeric'
+        });
+    };
+    
+    return (
+        <div className={styles.walletVoucherCard}>
+            <div className={styles.walletCardLogo}>
+                <span>{voucher.discountType === 'freeship' ? 'SHIP' : 'SALE'}</span>
+            </div>
+            <div className={styles.walletCardContent}>
+                <h4 className={styles.walletCardTitle}>{voucher.title}</h4>
+                <p className={styles.walletCardType}>{formatVoucherType()}</p>
+                <p className={styles.walletCardExpiry}>HSD: {formatEndDate()}</p>
+                
+                {/* --- 1. THÊM LINK "ĐIỀU KIỆN" --- */}
+                <a 
+                    href="#" 
+                    className={styles.detailsLink} 
+                    onClick={(e) => { e.preventDefault(); onViewDetails(voucher); }}
+                >
+                    <Info size={14} /> Điều kiện
+                </a>
+                {/* --- (Hết phần thêm) --- */}
+            </div>
+        </div>
+    );
+};
+
+// ===========================================
+// 6. CẬP NHẬT COMPONENT MY VOUCHERS VIEW
+// (Thêm logic filter, state modal, và render modal)
+// ===========================================
+const MyVouchersView = ({ vouchers }) => {
+    
+    // --- 1. THÊM STATE CHO MODAL ---
+    const [modalVoucher, setModalVoucher] = useState(null);
+    const openModal = (voucher) => setModalVoucher(voucher);
+    const closeModal = () => setModalVoucher(null);
+
+    // --- 2. THÊM LOGIC LỌC VOUCHER (RẤT QUAN TRỌNG) ---
+    // (Lọc voucher 'null' (đã bị xóa) và voucher hết hạn)
+    const now = new Date();
+    const validVouchers = vouchers
+        .filter(voucher => 
+            voucher !== null && 
+            new Date(voucher.endDate) > now &&
+            voucher.isActive === true
+        );
+    // --- (Hết phần lọc) ---
+
+    return (
+        <div className={styles.card}>
+            <div className={styles.cardHeader}>
+                <h3 className={styles.cardTitle}>Ví Voucher của tôi</h3>
+            </div>
+            <div className={styles.cardBody}>
+                {/* 3. SỬ DỤNG 'validVouchers' */}
+                {validVouchers.length === 0 ? (
+                    <div className={styles.emptyState}>
+                        <p>Bạn chưa lưu voucher nào còn hạn sử dụng.</p>
+                        <Link to="/vouchers" className={`${styles.button} ${styles.buttonPrimary}`}>
+                            Đến Kho Voucher ngay
+                        </Link>
+                    </div>
+                ) : (
+                    <div className={styles.walletGrid}>
+                        {/* 4. MAP 'validVouchers' VÀ TRUYỀN PROP 'onViewDetails' */}
+                        {validVouchers.map(voucher => (
+                            <WalletVoucherCard 
+                                key={voucher._id} 
+                                voucher={voucher} 
+                                onViewDetails={openModal} // <-- Truyền prop
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            {/* --- 5. RENDER MODAL --- */}
+            <VoucherModal voucher={modalVoucher} onClose={closeModal} />
+        </div>
+    );
+};
+
+
+// ===========================================
+// (Component chính - ĐÃ CẬP NHẬT)
 // ===========================================
 const UserProfile = () => {
-    // SỬA 3: Chỉ lấy `logout` từ useAuth
     const { logout } = useAuth();
     const navigate = useNavigate();
     
-    // SỬA 4: Component tự quản lý state
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeView, setActiveView] = useState('profile');
 
-    // SỬA 5: Gọi API khi component được tải
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                // Gọi API endpoint của bạn
+                // API này CẦN PHẢI populate('collectedVouchers') ở backend
                 const response = await api.get('/users/profile');
-                
-                setUser(response.data); // Lưu data từ backend vào state
+                setUser(response.data); 
             } catch (error) {
                 console.error("Lỗi khi lấy thông tin user:", error);
-                // (Tùy chọn) Nếu lỗi 401 (token hỏng), có thể logout:
-                // if (error.response && error.response.status === 401) {
-                //     logout();
-                //     navigate('/login');
-                // }
             } finally {
-                setLoading(false); // Dừng loading sau khi xong
+                setLoading(false); 
             }
         };
 
@@ -215,7 +361,6 @@ const UserProfile = () => {
         }
     };
 
-    // SỬA 6: Cập nhật lại logic loading
     if (loading) {
         return (
             <div className={styles.loadingContainer}>
@@ -225,7 +370,6 @@ const UserProfile = () => {
         );
     }
 
-    // SỬA 7: Xử lý trường hợp API lỗi và không có user
     if (!user) {
         return (
             <div className={styles.loadingContainer}>
@@ -234,7 +378,6 @@ const UserProfile = () => {
         );
     }
 
-    // Từ đây trở xuống giữ nguyên, vì `user` đã có data
     const avatarSrc = user.avatar || `https://placehold.co/100x100/E2E8F0/4A5568?text=${user.name ? user.name.charAt(0) : 'A'}`;
 
     return (
@@ -269,6 +412,21 @@ const UserProfile = () => {
                                     <Box size={18} /> Lịch sử mua hàng
                                 </button>
                             </li>
+                            
+                            {/* --- 5. THÊM NÚT VÍ VOUCHER --- */}
+                            <li>
+                                <button
+                                    className={activeView === 'vouchers' ? styles.active : ''}
+                                    onClick={() => setActiveView('vouchers')}
+                                >
+                                    <Ticket size={18} /> Ví Voucher
+                                    {user.collectedVouchers && user.collectedVouchers.length > 0 && (
+                                        <span className={styles.navBadge}>{user.collectedVouchers.length}</span>
+                                    )}
+                                </button>
+                            </li>
+                            {/* --- (Hết phần thêm) --- */}
+                            
                             <li>
                                 <button
                                     className={activeView === 'password' ? styles.active : ''}
@@ -292,6 +450,10 @@ const UserProfile = () => {
                 <main className={styles.content}>
                     {activeView === 'profile' && <ProfileInfoView user={user} />}
                     {activeView === 'orders' && <OrderHistoryView />}
+                    
+                    {/* --- 6. RENDER VIEW MỚI --- */}
+                    {activeView === 'vouchers' && <MyVouchersView vouchers={user.collectedVouchers} />}
+                    
                     {activeView === 'password' && <ChangePasswordView />}
                 </main>
             </div>

@@ -1,0 +1,536 @@
+/* --- Layout Chung --- */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    min-height: 60vh; /* Đảm bảo footer không bị đẩy lên quá cao khi giỏ trống */
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #1a202c;
+}
+
+/* --- Loading & Error & Empty State --- */
+.loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 1.2rem;
+    color: #718096;
+}
+
+.emptyCart {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #f7fafc;
+    border-radius: 12px;
+}
+
+.emptyIcon {
+    color: #cbd5e0;
+    margin-bottom: 20px;
+}
+
+.emptyText {
+    font-size: 1.2rem;
+    color: #4a5568;
+    margin-bottom: 30px;
+}
+
+/* --- Grid Layout (Trái: Items, Phải: Summary) --- */
+.cartGrid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* --- Cột Trái: Danh sách sản phẩm --- */
+.cartItemsList {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.cartHeader {
+    display: grid;
+    grid-template-columns: 4fr 1.5fr 1.5fr 0.5fr;
+    padding: 15px 20px;
+    background-color: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    font-weight: 600;
+    color: #718096;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.cartItem {
+    display: grid;
+    grid-template-columns: 4fr 1.5fr 1.5fr 0.5fr;
+    padding: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.cartItem:last-child {
+    border-bottom: none;
+}
+
+.cartItem:hover {
+    background-color: #fafbfd;
+}
+
+/* Product Info trong Item */
+.productInfo {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.productImage {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #edf2f7;
+    background-color: #f7fafc;
+}
+
+.productDetails h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    color: #2d3748;
+}
+
+.variantBadge {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: #718096;
+    background-color: #edf2f7;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+}
+
+/* Price trong Item */
+.priceColumn {
+    font-weight: 600;
+}
+
+.finalPrice {
+    color: #2d3748;
+    display: block;
+}
+
+.originalPrice {
+    font-size: 0.85rem;
+    color: #a0aec0;
+    text-decoration: line-through;
+}
+
+/* Quantity Control */
+.quantityControl {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    width: fit-content;
+    background-color: white;
+}
+
+.qtyBtn {
+    background: none;
+    border: none;
+    width: 30px;
+    height: 32px;
+    font-size: 1rem;
+    color: #4a5568;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.qtyBtn:hover:not(:disabled) {
+    background-color: #f7fafc;
+    color: #000;
+}
+
+.qtyBtn:disabled {
+    color: #cbd5e0;
+    cursor: not-allowed;
+}
+
+.qtyInput {
+    width: 40px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 0.95rem;
+    pointer-events: none; /* Chỉ hiển thị, dùng nút để đổi */
+}
+
+.removeBtn {
+    background: none;
+    border: none;
+    color: #a0aec0;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.removeBtn:hover {
+    color: #e53e3e;
+    background-color: #fff5f5;
+    border-radius: 50%;
+}
+
+/* --- Cột Phải: Summary (Tổng đơn) --- */
+.summaryCard {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 20px; /* Dính khi cuộn */
+}
+
+.summaryCard h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    color: #4a5568;
+}
+
+.summaryTotal {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #e2e8f0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #1a202c;
+}
+
+.discountText {
+    color: #38a169;
+}
+
+/* Voucher Section */
+.voucherSection {
+    margin: 20px 0;
+    padding: 15px 0;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.voucherInputGroup {
+    display: flex;
+    gap: 8px;
+}
+
+.voucherInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.voucherInput:focus {
+    outline: none;
+    border-color: #3182ce;
+}
+
+.applyBtn {
+    padding: 0 15px;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.applyBtn:hover:not(:disabled) {
+    background-color: #2b6cb0;
+}
+.applyBtn:disabled {
+    background-color: #a0aec0;
+    cursor: not-allowed;
+}
+
+.appliedVoucher {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0fff4;
+    border: 1px solid #c6f6d5;
+    padding: 10px;
+    border-radius: 6px;
+    color: #2f855a;
+    font-size: 0.9rem;
+}
+
+.removeVoucher {
+    background: none;
+    border: none;
+    color: #e53e3e;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Checkout Button */
+.checkoutBtn {
+    width: 100%;
+    padding: 15px;
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkoutBtn:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+.btnSecondary {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.btnSecondary:hover {
+    background-color: #000;
+}
+
+.clearCartBtn {
+    background: none;
+    border: none;
+    color: #e53e3e;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .cartGrid {
+        grid-template-columns: 1fr;
+    }
+    .cartHeader {
+        display: none; /* Ẩn header bảng trên mobile */
+    }
+    .cartItem {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        position: relative;
+    }
+    .quantityControl { margin-top: 10px; }
+    .removeBtn {
+        position: absolute;
+        top: 15px; right: 15px;
+    }
+}
+
+.openVoucherModalBtn {
+    background: none;
+    border: none;
+    color: #3182ce;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: auto; /* Đẩy sang phải */
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Modal Overlay */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+/* Modal Box */
+.modalContent {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh; /* Giới hạn chiều cao */
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modalHeader {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalHeader h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.closeModalBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s;
+}
+
+.closeModalBtn:hover {
+    color: #333;
+}
+
+/* Danh sách Voucher */
+.voucherList {
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.voucherItem {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+    background-color: #fff;
+}
+
+.voucherItem:hover {
+    border-color: #3182ce;
+    box-shadow: 0 2px 4px rgba(49, 130, 206, 0.1);
+}
+
+/* Style cho item bị disabled (không đủ điều kiện) */
+.voucherItem.disabled {
+    opacity: 0.6;
+    background-color: #f7fafc;
+    pointer-events: none;
+}
+
+.voucherInfo h4 {
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.codeTag {
+    background-color: #ebf8ff;
+    color: #3182ce;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 1px dashed #3182ce;
+}
+
+.voucherDesc {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+.voucherCondition {
+    font-size: 0.8rem;
+    color: #e53e3e; /* Màu đỏ cho điều kiện */
+    margin-top: 4px;
+}
+
+.selectVoucherBtn {
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.selectVoucherBtn:hover {
+    background-color: #2b6cb0;
+}
+
+.emptyVoucherList {
+    text-align: center;
+    color: #718096;
+    padding: 20px;
+}
