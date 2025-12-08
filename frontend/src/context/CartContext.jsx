@@ -1,87 +1,90 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import api from '../api'; // Import api client đã cấu hình axios
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 
-// Tạo Context
-const CartContext = createContext();
+const CartContext = createContext(undefined);
 
 export const CartProvider = ({ children }) => {
+    const [cartItems, setCartItems] = useState([]);
     const [cartCount, setCartCount] = useState(0);
 
-    // 1. Hàm gọi API để lấy số lượng mới nhất từ Server
-    // Dùng khi: Load trang lần đầu, F5, hoặc Login thành công
-    const refreshCartCount = async () => {
-        const token = localStorage.getItem('token');
-        
-        // Nếu chưa đăng nhập thì không gọi API
+    const refreshCart = useCallback(() => {
+        const token = localStorage.getItem("accessToken");
+
         if (!token) {
             setCartCount(0);
             return;
         }
 
-        try {
-            // Gọi endpoint /api/cart/count (đã tạo ở backend)
-            const res = await api.get('/cart/count');
-            
-            if (res.data && typeof res.data.count === 'number') {
-                setCartCount(res.data.count);
-                console.log("CartContext: Đã cập nhật số lượng từ server:", res.data.count);
+        fetch("http://localhost:5000/api/cart", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
             }
-        } catch (error) {
-            console.error("CartContext: Lỗi cập nhật số lượng giỏ hàng:", error);
-            // Nếu lỗi 401 (Unauthorized), reset về 0
-            if (error.response && error.response.status === 401) {
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                // ❗ backend trả về object => phải lấy data.items
+                const items = Array.isArray(data.items) ? data.items : [];
+
+                setCartItems(items);
+                setCartCount(items.length);
+            })
+            .catch(() => {
+                setCartItems([]);
                 setCartCount(0);
-            }
-        }
-    };
-
-    // 2. Hàm cập nhật thủ công (Client-side update)
-    // Dùng khi: Thêm vào giỏ hàng thành công (backend trả về totalQuantity mới)
-    // Giúp giao diện nhảy số ngay lập tức mà không cần gọi lại API /count
-    const updateCountImmediately = (newCount) => {
-        setCartCount(newCount);
-    };
-
-    // Gọi refresh 1 lần khi ứng dụng khởi chạy
-    useEffect(() => {
-        refreshCartCount();
-
-        // (Tùy chọn) Lắng nghe sự kiện storage để đồng bộ khi đăng nhập/đăng xuất ở tab khác
-        const handleStorageChange = () => {
-            refreshCartCount();
-        };
-        window.addEventListener('storage', handleStorageChange);
-        
-        // (Tùy chọn) Lắng nghe sự kiện custom 'auth-change' nếu bạn có cơ chế login/logout
-        window.addEventListener('auth-change', refreshCartCount);
-
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-            window.removeEventListener('auth-change', refreshCartCount);
-        };
+            });
     }, []);
 
-    // Giá trị chia sẻ cho toàn app
-    const value = {
-        cartCount,
-        refreshCartCount,
-        updateCountImmediately
+    useEffect(() => {
+        const handleStorageChange = (e) => {
+            if (e.key === "accessToken") {
+                refreshCart();
+            }
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+        return () => window.removeEventListener("storage", handleStorageChange);
+    }, [refreshCart]);
+
+    useEffect(() => {
+        let timeout = null;
+
+        const handleAuthChange = () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => refreshCart(), 200);
+        };
+
+        window.addEventListener("auth-change", handleAuthChange);
+
+        return () => {
+            clearTimeout(timeout);
+            window.removeEventListener("auth-change", handleAuthChange);
+        };
+    }, [refreshCart]);
+
+    const clearCart = () => {
+        setCartItems([]);
+        setCartCount(0);
     };
 
     return (
-        <CartContext.Provider value={value}>
+        <CartContext.Provider
+            value={{
+                cartItems,
+                cartCount,
+                refreshCart,
+                refreshCartCount: refreshCart, // alias
+                clearCart
+            }}
+        >
             {children}
         </CartContext.Provider>
     );
 };
 
-// Hook custom để các component khác sử dụng dễ dàng
-// Ví dụ: const { cartCount } = useCart();
-// eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => {
     const context = useContext(CartContext);
     if (!context) {
-        throw new Error("useCart phải được sử dụng bên trong CartProvider");
+        throw new Error("useCart must be used within a CartProvider");
     }
     return context;
 };
