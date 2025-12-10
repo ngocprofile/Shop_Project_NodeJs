@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import api from '../../api';
 import styles from './AdminProduct.module.css';
-
+// ngoc
 // URL Gốc của server (để hiển thị ảnh)
 const serverRootUrl = 'http://localhost:5000'; 
 

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import api from '../api'; // Import axios instance đã cấu hình
 import { useCart } from '../context/CartContext'; // Import Context để cập nhật Header
 import styles from './ProductViewDetail.module.css'; // Import CSS Modules
-
+// ngoc
 // Cấu hình URL ảnh (Nên đưa vào biến môi trường trong thực tế)
 const BACKEND_URL = 'http://localhost:5000';
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api';
 import styles from './AdminProduct.module.css';
-
+// ngoc
 const ProductAdmin = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
