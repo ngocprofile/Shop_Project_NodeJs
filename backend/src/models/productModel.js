@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// ngoc
 const productSchema = new mongoose.Schema(
     {
         name: {

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// ngoc
 const brandSchema = new mongoose.Schema(
     {
         // 🏷️ Tên thương hiệu

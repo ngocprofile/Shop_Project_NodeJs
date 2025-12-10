@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api';
 import styles from './AdminProduct.module.css';
-
+// ngoc
 // URL Gốc của server
 const SERVER_ROOT_URL = 'http://localhost:5000'; 
 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// ngoc
 const sizeInventorySchema = new mongoose.Schema(
     {
         // Liên kết ngược (Parent Reference) tới ColorVariant

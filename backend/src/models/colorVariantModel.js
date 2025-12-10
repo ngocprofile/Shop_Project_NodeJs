@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// ngoc
 const colorVariantSchema = new mongoose.Schema(
     {
         product: {
