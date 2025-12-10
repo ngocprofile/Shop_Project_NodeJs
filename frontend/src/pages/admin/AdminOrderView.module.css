@@ -1,0 +1,182 @@
+.container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.title {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+}
+
+.backBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.backBtn:hover {
+    background: #e9ecef;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Cột trái to gấp đôi cột phải */
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr; /* Mobile thì xếp chồng */
+    }
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #555;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Table Style */
+.itemTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.itemTable th {
+    text-align: left;
+    padding: 10px;
+    background-color: #f8f9fa;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.itemTable td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.productInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.productImg {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+/* Total Section */
+.totalSection {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 0.95rem;
+}
+
+.finalTotal {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #d32f2f;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    margin-top: 5px;
+}
+
+/* Status Update Styles */
+.statusControl {
+    margin-bottom: 15px;
+}
+
+.statusControl label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.selectStatus {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background-color: #fff;
+}
+
+.updateBtn {
+    width: 100%;
+    padding: 12px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.updateBtn:hover:not(:disabled) {
+    background-color: #0b5ed7;
+}
+
+.updateBtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 15px 0;
+}
+
+.loading, .error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    font-size: 1.2rem;
+    color: #666;
+}
