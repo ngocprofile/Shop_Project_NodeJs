@@ -14,7 +14,6 @@ import { protect } from "../middleware/authMiddleware.js";
 import validate, { schemas } from "../middleware/validateMiddleware.js";
 
 const router = express.Router();
-
 /**
  * @route   POST /api/auth/register
  * @desc    Đăng ký tài khoản mới

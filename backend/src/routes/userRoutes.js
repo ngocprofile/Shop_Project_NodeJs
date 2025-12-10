@@ -23,7 +23,6 @@ const router = express.Router();
  * @access  Private (Đăng nhập)
  */
 router.get("/profile", protect, activityLogMiddleware(['get profile']), getUserProfile);
-
 /**
  * @route   PUT /api/users/profile
  * @desc    Cập nhật thông tin hồ sơ người dùng hiện tại

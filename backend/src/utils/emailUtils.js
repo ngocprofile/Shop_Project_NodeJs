@@ -20,7 +20,6 @@ const createTransporter = () => {
         }
     });
 };
-
 /**
  * HÀM CHUNG: GỬI EMAIL – BẮT LỖI, KHÔNG CRASH SERVER
  */
