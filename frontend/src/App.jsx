@@ -19,6 +19,7 @@ import VoucherDashboard from './pages/VoucherDashboard';
 
 // === Admin Pages ===
 import AdminLayout from './pages/admin/AdminLayout';
+import AdminOrders from './pages/admin/AdminOrders';
 import BrandAdmin from './pages/admin/BrandAdmin';
 import CategoryAdmin from './pages/admin/CategoryAdmin';
 import DashboardAdmin from './pages/admin/DashboardAdmin';
@@ -34,6 +35,7 @@ import VoucherAdmin from './pages/admin/VoucherAdmin';
 
 // === Info Footer Pages ===
 import AddShipping from './pages/admin/AddShipping';
+import AdminOrderView from './pages/admin/AdminOrderView';
 import ShippingDashboard from './pages/admin/ShippingDashboard';
 import CheckoutPage from './pages/CheckoutPage';
 import AboutPage from './pages/inforfooter/AboutPage';
@@ -142,6 +144,10 @@ function App() {
                 {/* ROUTES CHO SIZE INVENTORY */}
                 <Route path="sizes/new/:variantId" element={<SizeForm />} /> 
                 <Route path="sizes/edit/:id" element={<SizeForm />} /> 
+
+                {/* ROUTES CHO ORDER */}
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="orders/:orderId" element={<AdminOrderView/>}/>
                 
                 {/* User Admin */}
                 <Route path="users" element={<UserAdmin />} />
