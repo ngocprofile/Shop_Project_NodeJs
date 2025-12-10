@@ -199,7 +199,8 @@ export default function Header() {
 
     useEffect(() => {
         refreshCartCount(); 
-    }, [location.pathname, refreshCartCount]); 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location.pathname]); 
 
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
 

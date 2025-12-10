@@ -1,0 +1,96 @@
+[{
+  "_id": {
+    "$oid": "691eb200aca24a984783d815"
+  },
+  "product": {
+    "$oid": "691d16a3a5b6726a990f0e6d"
+  },
+  "color": "TRẮNG",
+  "colorCode": "#FFFFFF",
+  "image": {
+    "url": "/uploads/image-1763619350283-425230057.webp",
+    "public_id": null
+  },
+  "sizes": [
+    {
+      "$oid": "691eb35171f2c5a7b0f5a4ac"
+    },
+    {
+      "$oid": "691eb647db9a16dd3cc686ea"
+    }
+  ],
+  "appliedVoucher": null,
+  "createdAt": {
+    "$date": "2025-11-20T06:15:28.988Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T07:41:57.754Z"
+  },
+  "__v": 3
+},
+{
+  "_id": {
+    "$oid": "691ec5ed90fca34ce690490c"
+  },
+  "product": {
+    "$oid": "691d16a3a5b6726a990f0e6d"
+  },
+  "color": "ĐEN",
+  "colorCode": "#000000",
+  "image": {
+    "url": "/uploads/image-1763624508562-278093747.webp",
+    "public_id": null
+  },
+  "sizes": [
+    {
+      "$oid": "691ec66990fca34ce690495a"
+    }
+  ],
+  "appliedVoucher": null,
+  "createdAt": {
+    "$date": "2025-11-20T07:40:29.999Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T07:42:38.104Z"
+  },
+  "__v": 2
+},
+{
+  "_id": {
+    "$oid": "691ef1f1d414d647a3af9d61"
+  },
+  "product": {
+    "$oid": "691ef0ebd414d647a3af9d0f"
+  },
+  "color": "TRẮNG NGÀ",
+  "colorCode": "#FFFFF0",
+  "image": {
+    "url": "/uploads/image-1763635712085-414651334.jpg",
+    "public_id": null
+  },
+  "sizes": [
+    {
+      "$oid": "691ef2b9136737b25bc38013"
+    },
+    {
+      "$oid": "691ef2e9136737b25bc38039"
+    },
+    {
+      "$oid": "691ef311136737b25bc38052"
+    },
+    {
+      "$oid": "691ef32a136737b25bc3806b"
+    },
+    {
+      "$oid": "691ef348136737b25bc38084"
+    }
+  ],
+  "appliedVoucher": null,
+  "createdAt": {
+    "$date": "2025-11-20T10:48:17.275Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T10:54:00.749Z"
+  },
+  "__v": 6
+}]

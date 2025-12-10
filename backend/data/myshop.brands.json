@@ -1,0 +1,272 @@
+[{
+  "_id": {
+    "$oid": "691b1db3cc0062e86dab9ca9"
+  },
+  "name": "Adidas",
+  "description": "Phân khúc sản phẩm: Adidas hoạt động song song ở hai phân khúc lớn: Thể thao hiệu suất cao (Performance), chuyên cung cấp công nghệ tiên tiến (như đệm Boost) cho vận động viên chuyên nghiệp, và Thời trang thường ngày (Originals/Lifestyle), tập trung vào các sản phẩm di sản, mang tính biểu tượng cho phong cách đường phố (streetwear).\r\nPhong cách thương hiệu: Phong cách của Adidas là sự giao thoa kinh điển giữa thể thao (sporty) và cổ điển (retro/vintage). Thương hiệu này nổi bật toàn cầu với các thiết kế mang tính biểu tượng (như logo 3 sọc và 3 lá), vừa mang đến cảm giác hoài cổ, vừa thể hiện sự năng động và đổi mới.",
+  "origin": "Đức",
+  "logo": "/uploads/logo-1763384755971-410708672.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T13:05:55.985Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T13:05:55.985Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691b1eedcc0062e86dab9cb0"
+  },
+  "name": "Casio",
+  "description": "Phân khúc sản phẩm: Casio là một \"gã khổng lồ\" về điện tử tiêu dùng, nhưng nổi tiếng nhất tại Việt Nam với sản phẩm đồng hồ. Họ bao phủ mọi phân khúc giá, từ phổ thông giá rẻ (đồng hồ điện tử classic) đến tầm trung kỹ thuật cao (G-Shock, Edifice). Ngoài ra, họ cũng rất mạnh về máy tính bỏ túi (calculators) và nhạc cụ điện tử (keyboards).\r\nPhong cách thương hiệu: Phong cách cốt lõi của Casio là \"Bền bỉ, Đa năng và Công nghệ\". Thương hiệu này đồng nghĩa với độ tin cậy \"vô đối\".\r\nG-Shock: Đại diện cho phong cách hầm hố, bền bỉ, chống va đập, chống nước, tích hợp nhiều công nghệ.\r\nCasio Classic (Điện tử): Đại diện cho phong cách cổ điển (retro), tối giản, và tính biểu tượng vượt thời gian (như dòng F-91W).",
+  "origin": "Nhật Bản",
+  "logo": "/uploads/logo-1763385069276-138188941.png",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T13:11:09.291Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T13:11:09.291Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691b20d2cc0062e86dab9cb7"
+  },
+  "name": "Gucci",
+  "description": "Các mặt hàng của Gucci rất đa dạng, bao trùm toàn bộ thế giới thời trang cao cấp. Thương hiệu này nổi tiếng nhất với các sản phẩm chủ lực là túi xách (như dòng Marmont, Horsebit), đồ da nhỏ (đặc biệt là ví và thắt lưng logo GG), và giày dép (từ sneaker đến giày lười loafers). Bên cạnh đó, Gucci cũng cung cấp các bộ sưu tập quần áo may sẵn (ready-to-wear) cho cả nam và nữ, cùng một loạt phụ kiện như mắt kính, khăn lụa, trang sức và đồng hồ. Gần đây, Gucci cũng cực kỳ thành công trong việc mở rộng sang lĩnh vực nước hoa và mỹ phẩm cao cấp (Gucci Beauty).",
+  "origin": "Italy",
+  "logo": "/uploads/logo-1763385553982-341580643.png",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T13:19:14.062Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T13:19:14.062Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691b21c1cc0062e86dab9cbe"
+  },
+  "name": "Chanel",
+  "description": "Chanel nổi tiếng nhất tại Việt Nam với mảng nước hoa và mỹ phẩm cao cấp (Chanel Beauty), đây là cửa ngõ tiếp cận phổ biến nhất của thương hiệu, với các dòng nước hoa huyền thoại như Chanel No. 5, Coco Mademoiselle (cho nữ) và Bleu de Chanel (cho nam). Mảng chủ lực thứ hai là túi xách và đồ da nhỏ, với các dòng túi mang tính biểu tượng, \"bất tử\" với thời gian như Classic Flap (túi nắp gập) và Chanel 2.55. Cuối cùng là mảng thời trang may sẵn (Ready-to-Wear), nổi bật với các thiết kế bằng vải tweed đặc trưng, cùng các dòng phụ kiện (như trang sức costume, hoa tai logo CC, mắt kính), giày dép (như giày búp bê, giày slingback) và đồng hồ cao cấp (như dòng J12).",
+  "origin": "Pháp",
+  "logo": "/uploads/logo-1763385793444-414494171.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T13:23:13.523Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T13:23:13.523Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691b2265cc0062e86dab9cc5"
+  },
+  "name": "Louis Vuitton",
+  "description": "Tại thị trường Việt Nam, các sản phẩm của Louis Vuitton được săn đón ở hầu hết các hạng mục, trong đó mạnh mẽ nhất là mảng túi xách (với các dòng biểu tượng như Neverfull, Speedy, Capucines) và đồ da nhỏ (bao gồm ví và thắt lưng có logo LV). Thương hiệu này cũng rất thành công với các bộ sưu tập quần áo may sẵn (Ready-to-Wear) và giày dép (đặc biệt là dòng sneaker nam LV Trainer). Ngoài ra, LV tiếp tục di sản \"nghệ thuật du lịch\" của mình qua các dòng hành lý cao cấp (vali và túi Keepall), đồng thời mở rộng sang các lĩnh vực nước hoa, đồng hồ và trang sức xa xỉ.",
+  "origin": "Pháp",
+  "logo": "/uploads/logo-1763385957467-22922661.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T13:25:57.485Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T13:25:57.485Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb49c979c0e131eb9a1d1"
+  },
+  "name": "Nike",
+  "description": "NIKE là tập đoàn thời trang thể thao hàng đầu thế giới, biểu tượng của sự đổi mới, khát vọng chiến thắng và hiệu suất vượt trội. Với logo Swoosh huyền thoại và slogan \"Just Do It\", Nike không chỉ cung cấp giày dép và trang phục mà còn là nguồn cảm hứng cho hàng triệu người trên toàn cầu theo đuổi đam mê thể thao và vượt qua giới hạn của bản thân.\r\nSản phẩm nổi bật: Áp dụng công nghệ tiên tiến (như Air Max, Dri-FIT, Flyknit), các sản phẩm của Nike luôn đảm bảo chất lượng, sự thoải mái và phong cách dẫn đầu trong cả thời trang thể thao và thời trang đường phố (Streetwear).",
+  "origin": "Hoa kỳ",
+  "logo": "/uploads/logo-1763488923931-291454652.png",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:02:04.017Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:02:04.017Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb515979c0e131eb9a1d8"
+  },
+  "name": "Puma",
+  "description": "PUMA là một trong những thương hiệu thể thao và phong cách sống hàng đầu thế giới, có nguồn gốc từ Đức. Với biểu tượng Báo Gấm (Puma) mạnh mẽ và khẩu hiệu \"Forever Faster\" (Mãi mãi nhanh hơn), Puma đại diện cho tốc độ, hiệu suất và sự táo bạo.\r\nPuma không chỉ cung cấp trang phục và giày dép hiệu suất cao cho các vận động viên chuyên nghiệp (đặc biệt là trong bóng đá và điền kinh) mà còn có tầm ảnh hưởng lớn trong lĩnh vực thời trang đường phố (Streetwear).\r\nĐiểm nổi bật: Thương hiệu nổi tiếng với sự kết hợp hoàn hảo giữa công nghệ thể thao tiên tiến và thiết kế thời trang hiện đại, tạo ra những sản phẩm cá tính, trẻ trung và luôn dẫn đầu xu hướng.",
+  "origin": "Đức",
+  "logo": "/uploads/logo-1763489045498-214239270.webp",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:04:05.512Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:04:05.512Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb5c4979c0e131eb9a1df"
+  },
+  "name": "Lacoste",
+  "description": "LACOSTE là thương hiệu thời trang cao cấp đến từ Pháp, biểu tượng cho phong cách thanh lịch thể thao (Sport-Chic) và sự thoải mái tinh tế.\r\nĐược thành lập vào năm 1933 bởi huyền thoại quần vợt René Lacoste, thương hiệu nổi tiếng toàn cầu với biểu tượng Cá Sấu Xanh huyền thoại—lấy cảm hứng từ biệt danh \"Le Crocodile\" của nhà sáng lập.\r\nGiá trị cốt lõi: Lacoste là nhà tiên phong trong việc tạo ra chiếc Áo Polo L.12.12 kinh điển. Với chất liệu cotton Petit Piqué độc quyền và thiết kế vượt thời gian, các sản phẩm của Lacoste luôn mang lại chất lượng cao, độ bền vượt trội và phong cách dễ dàng mặc trong nhiều dịp, từ sân tennis đến các buổi dạo phố, khẳng định sự tự tin và cá tính độc lập.",
+  "origin": "Pháp",
+  "logo": "/uploads/logo-1763489220631-187019268.png",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:07:00.642Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:07:00.642Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb825979c0e131eb9a1e6"
+  },
+  "name": "Cartier",
+  "description": "Thương hiệu trang sức và đồng hồ cao cấp huyền thoại, gắn liền với giới hoàng gia và những người nổi tiếng. Cartier biểu trưng cho sự xa hoa, tinh xảo trong chế tác kim hoàn và thiết kế vượt thời gian, với các sản phẩm biểu tượng như vòng tay Love và nhẫn Trinity.",
+  "origin": "Pháp",
+  "logo": "/uploads/logo-1763489829419-389019427.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:17:09.431Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:17:09.431Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb8ae979c0e131eb9a1ed"
+  },
+  "name": "Tiffany & co",
+  "description": "Biểu tượng của sự lãng mạn và kim cương Mỹ, nổi tiếng với chiếc hộp màu xanh Tiffany Blue đặc trưng. Thương hiệu là chuẩn mực của sự thanh lịch và chất lượng cao, đặc biệt dẫn đầu trong lĩnh vực nhẫn đính hôn và trang sức cao cấp.",
+  "origin": "Hoa kỳ",
+  "logo": "/uploads/logo-1763489966134-851088236.jpeg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:19:26.145Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:19:26.145Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb8fa979c0e131eb9a1f4"
+  },
+  "name": "Rolex",
+  "description": "Thương hiệu đồng hồ xa xỉ nổi tiếng nhất thế giới. Rolex đại diện cho sự chính xác, uy tín và sự đổi mới trong ngành chế tạo đồng hồ cơ khí. Các dòng sản phẩm như Submariner, Daytona là biểu tượng cho di sản, thành tựu và địa vị xã hội.",
+  "origin": "Thụy Sĩ",
+  "logo": "/uploads/logo-1763490042521-532481813.webp",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:20:42.531Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:20:42.531Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb972979c0e131eb9a1fb"
+  },
+  "name": "Ray-ban",
+  "description": "Thương hiệu kính mắt biểu tượng và có tầm ảnh hưởng nhất thế giới. Ray-Ban được công nhận với các thiết kế cổ điển, vượt thời gian như Aviator và Wayfarer. Sở hữu Ray-Ban là sở hữu một tuyên ngôn phong cách cá tính, sành điệu và đậm chất điện ảnh.",
+  "origin": "Hoa kỳ / Italy",
+  "logo": "/uploads/logo-1763490162920-447608726.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:22:42.929Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:22:42.929Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb9f7979c0e131eb9a202"
+  },
+  "name": "New Balance",
+  "description": "Thương hiệu nổi tiếng với sự kết hợp giữa giày chạy bộ hiệu suất và phong cách thời trang dạo phố (lifestyle). NB được ưa chuộng nhờ sự thoải mái vượt trội và thiết kế cổ điển, đặc biệt với các dòng sản phẩm được sản xuất tại Mỹ/Anh có chất lượng cao.",
+  "origin": "Hoa kỳ",
+  "logo": "/uploads/logo-1763490294995-552122887.webp",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:24:55.004Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:24:55.004Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cba52979c0e131eb9a209"
+  },
+  "name": "Prada",
+  "description": "Thương hiệu thời trang cao cấp đồng nghĩa với sự thanh lịch hiện đại và tính trí tuệ. Prada nổi tiếng với việc tạo ra các xu hướng đột phá, sử dụng vật liệu cao cấp và thiết kế tối giản, tập trung vào sự tinh tế, tạo nên phong cách độc đáo cho giới thượng lưu.",
+  "origin": "Italy",
+  "logo": "/uploads/logo-1763490386708-988885523.jpeg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:26:26.720Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:26:26.720Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cbaa1979c0e131eb9a211"
+  },
+  "name": "Dior",
+  "description": "Nhà mốt xa xỉ tiêu biểu cho sự nữ tính tuyệt đối, sự duyên dáng và Haute Couture của Pháp. Dior nổi tiếng với việc hồi sinh thời trang nữ sau chiến tranh (New Look) và các sản phẩm mang tính biểu tượng như túi xách Lady Dior, váy dạ hội lộng lẫy và nước hoa cao cấp.",
+  "origin": "Pháp",
+  "logo": "/uploads/logo-1763490465988-469175581.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:27:45.999Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:27:45.999Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cbaf0979c0e131eb9a218"
+  },
+  "name": "Hermés",
+  "description": "Thương hiệu xa xỉ bậc nhất, đề cao thủ công truyền thống và sự độc quyền. Hermès nổi tiếng toàn cầu với các sản phẩm da, đặc biệt là túi xách Birkin và Kelly, cùng với khăn lụa (Carrés) tinh xảo, đại diện cho sự chất lượng hoàn hảo và di sản vô song.",
+  "origin": "Pháp",
+  "logo": "/uploads/logo-1763490544024-906169580.jpeg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T18:29:04.037Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T18:29:04.037Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,215 @@
+.container {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f3f4f6;
+    min-height: 100vh;
+    padding-bottom: 40px;
+}
+
+/* --- HEADER --- */
+.successHeader {
+    background-color: #27ae60; /* Màu xanh thành công */
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: -30px; /* Để phần content đè lên 1 chút */
+}
+
+.pageTitle {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.pageSubtitle {
+    margin: 5px 0 0;
+    opacity: 0.9;
+}
+
+.headerActions {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btnWhite {
+    background: white;
+    color: #27ae60;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.btnOutlineWhite {
+    border: 1px solid white;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* --- LAYOUT --- */
+.contentLayout {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+    position: relative;
+    z-index: 10; /* Nổi lên trên header */
+}
+
+@media (max-width: 768px) {
+    .contentLayout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- CARD STYLES --- */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #1f2937;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 10px;
+}
+
+/* --- INFO GRID (ADDRESS) --- */
+.infoGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+.fullWidth { grid-column: span 2; }
+
+.label {
+    display: block;
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 2px;
+}
+.value {
+    font-size: 14px;
+    color: #111827;
+    font-weight: 500;
+}
+
+/* --- PRODUCT LIST --- */
+.productList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.productItem {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px dashed #f3f4f6;
+    padding-bottom: 15px;
+}
+.productItem:last-child { border-bottom: none; padding-bottom: 0; }
+
+.productImgBox {
+    position: relative;
+    width: 60px; height: 70px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+.productImgBox img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+.qtyBadge {
+    position: absolute; top: -5px; right: -5px;
+    background: #6b7280; color: white;
+    font-size: 10px; padding: 2px 5px;
+    border-radius: 10px;
+}
+
+.productInfo { flex: 1; }
+.productName { margin: 0; font-size: 14px; font-weight: 600; }
+.productVariant { margin: 2px 0 0; font-size: 12px; color: #6b7280; }
+.productPrice { font-weight: 600; color: #111827; }
+
+/* --- PAYMENT BOXES --- */
+.codBox {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #166534;
+}
+.codAmount {
+    font-size: 16px; font-weight: 700; margin-top: 5px;
+}
+
+.bankBox {
+    text-align: center;
+}
+.bankStatus { font-size: 14px; margin-bottom: 15px; }
+.paid { color: #16a34a; font-weight: 700; }
+.unpaid { color: #d97706; font-weight: 700; }
+
+.qrWrapper img {
+    width: 180px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.bankInfoList {
+    text-align: left;
+    background: #f9fafb;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+.bankRow {
+    display: flex; justify-content: space-between;
+    margin-bottom: 8px;
+}
+.autoCheckNote {
+    font-size: 11px; color: #6b7280; margin-top: 10px; font-style: italic;
+}
+
+/* --- COST SUMMARY --- */
+.costSummary {
+    display: flex; flex-direction: column; gap: 10px;
+}
+.costRow {
+    display: flex; justify-content: space-between;
+    font-size: 14px; color: #4b5563;
+}
+.discountText { color: #16a34a; }
+.divider { border-top: 1px dashed #e5e7eb; margin: 5px 0; }
+.totalRow {
+    font-size: 18px; font-weight: 700; color: #111827;
+    margin-top: 5px;
+}
+
+/* Utilities */
+.loading { display: flex; justify-content: center; align-items: center; height: 100vh; }
+.spinner { width: 40px; height: 40px; border: 4px solid #e5e7eb; border-top-color: #27ae60; border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.errorCard { text-align: center; background: white; padding: 40px; border-radius: 12px; max-width: 500px; }
+.btnPrimary { display: inline-block; background: #111827; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; margin-top: 15px; }

@@ -13,38 +13,49 @@ import Joi from "joi"; // npm install joi
  */
 const validate = (schema) => {
     return (req, res, next) => {
-        const { body, params, query } = req;
+        // 1. Chỉ lấy ra các phần (body, params, query) mà schema CÓ khai báo
+        // Ví dụ: Schema chỉ có 'body', thì objectToValidate chỉ có { body: ... }
+        const objectToValidate = {};
+        if (schema.body) objectToValidate.body = req.body;
+        if (schema.params) objectToValidate.params = req.params;
+        if (schema.query) objectToValidate.query = req.query;
 
-        // Validate toàn bộ { body, params, query } theo schema
+        // 2. Validate
         const { error, value } = Joi.object(schema).validate(
-        { body, params, query },
-        { 
-            abortEarly: false,  // Validate TẤT CẢ fields, không dừng sớm
-            stripUnknown: true, // Loại bỏ fields không mong muốn
-            allowUnknown: false // Không cho phép unknown fields
-        }
+            objectToValidate,
+            {
+                abortEarly: false,  // Báo tất cả lỗi
+                stripUnknown: true, // Xóa các trường thừa bên trong body/params
+                allowUnknown: false // Chặt chẽ: Không cho phép gửi trường lạ
+            }
         );
 
         if (error) {
-        // Xử lý TẤT CẢ trường hợp lỗi: Map chi tiết từng error detail
-        const errors = error.details.map((detail) => ({
-            field: detail.path.join("."),  // e.g., "body.email"
-            type: detail.type,            // e.g., "string.email"
-            message: detail.message.replace(/['"]/g, ""), // Clean message
-            value: detail.context?.value || "N/A"  // Giá trị gây lỗi (nếu có)
-        }));
+            // 3. Xử lý lỗi (Giữ nguyên logic của bạn vì nó rất tốt)
+            const errors = error.details.map((detail) => ({
+                field: detail.path.join("."),  
+                type: detail.type,            
+                message: detail.message.replace(/['"]/g, ""), 
+                // value: detail.context?.value || "N/A" // Có thể bỏ dòng này để response gọn hơn
+            }));
 
-        // Response chi tiết cho TẤT CẢ trường hợp
-        return res.status(400).json({
-            success: false,
-            message: "Dữ liệu đầu vào không hợp lệ",
-            totalErrors: errors.length,
-            errors: errors  // Danh sách đầy đủ lỗi
-        });
+            return res.status(400).json({
+                success: false,
+                message: "Dữ liệu đầu vào không hợp lệ",
+                totalErrors: errors.length,
+                errors: errors
+            });
         }
 
-        // Nếu OK: Gán dữ liệu đã validate (sạch)
-        req.validated = value;
+        // 4. Gán lại dữ liệu đã làm sạch vào req
+        // Joi có tính năng convert (VD: "123" -> 123), nên cần gán lại value vào req
+        if (value.body) req.body = value.body;
+        if (value.params) req.params = value.params;
+        if (value.query) req.query = value.query;
+        
+        // Hoặc dùng req.validated như bạn (nhưng gán đè req.body tiện hơn cho controller)
+        req.validated = value; 
+
         next();
     };
 };
@@ -54,6 +65,15 @@ const objectId = Joi.string().hex().length(24).messages({
     'string.length': 'ID phải có đúng 24 ký tự.'
 });
 const hexColorRegex = /^#([0-9A-F]{3}){1,2}$/i;
+
+const pick = (object, keys) => {
+    return keys.reduce((obj, key) => {
+        if (object && Object.prototype.hasOwnProperty.call(object, key)) {
+            obj[key] = object[key];
+        }
+        return obj;
+    }, {});
+};
 
 // ===================================================
 // A. SIZE INVENTORY: TÁCH BIỆT KEYS VÀ SCHEMA
@@ -446,60 +466,63 @@ export const schemas = {
         })
     },
 
-    // ========== ORDER CONTROLLER ==========
-    // Create Order (user POST /orders)
+    // =================================================
+    // 🛒 ORDER VALIDATION (ĐÃ SỬA LỖI CẤU TRÚC)
+    // =================================================
     createOrder: {
+        // 👇 QUAN TRỌNG: Phải bọc trong 'body'
         body: Joi.object({
-            items: Joi.array().min(1).items(
+            orderItems: Joi.array().items(
                 Joi.object({
-                    product: Joi.string().required().messages({
-                        'string.base': 'ID sản phẩm phải là chuỗi.',
-                        'any.required': 'ID sản phẩm là bắt buộc.'
+                    product: objectId.required().messages({
+                        'any.required': 'Product ID là bắt buộc.'
                     }),
-                    quantity: Joi.number().min(1).required().messages({
-                        'number.base': 'Số lượng phải là số.',
-                        'number.min': 'Số lượng phải lớn hơn 0.',
-                        'any.required': 'Số lượng là bắt buộc.'
-                    })
+                    colorVariantId: objectId.required().messages({
+                        'any.required': 'ColorVariant ID là bắt buộc.'
+                    }),
+                    sizeInventoryId: objectId.required().messages({
+                        'any.required': 'SizeInventory ID là bắt buộc.'
+                    }),
+                    quantity: Joi.number().integer().min(1).max(100).required()
                 })
-            ).required().messages({
-                'array.base': 'Danh sách sản phẩm phải là mảng.',
-                'array.min': 'Đơn hàng phải có ít nhất 1 sản phẩm.',
-                'any.required': 'Danh sách sản phẩm là bắt buộc.'
+            ).min(1).required(),
+
+            shippingAddress: Joi.object({
+                fullName: Joi.string().trim().min(2).max(100).required(),
+                phone: Joi.string().trim().pattern(/^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$/).required(),
+                address: Joi.string().trim().max(200).required(),
+                city: Joi.string().trim().required(),
+                district: Joi.string().trim().required(),
+                ward: Joi.string().trim().required(),
+            }).required(),
+
+            shippingMethodId: objectId.required().messages({
+                'any.required': 'Vui lòng chọn phương thức vận chuyển.'
             }),
-            voucherCode: Joi.string().optional().messages({
-                'string.base': 'Mã voucher phải là chuỗi.'
-            }),
-            shippingMethod: Joi.string().required().messages({
-                'string.base': 'Phương thức vận chuyển phải là chuỗi.',
-                'any.required': 'Phương thức vận chuyển là bắt buộc.'
-            }),
-            address: Joi.string().max(200).required().messages({
-                'string.base': 'Địa chỉ phải là chuỗi.',
-                'string.max': 'Địa chỉ không được quá 200 ký tự.',
-                'any.required': 'Địa chỉ giao hàng là bắt buộc.'
-            }),
-            paymentMethod: Joi.string().valid("cash", "card", "bank").default("cash").messages({
-                'string.base': 'Phương thức thanh toán phải là chuỗi.',
-                'any.only': 'Phương thức thanh toán phải là cash, card hoặc bank.'
-            })
+
+            paymentMethod: Joi.string().valid("COD", "BankTransfer", "CreditCard", "Momo", "VNPay").required(),
+            
+            voucherCode: Joi.string().trim().uppercase().allow(null, '').optional(),
+            
+            notes: Joi.string().trim().max(500).allow(null, '').optional()
         })
     },
 
-    // Update Order Status (admin PUT /orders/:orderId)
+    // 🔧 Update Order Status (Phần này của bạn đã ĐÚNG rồi)
     updateOrderStatus: {
-        body: Joi.object({
-            status: Joi.string().valid("pending", "confirmed", "shipped", "delivered", "cancelled").required().messages({
-                'string.base': 'Trạng thái phải là chuỗi.',
-                'any.only': 'Trạng thái phải là pending, confirmed, shipped, delivered hoặc cancelled.',
-                'any.required': 'Trạng thái là bắt buộc.'
-            })
-        }),
         params: Joi.object({
-            orderId: Joi.string().required().messages({
-                'string.base': 'ID đơn hàng phải là chuỗi.',
-                'any.required': 'ID đơn hàng là bắt buộc.'
-            })
+            orderId: objectId.required()
+        }),
+        body: Joi.object({
+            orderStatus: Joi.string().valid("Pending", "Processing", "Shipping", "Delivered", "Cancelled", "Returned").optional(),
+            paymentStatus: Joi.string().valid("Unpaid", "Paid", "Refunded").optional()
+        }).min(1)
+    },
+
+    // 🗑️ Delete Order (Phần này cũng ĐÚNG rồi)
+    deleteOrder: {
+        params: Joi.object({
+            id: objectId.required()
         })
     },
 
@@ -677,55 +700,71 @@ export const schemas = {
         })
     },
 
-    // ========== SHIPPING CONTROLLER ==========
-    // Create Shipping Method (admin POST /shipping)
+    // =================================================
+    // 🚚 SHIPPING VALIDATION (ĐÃ CHUẨN HÓA)
+    // =================================================
+
+    // 🚚 Create Shipping Method
     createShippingMethod: {
         body: Joi.object({
-            name: Joi.string().min(3).max(50).required().messages({
+            name: Joi.string().min(3).max(100).required().messages({
                 'string.base': 'Tên phương thức phải là chuỗi.',
                 'string.min': 'Tên phương thức phải ít nhất 3 ký tự.',
-                'string.max': 'Tên phương thức không được quá 50 ký tự.',
+                'string.max': 'Tên phương thức không được quá 100 ký tự.',
                 'any.required': 'Tên phương thức là bắt buộc.'
             }),
-            price: Joi.number().min(0).precision(2).required().messages({
+            
+            type: Joi.string().valid('standard', 'express', 'pickup').default('standard').messages({
+                'any.only': 'Loại phương thức phải là: standard, express hoặc pickup.'
+            }),
+
+            cost: Joi.number().min(0).required().messages({
                 'number.base': 'Phí vận chuyển phải là số.',
-                'number.min': 'Phí vận chuyển phải lớn hơn hoặc bằng 0.',
-                'number.precision': 'Phí vận chuyển phải có tối đa 2 chữ số thập phân.',
+                'number.min': 'Phí vận chuyển không được âm.',
                 'any.required': 'Phí vận chuyển là bắt buộc.'
             }),
-            estimatedDays: Joi.number().min(1).max(30).required().messages({
-                'number.base': 'Số ngày ước tính phải là số.',
-                'number.min': 'Số ngày ước tính phải ít nhất 1.',
-                'number.max': 'Số ngày ước tính không được quá 30.',
-                'any.required': 'Số ngày ước tính là bắt buộc.'
+
+            freeShipOrderThreshold: Joi.number().min(0).allow(null).messages({
+                'number.base': 'Mức Freeship phải là số.',
+                'number.min': 'Mức Freeship không được âm.'
+            }),
+
+            allowedProvinceCodes: Joi.array().items(Joi.string()).messages({
+                'array.base': 'Mã tỉnh thành phải là một danh sách (mảng).'
+            }),
+
+            estimatedDelivery: Joi.string().max(100).optional().messages({
+                'string.base': 'Thời gian giao hàng dự kiến phải là chuỗi.',
+                'string.max': 'Thời gian giao hàng không quá 100 ký tự.'
+            }),
+
+            description: Joi.string().max(500).allow('').optional().messages({
+                'string.max': 'Mô tả không được quá 500 ký tự.'
+            }),
+
+            isActive: Joi.boolean().messages({
+                'boolean.base': 'Trạng thái hoạt động phải là true hoặc false.'
             })
         })
     },
 
-    // Update Shipping Method (admin PUT /shipping/:id)
+    // ✏️ Update Shipping Method
     updateShippingMethod: {
-        body: Joi.object({
-            name: Joi.string().min(3).max(50).optional().messages({
-                'string.base': 'Tên phương thức phải là chuỗi.',
-                'string.min': 'Tên phương thức phải ít nhất 3 ký tự.',
-                'string.max': 'Tên phương thức không được quá 50 ký tự.'
-            }),
-            price: Joi.number().min(0).precision(2).optional().messages({
-                'number.base': 'Phí vận chuyển phải là số.',
-                'number.min': 'Phí vận chuyển phải lớn hơn hoặc bằng 0.',
-                'number.precision': 'Phí vận chuyển phải có tối đa 2 chữ số thập phân.'
-            }),
-            estimatedDays: Joi.number().min(1).max(30).optional().messages({
-                'number.base': 'Số ngày ước tính phải là số.',
-                'number.min': 'Số ngày ước tính phải ít nhất 1.',
-                'number.max': 'Số ngày ước tính không được quá 30.'
-            })
-        }).min(1),  // Ít nhất 1 field để cập nhật
+        // Thêm validate params ID để đảm bảo ID hợp lệ
         params: Joi.object({
-            id: Joi.string().required().messages({
-                'string.base': 'ID phương thức phải là chuỗi.',
-                'any.required': 'ID phương thức là bắt buộc.'
-            })
+            id: objectId.required() 
+        }),
+        body: Joi.object({
+            name: Joi.string().min(3).max(100).optional(),
+            type: Joi.string().valid('standard', 'express', 'pickup').optional(),
+            cost: Joi.number().min(0).optional(),
+            freeShipOrderThreshold: Joi.number().min(0).allow(null).optional(),
+            allowedProvinceCodes: Joi.array().items(Joi.string()).optional(),
+            estimatedDelivery: Joi.string().max(100).optional(),
+            description: Joi.string().max(500).allow('').optional(),
+            isActive: Joi.boolean().optional()
+        }).min(1).messages({
+            'object.min': 'Bạn cần cung cấp ít nhất một trường để cập nhật.'
         })
     },
 

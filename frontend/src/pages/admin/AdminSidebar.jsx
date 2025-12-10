@@ -73,6 +73,16 @@ const AdminSidebar = () => {
                     <span>Voucher</span>
                 </NavLink>
             </li>
+            <li><NavLink
+                    to="/admin/shipping"
+                    className={({ isActive }) =>
+                        `${styles.navLink} ${isActive ? styles.active : ''}`
+                    }
+                >
+                    <ShoppingCart size={20} />
+                    <span>Vận chuyển</span>
+                </NavLink>
+            </li>
             </ul>
         </nav>
         </aside>

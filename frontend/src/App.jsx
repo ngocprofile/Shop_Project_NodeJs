@@ -9,10 +9,12 @@ import Header from './components/Header';
 import CartDashboard from './pages/CartDashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import OrderSuccessPage from './pages/OrderSuccessPage';
 import ProductList from './pages/ProductList';
 import ProductViewDetail from './pages/ProductViewDetail';
 import Register from './pages/Register';
-import UserProfile from './pages/UserProfile';
+import MyOrderDetail from './pages/userprofile/MyOrderDetail';
+import UserProfile from './pages/userprofile/UserProfile';
 import VoucherDashboard from './pages/VoucherDashboard';
 
 // === Admin Pages ===
@@ -31,6 +33,9 @@ import VariantForm from './pages/admin/VariantForm';
 import VoucherAdmin from './pages/admin/VoucherAdmin';
 
 // === Info Footer Pages ===
+import AddShipping from './pages/admin/AddShipping';
+import ShippingDashboard from './pages/admin/ShippingDashboard';
+import CheckoutPage from './pages/CheckoutPage';
 import AboutPage from './pages/inforfooter/AboutPage';
 import CareersPage from './pages/inforfooter/CareersPage';
 import ContactPage from './pages/inforfooter/ContactPage';
@@ -84,8 +89,16 @@ function App() {
                 <Route path="/vouchers" element={< VoucherDashboard />} />
                 {/* Routes giỏ hàng */}
                 <Route path="/cart" element={<CartDashboard />} />
+                {/* Routes thanh toán */}
+                <Route path="/checkout" element={< CheckoutPage />} />
+                {/* Routes order success */}
+                <Route path="/order-success/:id" element={< OrderSuccessPage />} />
+                {/* Routes order detail */}
+                <Route path="/order-detail/:id" element={<MyOrderDetail />} />
                 {/* UserProfile */}
                 <Route path="/profile" element={<UserProfile />} />
+                
+                {/* === Info Footer Pages === */}
 
                 {/* Cột 1: Về Style Code */}
                 <Route path="/about" element={<AboutPage />} />
@@ -134,6 +147,10 @@ function App() {
                 <Route path="users" element={<UserAdmin />} />
                 <Route path="users/edit/:id" element={<UserForm />} />
                 <Route path="users/new" element={<UserCreateForm />} />
+
+                {/* Routes shipping methot */}
+                <Route path="shipping" element={< ShippingDashboard />} />
+                <Route path="shipping/add" element={< AddShipping />} />
             </Route>
 
             

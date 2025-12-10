@@ -1,0 +1,301 @@
+/* Layout & Container */
+.container {
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header */
+.header {
+  padding: 20px;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.backButton:hover { color: #111827; }
+
+.headerRight {
+  text-align: right;
+}
+.orderId { font-size: 14px; color: #374151; margin: 0; }
+.orderDate { font-size: 12px; color: #9ca3af; margin: 4px 0 0; }
+
+/* =========================================
+   TIMELINE (STEPPER)
+   ========================================= */
+.timelineContainer {
+  padding: 30px 20px;
+  background-color: #fcfcfc;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Đường kẻ ngang nối các bước */
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #e5e7eb;
+  z-index: 0;
+}
+
+.stepItem {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stepIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  border: 2px solid #fff;
+  transition: all 0.3s;
+}
+
+.stepLabel {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 500;
+  text-align: center;
+}
+
+.stepDate {
+  font-size: 11px;
+  color: #d1d5db;
+  margin-top: 2px;
+}
+
+/* Trạng thái Active (Đã qua) */
+.stepItem.active .stepIcon {
+  background-color: #10b981; /* Xanh lá */
+  color: #fff;
+  box-shadow: 0 0 0 3px #d1fae5;
+}
+.stepItem.active .stepLabel { color: #059669; font-weight: 600; }
+.stepItem.active .stepDate { color: #6b7280; }
+
+/* Trạng thái Hủy (Đỏ) */
+.stepItem.cancelled .stepIcon {
+  background-color: #ef4444;
+  color: #fff;
+  box-shadow: 0 0 0 3px #fee2e2;
+}
+.stepItem.cancelled .stepLabel { color: #dc2626; }
+
+/* =========================================
+   INFO SECTIONS (Address, Payment, Items)
+   ========================================= */
+.section {
+  padding: 20px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Địa chỉ */
+.addressGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.infoGroup label {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+.infoGroup p {
+  margin: 0;
+  font-size: 14px;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+/* Danh sách sản phẩm */
+.productList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.productItem {
+  display: flex;
+  gap: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #e5e7eb;
+}
+.productItem:last-child { border-bottom: none; padding-bottom: 0; }
+
+.productImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #f3f4f6;
+}
+
+.productInfo { flex: 1; }
+
+.productName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.productMeta {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.metaBadge {
+  background-color: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.productPrice {
+  text-align: right;
+}
+.price { display: block; font-weight: 600; color: #1f2937; font-size: 14px; }
+.qty { display: block; font-size: 12px; color: #6b7280; margin-top: 2px; }
+
+/* Payment Summary */
+.paymentSummary {
+  padding: 20px;
+  background-color: #fafafa;
+}
+
+.costRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
+
+.costRow.total {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed #d1d5db;
+  font-weight: 700;
+  color: #111827;
+  font-size: 18px;
+}
+.totalPrice { color: #dc2626; }
+
+/* Action Buttons */
+.actionFooter {
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background-color: #fff;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.btnCancel {
+  background-color: #fff;
+  border-color: #d1d5db;
+  color: #4b5563;
+}
+.btnCancel:hover { border-color: #9ca3af; background-color: #f3f4f6; }
+
+.btnConfirm {
+  background-color: #111827;
+  color: #fff;
+}
+.btnConfirm:hover { background-color: #000; }
+
+.btnDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #e5e7eb;
+  color: #9ca3af;
+}
+
+/* Modal Hủy Đơn */
+.modalOverlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center; z-index: 1000;
+}
+.modalContent {
+  background: #fff; padding: 24px; border-radius: 12px; width: 400px;
+}
+.modalTitle { margin-top: 0; font-size: 18px; }
+.reasonInput {
+  width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; margin: 15px 0;
+  font-family: inherit;
+}
+.modalActions { display: flex; justify-content: flex-end; gap: 10px; }
+
+/* Loading */
+.loading { display: flex; justify-content: center; padding: 50px; }
+.spinner { width: 30px; height: 30px; border: 3px solid #e5e7eb; border-top-color: #111827; border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 600px) {
+  .addressGrid { grid-template-columns: 1fr; }
+  .timeline { overflow-x: auto; padding-bottom: 10px; }
+  .timeline::before { width: 100%; } /* Đảm bảo line không bị ngắt */
+}
