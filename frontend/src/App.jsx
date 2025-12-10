@@ -19,6 +19,7 @@ import VoucherDashboard from './pages/VoucherDashboard';
 
 // === Admin Pages ===
 import AdminLayout from './pages/admin/AdminLayout';
+import AdminOrders from './pages/admin/AdminOrders'; // <-- Thêm dòng này
 import BrandAdmin from './pages/admin/BrandAdmin';
 import CategoryAdmin from './pages/admin/CategoryAdmin';
 import DashboardAdmin from './pages/admin/DashboardAdmin';
@@ -123,7 +124,7 @@ function App() {
             <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<DashboardAdmin />} /> 
                 <Route path="dashboard" element={<DashboardAdmin />} /> 
-                
+                <Route path="orders" element={<AdminOrders />} />
                 {/* Routes cho Sản phẩm */}
                 <Route path="products" element={<ProductAdmin />} /> 
                 <Route path="products/new" element={<ProductForm />} /> 

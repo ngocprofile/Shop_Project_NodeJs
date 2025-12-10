@@ -1,0 +1,123 @@
+    /* AdminOrders.module.css */
+    .container {
+    padding: 20px;
+    background-color: #f5f7fa; /* Màu nền xám nhẹ giống Dashboard */
+    min-height: 100vh;
+    }
+
+    .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    }
+
+    /* Card bao quanh bảng */
+    .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ đẹp mắt */
+    overflow: hidden; /* Bo tròn góc cả bảng */
+    border: 1px solid #eef0f2;
+    }
+
+    /* Style cho bảng */
+    .table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    }
+
+    .table thead {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+    }
+
+    .table th {
+    padding: 16px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    }
+
+    .table td {
+    padding: 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f1f1;
+    color: #333;
+    font-size: 0.95rem;
+    }
+
+    /* Hiệu ứng khi di chuột vào dòng */
+    .table tbody tr:hover {
+    background-color: #f8faff;
+    transition: background-color 0.2s ease;
+    }
+
+    /* Style cho Mã đơn hàng */
+    .orderId {
+    font-family: monospace;
+    font-weight: 700;
+    color: #4a90e2;
+    background: #eef6fc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    }
+
+    /* Style cho Giá tiền */
+    .price {
+    font-weight: 600;
+    color: #dc3545; /* Màu đỏ nổi bật */
+    }
+
+    /* Các trạng thái đơn hàng (Badges) */
+    .status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    }
+
+    .statusDelivered {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    }
+
+    .statusCancelled {
+    background-color: #f8d7da;
+    color: #842029;
+    }
+
+    .statusPending {
+    background-color: #fff3cd;
+    color: #664d03;
+    }
+
+    /* Nút xem */
+    .actionBtn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #6c757d;
+    transition: all 0.2s;
+    padding: 6px;
+    border-radius: 50%;
+    }
+
+    .actionBtn:hover {
+    color: #0d6efd;
+    background-color: #e9ecef;
+    }
+
+    .emptyState {
+    padding: 40px;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    }
