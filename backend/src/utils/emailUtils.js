@@ -115,38 +115,82 @@ export const sendOtpEmail = async (email, otp, name) => {
 };
 
 /**
- * Gửi email xác nhận đơn hàng
+ * Gửi email xác nhận đơn hàng (Đã sửa lỗi field name)
  */
 export const sendOrderConfirmationEmail = async (email, name, order) => {
     const transporter = createTransporter();
-    const itemsHtml = order.items.map(item => `<li>${item.name} x ${item.quantity} - ${item.price * item.quantity}đ</li>`).join('');
+
+    // 1. Helper format tiền tệ việt nam
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    };
+
+    // 2. SỬA LỖI CHÍNH: Lấy đúng field 'orderItems'
+    // Dùng toán tử || để fallback nếu lỡ truyền object cũ
+    const itemsList = order.orderItems || order.items || [];
+
+    // 3. Tạo HTML danh sách sản phẩm (Lấy thông tin từ Snapshot)
+    const itemsHtml = itemsList.map(item => {
+        // item.name: Tên sản phẩm (Snapshot)
+        // item.variantName: Tên biến thể (Snapshot, VD: Đen / XL)
+        const productName = item.name || 'Sản phẩm';
+        const variantInfo = item.variantName ? `(${item.variantName})` : '';
+        const price = item.totalItemPrice || (item.price * item.quantity);
+
+        return `
+            <li style="margin-bottom: 5px;">
+                <strong>${productName} ${variantInfo}</strong>
+                <br/>
+                SL: ${item.quantity} x ${formatCurrency(item.price)} 
+                = <span style="color: #e53e3e;">${formatCurrency(price)}</span>
+            </li>
+        `;
+    }).join('');
+
+    // 4. SỬA CÁC FIELD KHÁC (totalPrice, orderStatus)
+    const totalPrice = order.totalPrice || order.total || 0;
+    const orderStatus = order.orderStatus || order.status || 'Pending';
 
     const mailOptions = {
         from: `"Shop API" <${process.env.EMAIL_USER}>`,
         to: email,
-        subject: `Xác Nhận Đơn Hàng #${order._id} - Shop API`,
+        subject: `Xác Nhận Đơn Hàng #${order._id.toString().slice(-6).toUpperCase()} - Shop API`,
         html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h1 style="color: #28a745;">Xin chào ${name}!</h1>
-                <p>Cảm ơn bạn đã đặt hàng. Đơn hàng của bạn đã được xác nhận:</p>
-                <ul>
-                    <li><strong>ID Đơn Hàng:</strong> ${order._id}</li>
-                    <li><strong>Tổng Tiền:</strong> ${order.total}đ</li>
-                    <li><strong>Sản Phẩm:</strong><ul>${itemsHtml}</ul></li>
-                    <li><strong>Trạng Thái:</strong> ${order.status}</li>
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 8px;">
+                <h2 style="color: #28a745; text-align: center;">Đặt Hàng Thành Công!</h2>
+                <p>Xin chào <strong>${name}</strong>,</p>
+                <p>Cảm ơn bạn đã mua sắm tại Shop API. Đơn hàng của bạn đã được tiếp nhận và đang chờ xử lý.</p>
+                
+                <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                    <p style="margin: 5px 0;"><strong>Mã đơn hàng:</strong> #${order._id}</p>
+                    <p style="margin: 5px 0;"><strong>Ngày đặt:</strong> ${new Date(order.createdAt).toLocaleDateString('vi-VN')}</p>
+                    <p style="margin: 5px 0;"><strong>Trạng thái:</strong> ${orderStatus}</p>
+                    <p style="margin: 5px 0; font-size: 18px;">
+                        <strong>Tổng thanh toán:</strong> <span style="color: #d32f2f;">${formatCurrency(totalPrice)}</span>
+                    </p>
+                </div>
+
+                <h3>Chi tiết đơn hàng:</h3>
+                <ul style="padding-left: 20px; line-height: 1.6;">
+                    ${itemsHtml}
                 </ul>
-                <p>Nếu có câu hỏi, liên hệ hỗ trợ.</p>
-                <p>Trân trọng,<br>Team Shop API</p>
+
+                <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+                
+                <p style="font-size: 13px; color: #666;">
+                    Nếu bạn có bất kỳ câu hỏi nào, vui lòng trả lời email này hoặc liên hệ hotline hỗ trợ.
+                </p>
+                <p style="font-size: 13px; color: #666;">Trân trọng,<br><strong>Team Shop API</strong></p>
             </div>
         `,
     };
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log(`Order confirmation sent to ${email} for order ${order._id}`);
+        console.log(`✅ Email xác nhận đã gửi đến: ${email}`);
         return true;
     } catch (error) {
-        console.error('Lỗi gửi order confirmation:', error);
+        console.error('❌ Lỗi gửi email:', error);
         return false;
     }
 };

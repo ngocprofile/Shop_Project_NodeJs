@@ -2,61 +2,63 @@ import mongoose from "mongoose";
 
 const shippingSchema = new mongoose.Schema(
     {
-        // 📦 Tên phương thức giao hàng (VD: Giao hàng nhanh, Viettel Post, Tự đến lấy)
-        method: {
-        type: String,
-        required: [true, "Tên phương thức giao hàng là bắt buộc"],
-        trim: true,
+        // 📦 Tên hiển thị (VD: "Giao Hàng Nhanh", "Hỏa Tốc 2H")
+        name: {
+            type: String,
+            required: [true, "Tên phương thức vận chuyển là bắt buộc"],
+            trim: true,
+            unique: true // Tên không được trùng nhau
         },
 
-        // 🏢 Đơn vị vận chuyển (nếu bạn hợp tác với hãng giao hàng cụ thể)
-        provider: {
-        type: String,
-        default: "Nội bộ",
+        // 🏷️ Loại hình (Dùng để Frontend lọc icon hoặc xử lý logic riêng)
+        type: {
+            type: String,
+            enum: ['standard', 'express', 'pickup'], // Tiêu chuẩn, Hỏa tốc, Tự lấy
+            default: 'standard'
         },
 
-        // 💰 Phí vận chuyển (đơn vị: VND)
+        // 💰 Phí vận chuyển cơ bản (VND)
         cost: {
-        type: Number,
-        required: [true, "Phí vận chuyển là bắt buộc"],
-        min: 0,
+            type: Number,
+            required: [true, "Phí vận chuyển là bắt buộc"],
+            min: 0,
         },
 
-        // 🌍 Khu vực hoặc địa phương áp dụng (VD: Toàn quốc, TP.HCM, Miền Bắc...)
-        region: {
-        type: String,
-        default: "Toàn quốc",
-        trim: true,
+        // 🎁 Đơn hàng tối thiểu để được Freeship (Nếu null hoặc 0 thì không freeship)
+        freeShipOrderThreshold: {
+            type: Number,
+            default: null, 
         },
 
-        // ⏰ Thời gian giao hàng dự kiến (VD: 2–5 ngày làm việc)
+        // 🌍 Mã Tỉnh/TP áp dụng (Quan trọng cho Hỏa tốc)
+        // Nếu mảng rỗng [] => Áp dụng toàn quốc
+        // Nếu có mã (VD: ["79", "01"]) => Chỉ hiện cho khách ở HCM, HN
+        allowedProvinceCodes: [{
+            type: String,
+            trim: true
+        }],
+
+        // ⏰ Thời gian giao hàng dự kiến (Hiển thị cho khách)
         estimatedDelivery: {
-        type: String,
-        default: "3–5 ngày làm việc",
-        trim: true,
-        },
-
-        // 🔢 Mã vận chuyển (nếu bạn cần định danh riêng từng loại)
-        code: {
-        type: String,
-        unique: true,
-        sparse: true, // cho phép bỏ trống nhưng vẫn unique nếu có
+            type: String,
+            default: "3–5 ngày làm việc",
+            trim: true,
         },
 
         // 🚀 Trạng thái hoạt động
         isActive: {
-        type: Boolean,
-        default: true,
+            type: Boolean,
+            default: true,
         },
 
-        // 📝 Ghi chú thêm (tuỳ chọn)
-        note: {
-        type: String,
+        // 📝 Mô tả thêm (VD: "Chỉ giao trước 18h")
+        description: {
+            type: String,
+            trim: true
         },
     },
     { timestamps: true }
 );
 
 const Shipping = mongoose.model("Shipping", shippingSchema);
-
 export default Shipping;

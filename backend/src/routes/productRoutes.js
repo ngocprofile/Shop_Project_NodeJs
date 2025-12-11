@@ -2,7 +2,6 @@ import express from "express";
 import {
     addColorVariantToProduct,
     createProduct,
-    // Size Inventory Controllers
     createSizeInventory,
     deleteColorVariant,
     deleteProduct,
@@ -25,7 +24,7 @@ import upload from '../middleware/uploadMiddleware.js';
 import validate, { schemas } from "../middleware/validateMiddleware.js";
 
 const router = express.Router();
-
+// ngoc
 // ===============================================================
 // 1. 🛡️ ADMIN/STAFF ROUTES (CẦN: protect, authorizeRoles)
 // Bao gồm: CRUD Product, CRUD ColorVariant, CRUD SizeInventory (trừ GET Public)

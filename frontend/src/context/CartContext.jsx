@@ -1,71 +1,105 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import api from '../api'; // Import api client đã cấu hình axios
+import api from '../api'; // Đảm bảo import đúng file axios config của bạn
 
-// Tạo Context
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+    // State lưu danh sách sản phẩm chi tiết (cho trang Cart/Checkout)
+    const [cartItems, setCartItems] = useState([]);
+    // State lưu tổng số lượng (cho Badge trên Header)
     const [cartCount, setCartCount] = useState(0);
+    // State loading để chặn giao diện khi đang tải
+    const [loading, setLoading] = useState(true);
 
-    // 1. Hàm gọi API để lấy số lượng mới nhất từ Server
-    // Dùng khi: Load trang lần đầu, F5, hoặc Login thành công
-    const refreshCartCount = async () => {
-        const token = localStorage.getItem('token');
-        
-        // Nếu chưa đăng nhập thì không gọi API
+    // 1. Hàm lấy dữ liệu giỏ hàng từ Server
+    const refreshCart = async () => {
+        const token = localStorage.getItem('accessToken'); // Kiểm tra key lưu token của bạn
         if (!token) {
+            setCartItems([]);
             setCartCount(0);
+            setLoading(false);
             return;
         }
 
         try {
-            // Gọi endpoint /api/cart/count (đã tạo ở backend)
-            const res = await api.get('/cart/count');
+            // Gọi API lấy chi tiết giỏ hàng
+            // Backend cần có route: GET /api/cart
+            const res = await api.get('/cart');
             
-            if (res.data && typeof res.data.count === 'number') {
-                setCartCount(res.data.count);
-                console.log("CartContext: Đã cập nhật số lượng từ server:", res.data.count);
-            }
-        } catch (error) {
-            console.error("CartContext: Lỗi cập nhật số lượng giỏ hàng:", error);
-            // Nếu lỗi 401 (Unauthorized), reset về 0
-            if (error.response && error.response.status === 401) {
+            if (res.data && res.data.items) {
+                setCartItems(res.data.items);
+                
+                // Tính tổng số lượng item để hiển thị lên Header
+                // (Hoặc lấy từ res.data.totalQuantity nếu backend có trả về)
+                const totalQty = res.data.items.reduce((sum, item) => sum + item.quantity, 0);
+                setCartCount(totalQty);
+            } else {
+                // Giỏ hàng rỗng
+                setCartItems([]);
                 setCartCount(0);
             }
+        } catch (error) {
+            console.error("CartContext: Lỗi tải giỏ hàng", error);
+            if (error.response?.status === 401) {
+                setCartItems([]);
+                setCartCount(0);
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
-    // 2. Hàm cập nhật thủ công (Client-side update)
-    // Dùng khi: Thêm vào giỏ hàng thành công (backend trả về totalQuantity mới)
-    // Giúp giao diện nhảy số ngay lập tức mà không cần gọi lại API /count
+    // 2. Hàm cập nhật số lượng ngay lập tức (Optimistic UI)
+    // Dùng khi thêm vào giỏ hàng hoặc tăng giảm số lượng ở trang Cart
     const updateCountImmediately = (newCount) => {
         setCartCount(newCount);
+        // Lưu ý: Nếu muốn update cả cartItems thì nên gọi lại refreshCart()
+        // hoặc truyền logic phức tạp hơn vào đây. 
+        // Để đơn giản, khi add to cart xong, bạn nên gọi refreshCart().
     };
 
-    // Gọi refresh 1 lần khi ứng dụng khởi chạy
-    useEffect(() => {
-        refreshCartCount();
-
-        // (Tùy chọn) Lắng nghe sự kiện storage để đồng bộ khi đăng nhập/đăng xuất ở tab khác
-        const handleStorageChange = () => {
-            refreshCartCount();
-        };
-        window.addEventListener('storage', handleStorageChange);
+    // 3. Hàm xóa sạch giỏ hàng (Dùng sau khi Checkout thành công)
+    const clearCart = async () => {
+        // Cập nhật State ngay lập tức để UI phản hồi nhanh
+        setCartItems([]);
+        setCartCount(0);
         
-        // (Tùy chọn) Lắng nghe sự kiện custom 'auth-change' nếu bạn có cơ chế login/logout
-        window.addEventListener('auth-change', refreshCartCount);
+        // Nếu backend của bạn tự xóa giỏ hàng sau khi tạo đơn hàng (Create Order) thành công,
+        // thì không cần gọi API delete cart ở đây.
+        // Tuy nhiên, nếu backend không tự xóa, bạn cần gọi:
+        // await api.delete('/cart'); 
+        
+        // Ở đây ta giả định Frontend chỉ cần reset state vì Backend đã xử lý logic
+        // chuyển cart thành order và làm trống cart rồi.
+        // Nhưng để chắc chắn đồng bộ, ta gọi lại refreshCart một lần nữa:
+        await refreshCart();
+    };
+
+    // Khởi chạy lần đầu
+    useEffect(() => {
+        refreshCart();
+
+        // Lắng nghe sự kiện để đồng bộ giữa các tab hoặc khi login/logout
+        const handleAuthChange = () => refreshCart();
+        
+        window.addEventListener('storage', handleAuthChange); // Khi localStorage đổi (login/logout)
+        // Nếu bạn có custom event 'auth-change', giữ nguyên dòng dưới
+        window.addEventListener('auth-change', handleAuthChange);
 
         return () => {
-            window.removeEventListener('storage', handleStorageChange);
-            window.removeEventListener('auth-change', refreshCartCount);
+            window.removeEventListener('storage', handleAuthChange);
+            window.removeEventListener('auth-change', handleAuthChange);
         };
     }, []);
 
-    // Giá trị chia sẻ cho toàn app
     const value = {
+        cartItems,
         cartCount,
-        refreshCartCount,
-        updateCountImmediately
+        loading,
+        refreshCart,       // Đổi tên refreshCartCount -> refreshCart cho ngắn gọn
+        refreshCartCount: refreshCart, // Giữ lại alias cũ để đỡ phải sửa Header
+        updateCountImmediately,
+        clearCart
     };
 
     return (
@@ -75,8 +109,6 @@ export const CartProvider = ({ children }) => {
     );
 };
 
-// Hook custom để các component khác sử dụng dễ dàng
-// Ví dụ: const { cartCount } = useCart();
 // eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => {
     const context = useContext(CartContext);

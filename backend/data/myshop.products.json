@@ -1,0 +1,120 @@
+[{
+  "_id": {
+    "$oid": "691d16a3a5b6726a990f0e6d"
+  },
+  "name": "Dép SoftridePro 24 V",
+  "description": "Dép đúc nguyên khối SoftridePro 24 V mang lại sự êm ái tối đa và phong cách hiện đại. Sử dụng công nghệ Softride foam độc quyền của Puma, đôi dép này cung cấp lớp đệm mềm mại, hoàn hảo cho việc thư giãn sau khi tập luyện hoặc sử dụng hàng ngày. Thiết kế quai ngang rộng rãi, ôm chân, đảm bảo sự thoải mái tuyệt đối.",
+  "brand": {
+    "$oid": "691cb515979c0e131eb9a1d8"
+  },
+  "category": {
+    "$oid": "691aeb4be7366df9ba142da6"
+  },
+  "basePrice": 800000,
+  "finalPrice": 800000,
+  "appliedVoucher": null,
+  "featuredImage": "/uploads/featuredImage-1763555120062-628388149.webp",
+  "gallery": [],
+  "averageRating": 0,
+  "reviewCount": 0,
+  "sold": 0,
+  "gender": "Unisex",
+  "material": "IMEVA (Injection Molded EVA) Foam và Softride Foam.",
+  "variants": [
+    {
+      "$oid": "691db0563a31b97a148efdf6"
+    },
+    {
+      "$oid": "691eb200aca24a984783d815"
+    },
+    {
+      "$oid": "691ec5ed90fca34ce690490c"
+    }
+  ],
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-19T01:00:19.802Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T07:40:30.045Z"
+  },
+  "slug": "dp-softridepro-24-v",
+  "__v": 3
+},
+{
+  "_id": {
+    "$oid": "691dc78e1f5c68b6776c7695"
+  },
+  "name": "Dép quai ngang adidas Adilette Aqua Unisex",
+  "description": "⚡️ Dép adidas Adilette Aqua Unisex – Thoải mái & Khỏe khoắn\r\nDép Adilette Aqua Unisex là sự kết hợp hoàn hảo giữa phong cách tối giản và tính năng tiện dụng cho mọi hoạt động thể thao và thư giãn.\r\nĐặc điểm nổi bật:\r\nThiết kế: Dép quai ngang đơn giản, dễ dàng mang vào/tháo ra. Logo Adidas 3 sọc nổi bật trên quai dép tạo điểm nhấn thương hiệu.\r\nChất liệu & Công nghệ:\r\nThân và Đế: Được đúc từ chất liệu EVA (Ethylene Vinyl Acetate) cao cấp, mang lại trọng lượng siêu nhẹ và độ êm ái, đàn hồi vượt trội.\r\nKháng nước: Chất liệu tổng hợp giúp dép nhanh khô và bền bỉ trong môi trường ẩm ướt như hồ bơi, bãi biển.\r\nChống trơn trượt: Đế dép có họa tiết đặc biệt, tăng độ bám dính trên bề mặt ướt, đảm bảo an toàn.\r\nPhong cách: Màu sắc trung tính (Đen, Trắng, Xanh), dễ dàng phối hợp với mọi trang phục thể thao hoặc thường ngày.\r\nĐối tượng: Phù hợp cho cả nam và nữ yêu thích sự thoải mái tối đa, lý tưởng để sử dụng sau khi tập luyện, đi bơi, đi dạo hoặc đi du lịch.",
+  "brand": {
+    "$oid": "691b1db3cc0062e86dab9ca9"
+  },
+  "category": {
+    "$oid": "691aeb4be7366df9ba142da6"
+  },
+  "basePrice": 600000,
+  "finalPrice": 600000,
+  "appliedVoucher": null,
+  "featuredImage": "/uploads/featuredImage-1763559310247-617488319.jpg",
+  "gallery": [],
+  "averageRating": 0,
+  "reviewCount": 0,
+  "sold": 0,
+  "gender": "Unisex",
+  "material": "EVA (Ethylene-Vinyl Acetate) kết hợp Công nghệ Cloudfoam",
+  "variants": [
+    {
+      "$oid": "691dceed1f5c68b6776c7812"
+    },
+    {
+      "$oid": "691dcf571f5c68b6776c7871"
+    }
+  ],
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-19T13:35:10.323Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T14:08:23.976Z"
+  },
+  "slug": "dp-quai-ngang-adidas-adilette-aqua-unisex",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ef0ebd414d647a3af9d0f"
+  },
+  "name": "Áo Ba Lỗ Bóng Rổ Nam ADIDAS Og Jersey JM9953",
+  "description": "👕 Áo ADIDAS Og Jersey JM9953 (Bóng Rổ)\r\nThương hiệu: ADIDAS (Dòng Originals).\r\nMã sản phẩm: JM9953.\r\nChất liệu chính: Polyester tái chế (thường là 100% hoặc pha trộn).\r\nĐặc điểm chất liệu: Thoáng khí, nhanh khô, nhẹ, và bền.\r\nThiết kế: Áo Jersey ba lỗ form rộng rãi, phong cách cổ điển, có chi tiết Logo Ba Lá (Trefoil).\r\nMục đích: Mặc khi chơi bóng rổ, tập luyện, hoặc phong cách đường phố (Streetwear).",
+  "brand": {
+    "$oid": "691b1db3cc0062e86dab9ca9"
+  },
+  "category": {
+    "$oid": "691aef0fe7366df9ba142dd6"
+  },
+  "basePrice": 1600000,
+  "finalPrice": 1600000,
+  "appliedVoucher": null,
+  "featuredImage": "/uploads/featuredImage-1763635435565-141454793.jpg",
+  "gallery": [],
+  "averageRating": 0,
+  "reviewCount": 0,
+  "sold": 0,
+  "gender": "Nam",
+  "material": "Polyester tái chế (thường là 100% hoặc pha trộn).",
+  "variants": [
+    {
+      "$oid": "691ef1f1d414d647a3af9d61"
+    }
+  ],
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-20T10:43:55.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T10:48:17.314Z"
+  },
+  "slug": "o-ba-l-bng-r-nam-adidas-og-jersey-jm9953",
+  "__v": 1
+}]

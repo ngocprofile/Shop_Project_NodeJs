@@ -2,7 +2,7 @@ import { Edit3, Plus, Save, Trash, Trash2, UploadCloud, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import api from '../../api';
 import styles from './AdminProduct.module.css'; // Dùng chung CSS
-
+// ngoc
 // 2. URL GỐC CỦA SERVER (ĐỂ HIỂN THỊ ẢNH)
 const serverRootUrl = 'http://localhost:5000'; // <-- Thay port backend của bạn
 

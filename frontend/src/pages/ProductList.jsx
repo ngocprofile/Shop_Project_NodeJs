@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import api from '../api';
 import ProductCard from '../components/ProductCard';
 import styles from './ProductList.module.css';
-
+// ngoc
 const ProductList = () => {
     const { slug } = useParams();
     const [loading, setLoading] = useState(true);
