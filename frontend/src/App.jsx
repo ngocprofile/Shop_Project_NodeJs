@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 
 // === Public Pages ===
-import CartDashboard from './pages/CartDashboard';
+import CartDashboard from './pages/CartDashboard';    
 import Home from './pages/Home';
 import Login from './pages/Login';
 import ProductList from './pages/ProductList';

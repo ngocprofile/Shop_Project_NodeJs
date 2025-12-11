@@ -1,0 +1,735 @@
+/* ==========================================================================
+   1. VARIABLES & THEME
+   ========================================================================== */
+:root {
+  --primary: #111827;       /* Đen than */
+  --primary-hover: #374151;
+  --accent: #2563eb;        /* Xanh dương chủ đạo */
+  --bg-page: #f3f4f6;       /* Xám nền */
+  --bg-card: #ffffff;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+/* Keyframes Animations */
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   2. PAGE LAYOUT
+   ========================================================================== */
+.profilePage {
+  background-color: var(--bg-page);
+  min-height: calc(100vh - 60px);
+  padding: 40px 20px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-main);
+}
+
+.profileContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* ==========================================================================
+   3. SIDEBAR (MENU TRÁI)
+   ========================================================================== */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideUpFade 0.4s ease-out;
+}
+
+.sidebarProfile {
+  padding: 30px 20px;
+  text-align: center;
+  background: linear-gradient(to bottom, #f9fafb, #ffffff);
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebarAvatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.sidebarAvatar:hover {
+  transform: scale(1.05);
+}
+
+.sidebarName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  color: var(--primary);
+}
+
+.sidebarEmail {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+  word-break: break-all;
+}
+
+/* Menu List */
+.profileNav {
+  padding: 15px;
+  flex: 1;
+}
+
+.profileNav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profileNav button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.profileNav button:hover {
+  background-color: #f3f4f6;
+  color: var(--primary);
+  padding-left: 20px; /* Hiệu ứng trượt chữ sang phải */
+}
+
+.profileNav button.active {
+  background-color: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.navBadge {
+  margin-left: auto;
+  background-color: var(--danger);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+.sidebarFooter {
+  padding: 15px;
+  border-top: 1px solid var(--border);
+}
+
+.logoutButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 1px solid transparent;
+  background-color: #fef2f2;
+  color: var(--danger);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutButton:hover {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+}
+
+/* ==========================================================================
+   4. CONTENT AREA (NỘI DUNG PHẢI)
+   ========================================================================== */
+.content {
+  flex: 1;
+  min-width: 0;
+  animation: slideUpFade 0.5s ease-out;
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.cardHeader {
+  padding: 20px 30px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+
+.cardBody {
+  padding: 30px;
+}
+
+/* --- Buttons --- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  text-decoration: none;
+}
+
+.buttonPrimary {
+  background-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.buttonPrimary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+.buttonSecondary {
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  color: var(--text-main);
+}
+.buttonSecondary:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+/* ==========================================================================
+   5. PROFILE INFO VIEW
+   ========================================================================== */
+.avatarSection {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  box-shadow: var(--shadow-md);
+  border: 4px solid #f9fafb;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.infoText {
+  font-size: 1rem;
+  color: var(--text-main);
+  background-color: #f9fafb;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 0;
+  font-weight: 500;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.badgeSuccess { background: #ecfdf5; color: var(--success); border: 1px solid #a7f3d0; }
+.badgeDanger { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+
+/* ==========================================================================
+   6. MY ORDERS (TRACKING)
+   ========================================================================== */
+.tabsContainer {
+  display: flex;
+  gap: 30px;
+  border-bottom: 2px solid var(--bg-page);
+  margin-bottom: 30px;
+}
+
+.tabBtn {
+  background: none;
+  border: none;
+  padding: 12px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.tabBtn::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.tabBtn:hover { color: var(--primary); }
+.tabBtn.active { color: var(--primary); font-weight: 700; }
+.tabBtn.active::after { width: 100%; }
+
+/* Order List */
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.orderCard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 25px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #fff;
+}
+
+.orderCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: #cbd5e0;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed var(--border);
+  margin-bottom: 15px;
+}
+
+.orderId {
+  font-family: 'Courier New', monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: #eff6ff;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.orderDate {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-left: 10px;
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Status Colors */
+.statusPending { background: #fff7ed; color: #c2410c; }
+.statusProcessing { background: #eff6ff; color: var(--accent); }
+.statusShipping { background: #f5d0fe; color: #9333ea; }
+.statusDelivered { background: #f0fdf4; color: var(--success); }
+.statusCancelled { background: #fef2f2; color: var(--danger); }
+
+/* Order Items */
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.itemImage {
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+.itemInfo { flex: 1; }
+
+.itemInfo h4 {
+  margin: 0 0 5px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.itemVariant {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.orderFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border);
+}
+
+.totalLabel {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.totalPrice {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-left: 5px;
+}
+
+.actionGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.btnDetail {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btnDetail:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.btnConfirm {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnConfirm:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   7. VOUCHER WALLET
+   ========================================================================== */
+.walletGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.walletVoucherCard {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.walletVoucherCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
+}
+
+/* Tạo hiệu ứng răng cưa Voucher */
+.walletCardLogo {
+  width: 80px;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 2px dashed #d1d5db;
+  position: relative;
+}
+.walletCardLogo::before, .walletCardLogo::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border-radius: 50%;
+  right: -8px;
+}
+.walletCardLogo::before { top: -8px; }
+.walletCardLogo::after { bottom: -8px; }
+
+.walletCardLogo span {
+  writing-mode: vertical-rl;
+  font-weight: 800;
+  color: #9ca3af;
+  letter-spacing: 2px;
+  font-size: 0.8rem;
+}
+
+.walletCardContent {
+  padding: 15px;
+  flex: 1;
+}
+
+.walletCardTitle {
+  margin: 0 0 5px 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.walletCardType {
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0 0 5px 0;
+}
+
+.walletCardExpiry {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.detailsLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 5px 10px;
+  background: #f3f4f6;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.detailsLink:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ==========================================================================
+   8. MODAL (Popup)
+   ========================================================================== */
+.modalOverlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px); /* Hiệu ứng mờ nền hiện đại */
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modalContent {
+  background: #fff;
+  width: 90%;
+  max-width: 500px;
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  box-shadow: var(--shadow-hover);
+  position: relative;
+  animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.closeButton {
+  background: #f3f4f6;
+  border: none;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.closeButton:hover {
+  background: var(--danger);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.detailList {
+  list-style: none; padding: 0; margin: 20px 0;
+}
+.detailList li {
+  display: flex; justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.95rem;
+}
+.detailList li:last-child { border-bottom: none; }
+
+/* ==========================================================================
+   9. CHANGE PASSWORD FORM
+   ========================================================================== */
+.formGroup label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+.formInput {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.formInput:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.1);
+}
+
+/* ==========================================================================
+   10. UTILITIES
+   ========================================================================== */
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+}
+.emptyState p {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin: 20px 0;
+}
+
+.loadingContainer {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 500px; gap: 15px;
+}
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Mobile Responsive */
+@media (max-width: 992px) {
+  .profileContainer { flex-direction: column; }
+  .sidebar { width: 100%; position: static; margin-bottom: 20px; }
+  .infoGrid { grid-template-columns: 1fr; }
+  .itemRow { flex-direction: column; align-items: flex-start; gap: 10px; }
+}

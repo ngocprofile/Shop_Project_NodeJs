@@ -5,12 +5,16 @@ const CartContext = createContext(undefined);
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [cartCount, setCartCount] = useState(0);
+    // State loading để chặn giao diện khi đang tải
+    const [loading, setLoading] = useState(true);
 
     const refreshCart = useCallback(() => {
         const token = localStorage.getItem("accessToken");
 
         if (!token) {
+            setCartItems([]);
             setCartCount(0);
+            setLoading(false);
             return;
         }
 

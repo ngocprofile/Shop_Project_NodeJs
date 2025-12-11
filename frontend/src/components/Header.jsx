@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import api from '../api';
-import { useCart } from '../context/CartContext';
+import { useCart } from'../context/CartContext';
 import styles from './Header.module.css';
 
 /**
@@ -103,29 +103,28 @@ function MobileNavLinks({ items, closeDrawer }) {
  * == Component 3: Action Icons ==
  */
 function ActionIcons() {
-    const { cartCount } = useCart();
-
-    return (
-        <div className={styles.desktopActions}>
-            <button className={styles.actionIcon} title="Tìm kiếm">
-                <MagnifyingGlassIcon className={styles.iconSvg} />
-            </button>
-            <Link to="/profile" className={styles.actionIcon} title="Tài khoản">
-                <UserIcon className={styles.iconSvg} />
-            </Link>
-            <Link to="/cart" className={styles.actionIcon} title="Giỏ hàng">
-                <div style={{ position: 'relative', display: 'flex' }}>
-                    <ShoppingBagIcon className={styles.iconSvg} />
-                    {cartCount > 0 && (
-                        <span className={styles.cartBadge}>
-                            {cartCount > 99 ? '99+' : cartCount}
-                        </span>
-                    )}
-                </div>
-            </Link>
-        </div>
-    );
-}
+    const{ cartCount } = useCart(); 
+    return (  
+        <div className={styles.desktopActions}>  
+            <button className={styles.actionIcon} title="Tìm kiếm">  
+                <MagnifyingGlassIcon className={styles.iconSvg} />  
+            </button> 
+            <Link to="/profile" className={styles.actionIcon} title="Tài khoản">  
+                <UserIcon className={styles.iconSvg} /> 
+            </Link>  
+            <Link to="/cart" className={styles.actionIcon} title="Giỏ hàng">  
+                <div style={{ position: 'relative', display: 'flex' }}> 
+                    <ShoppingBagIcon className={styles.iconSvg} />  
+                    {cartCount > 0 && (  
+                        <span className={styles.cartBadge}>  
+                            {cartCount > 99 ? '99+' : cartCount}  
+                        </span>   
+                    )}  
+                </div> 
+            </Link> 
+        </div> 
+    ); 
+} 
 
 /**
  * == Component 4: NavLinks (Desktop) ==
@@ -164,7 +163,7 @@ export default function Header() {
     const [navItems, setNavItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     
-    const { cartCount, refreshCartCount } = useCart();
+    const { cartCount, refreshCartCount } = useCart(); 
     const location = useLocation();
 
     useEffect(() => {
@@ -198,42 +197,42 @@ export default function Header() {
     }, []);
 
     useEffect(() => {
-        refreshCartCount(); 
-    }, [location.pathname, refreshCartCount]); 
+        refreshCartCount();  
+    }, [location.pathname, refreshCartCount]);  
 
-    const closeMobileMenu = () => setIsMobileMenuOpen(false);
+    const closeMobileMenu = () => setIsMobileMenuOpen(false); 
 
-    if (isLoading) return <header className={styles.header}><div className={styles.nav}>Loading...</div></header>;
+    if (isLoading) return <header className={styles.header}><div className={styles.nav}>Loading...</div></header>; 
 
-    return (
-        <header className={styles.header}>
-            <nav className={styles.nav}>
-                <Link to="/" className={styles.logo}>STYLE CODE</Link>
+    return ( 
+        <header className={styles.header}> 
+            <nav className={styles.nav}> 
+                <Link to="/" className={styles.logo}>STYLE CODE</Link> 
 
-                <div className={styles.desktopNav}>
-                    <NavLinks items={navItems} />
-                </div>
-                
-                <ActionIcons />
+                <div className={styles.desktopNav}> 
+                    <NavLinks items={navItems} /> 
+                </div> 
+                 
+                <ActionIcons /> 
 
-                <div className={styles.mobileMenuToggle}>
-                    <Link to="/cart" className={styles.actionIcon} style={{ marginRight: 10 }}>
-                         <div style={{ position: 'relative', display: 'flex' }}>
-                            <ShoppingBagIcon className={styles.iconSvg} />
-                            {cartCount > 0 && <span className={styles.cartBadge}>{cartCount}</span>}
-                        </div>
-                    </Link>
-                    <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={styles.actionIcon}>
+                <div className={styles.mobileMenuToggle}> 
+                    <Link to="/cart" className={styles.actionIcon} style={{ marginRight: 10 }}> 
+                         <div style={{ position: 'relative', display: 'flex' }}> 
+                            <ShoppingBagIcon className={styles.iconSvg} /> 
+                            {cartCount > 0 && <span className={styles.cartBadge}>{cartCount}</span>} 
+                        </div> 
+                    </Link> 
+                    <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={styles.actionIcon}> 
                         {isMobileMenuOpen ? <XMarkIcon className={styles.iconSvg} /> : <Bars3Icon className={styles.iconSvg} />}
-                    </button>
-                </div>
-            </nav>
+                    </button> 
+                </div> 
+            </nav> 
 
-            <div className={`${styles.mobileOverlay} ${isMobileMenuOpen ? styles.open : ''}`} onClick={closeMobileMenu} />
+            <div className={`${styles.mobileOverlay } ${isMobileMenuOpen ? styles.open : ''}`} onClick={closeMobileMenu} />
 
-            <div className={`${styles.mobileDrawer} ${isMobileMenuOpen ? styles.open : ''}`}>
+            <div className={`${styles.mobileDrawer} ${isMobileMenuOpen ? styles.open : ''}`}> 
                 <div className={styles.mobileDrawerContent}>
-                    <MobileNavLinks items={navItems} closeDrawer={closeMobileMenu} />
+                    <MobileNavLinks items={navItems} closeDrawer={closeMobileMenu} /> 
                 </div>
             </div>
         </header>

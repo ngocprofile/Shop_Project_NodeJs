@@ -2,7 +2,7 @@ import fs from 'fs'; // 1. IMPORT 'fs' (File System)
 import path from 'path'; // 2. IMPORT 'path'
 import Brand from "../models/brandModel.js";
 import Product from "../models/productModel.js";
-
+// ngoc
 // --- 3. (Helper) Xóa file an toàn (Giống Category) ---
 const deleteFile = (filePath) => {
     // filePath từ DB có dạng /uploads/image.png

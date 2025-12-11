@@ -1,0 +1,1374 @@
+[{
+  "_id": {
+    "$oid": "6919beaaae5c33d446fe690d"
+  },
+  "name": "Thời trang nam",
+  "description": "thời trang nam",
+  "parentCategory": null,
+  "image": "/uploads/image-1763294890039-820767867.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-16T12:08:10.055Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-16T12:08:10.055Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6919c65dfcc8570a5b8a98c7"
+  },
+  "name": "Áo nam",
+  "description": "áo nam",
+  "parentCategory": {
+    "$oid": "6919beaaae5c33d446fe690d"
+  },
+  "image": "",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-16T12:41:01.881Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:10:26.190Z"
+  },
+  "__v": 0,
+  "slug": "ao-nam"
+},
+{
+  "_id": {
+    "$oid": "691ac9e2b241c09613b50896"
+  },
+  "name": "Thời trang nữ",
+  "description": "thời trang nữ",
+  "parentCategory": null,
+  "image": "/uploads/image-1763363298749-467235092.png",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T07:08:18.819Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T07:08:18.819Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ae5cee7366df9ba142d24"
+  },
+  "name": "Áo polo nam",
+  "description": "Sự kết hợp hoàn hảo giữa phong cách thoải mái của áo phông và sự lịch sự của áo sơ mi. Lý tưởng cho các buổi gặp mặt smart-casual.",
+  "parentCategory": {
+    "$oid": "6919c65dfcc8570a5b8a98c7"
+  },
+  "image": "/uploads/image-1763370446403-489916776.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:07:26.431Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:47:41.405Z"
+  },
+  "slug": "ao-polo-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ae868e7366df9ba142d68"
+  },
+  "name": "Quần nam",
+  "description": "Quần nam",
+  "parentCategory": {
+    "$oid": "6919beaaae5c33d446fe690d"
+  },
+  "image": "",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:18:32.359Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:18:32.359Z"
+  },
+  "slug": "quan-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ae8e7e7366df9ba142d6e"
+  },
+  "name": "Quần âu nam",
+  "description": "Mang đến vẻ ngoài chỉn chu và chuyên nghiệp. Đây là lựa chọn hàng đầu cho môi trường công sở, các sự kiện trang trọng, hoặc khi phối đồ với áo vest/blazer.",
+  "parentCategory": {
+    "$oid": "691ae868e7366df9ba142d68"
+  },
+  "image": "/uploads/image-1763371239836-27726013.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:20:39.857Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:56:12.588Z"
+  },
+  "slug": "quan-au-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ae987e7366df9ba142d84"
+  },
+  "name": "Giày nam",
+  "description": "giày nam",
+  "parentCategory": {
+    "$oid": "6919beaaae5c33d446fe690d"
+  },
+  "image": "",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:23:19.977Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:23:19.977Z"
+  },
+  "slug": "giay-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ae9efe7366df9ba142d8a"
+  },
+  "name": "Giày thể thao nam",
+  "description": "Thiết yếu cho phong cách năng động và thoải mái hàng ngày. Từ giày chạy bộ, giày tập gym đến các mẫu sneaker dạo phố (lifestyle) thời trang.",
+  "parentCategory": {
+    "$oid": "691ae987e7366df9ba142d84"
+  },
+  "image": "/uploads/image-1763371503849-796866976.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:25:03.868Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:02:30.542Z"
+  },
+  "slug": "giay-the-thao-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aeac0e7366df9ba142da0"
+  },
+  "name": "Dép nam",
+  "description": "Dép nam",
+  "parentCategory": {
+    "$oid": "6919beaaae5c33d446fe690d"
+  },
+  "image": "",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:28:32.516Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:28:32.516Z"
+  },
+  "slug": "dep-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aeb4be7366df9ba142da6"
+  },
+  "name": "Dép lê",
+  "description": "dép lê",
+  "parentCategory": {
+    "$oid": "691aeac0e7366df9ba142da0"
+  },
+  "image": "/uploads/image-1763371851569-676103995.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:30:51.579Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:30:51.579Z"
+  },
+  "slug": "dep-le",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aebd2e7366df9ba142dac"
+  },
+  "name": "Dép xỏ ngón",
+  "description": "dép xỏ ngón ",
+  "parentCategory": {
+    "$oid": "691aeac0e7366df9ba142da0"
+  },
+  "image": "/uploads/image-1763371986642-694887500.webp",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:33:06.653Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:33:06.653Z"
+  },
+  "slug": "dep-xo-ngon",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aec29e7366df9ba142db2"
+  },
+  "name": "Dép quai hậu",
+  "description": "dép quai hậu",
+  "parentCategory": {
+    "$oid": "691aeac0e7366df9ba142da0"
+  },
+  "image": "/uploads/image-1763372073847-19874227.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:34:33.855Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:34:33.855Z"
+  },
+  "slug": "dep-quai-hau",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aec7de7366df9ba142db8"
+  },
+  "name": "Dép sục",
+  "description": "dép sục",
+  "parentCategory": {
+    "$oid": "691aeac0e7366df9ba142da0"
+  },
+  "image": "/uploads/image-1763372157677-478669024.webp",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:35:57.684Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:35:57.684Z"
+  },
+  "slug": "dep-suc",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aecfbe7366df9ba142dbe"
+  },
+  "name": "Áo sơ mi nam",
+  "description": "Lựa chọn cho sự lịch lãm và chuyên nghiệp, từ sơ mi công sở dài tay đến các mẫu sơ mi ngắn tay/flannel dạo phố.",
+  "parentCategory": {
+    "$oid": "6919c65dfcc8570a5b8a98c7"
+  },
+  "image": "/uploads/image-1763372283460-841070731.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:38:03.471Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:48:00.000Z"
+  },
+  "slug": "ao-so-mi-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aed5ee7366df9ba142dc4"
+  },
+  "name": "Áo phông nam",
+  "description": "Nền tảng của mọi tủ đồ. Thoải mái và đa năng, bao gồm áo cổ tròn, cổ tim và các mẫu áo in hình, áo trơn basic.",
+  "parentCategory": {
+    "$oid": "6919c65dfcc8570a5b8a98c7"
+  },
+  "image": "/uploads/image-1763372382812-176205814.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:39:42.824Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:47:17.332Z"
+  },
+  "slug": "ao-phong-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aee1ee7366df9ba142dca"
+  },
+  "name": "Áo Hoodie & Áo nỉ",
+  "description": "Giữ ấm và thể hiện cá tính. Khám phá các mẫu áo hoodie có mũ, áo nỉ (sweatshirt) chui đầu và áo khoác nỉ năng động.",
+  "parentCategory": {
+    "$oid": "6919c65dfcc8570a5b8a98c7"
+  },
+  "image": "/uploads/image-1763372574474-749368819.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:42:54.503Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:42:54.503Z"
+  },
+  "slug": "ao-hoodie-and-ao-ni",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aeec3e7366df9ba142dd0"
+  },
+  "name": "Áo len & Áo dệt kim",
+  "description": "Mang lại vẻ ngoài tinh tế và giữ ấm. Bao gồm áo len cổ lọ, áo gile, và áo khoác len (cardigan) thời trang.",
+  "parentCategory": {
+    "$oid": "6919c65dfcc8570a5b8a98c7"
+  },
+  "image": "/uploads/image-1763372739836-817864926.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:45:39.848Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:45:39.848Z"
+  },
+  "slug": "ao-len-and-ao-det-kim",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aef0fe7366df9ba142dd6"
+  },
+  "name": "Áo ba lỗ nam",
+  "description": "Lựa chọn tối ưu cho ngày hè nóng nực hoặc các buổi tập luyện, mang lại sự thoải mái và thông thoáng tuyệt đối.",
+  "parentCategory": {
+    "$oid": "6919c65dfcc8570a5b8a98c7"
+  },
+  "image": "/uploads/image-1763372815139-101541813.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:46:55.150Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:46:55.150Z"
+  },
+  "slug": "ao-ba-lo-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691af03ee7366df9ba142e07"
+  },
+  "name": "Quần Jean nam",
+  "description": "Biểu tượng cổ điển và bền bỉ. Từ dáng quần skinny, slim-fit đến ống rộng, chất liệu denim là item không thể thiếu, dễ dàng kết hợp cho cả phong cách casual lẫn bán formal.",
+  "parentCategory": {
+    "$oid": "691ae868e7366df9ba142d68"
+  },
+  "image": "/uploads/image-1763373118985-568813962.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:51:58.998Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:52:36.739Z"
+  },
+  "slug": "quan-jean-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691af0e9e7366df9ba142e16"
+  },
+  "name": "Quần Kaki nam",
+  "description": "Lựa chọn \"smart-casual\" hoàn hảo. Quần kaki mang lại sự thoải mái của vải cotton, lịch sự hơn quần jean nhưng lại thoải mái hơn quần âu.",
+  "parentCategory": {
+    "$oid": "691ae868e7366df9ba142d68"
+  },
+  "image": "/uploads/image-1763373289808-643832824.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:54:49.822Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:55:03.013Z"
+  },
+  "slug": "quan-kaki-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691af1e8e7366df9ba142e2e"
+  },
+  "name": "Quần Thể Thao nam",
+  "description": "Dành cho sự thoải mái và năng động. Với thiết kế đặc trưng là ống quần bo chun, quần jogger và quần nỉ lý tưởng cho phòng tập hoặc phong cách dạo phố (streetwear).",
+  "parentCategory": {
+    "$oid": "691ae868e7366df9ba142d68"
+  },
+  "image": "/uploads/image-1763373544508-343032287.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T09:59:04.520Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T09:59:04.520Z"
+  },
+  "slug": "quan-the-thao-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691af243e7366df9ba142e34"
+  },
+  "name": "Quần Short nam",
+  "description": "Không thể thiếu trong ngày hè. Bao gồm các loại quần short kaki, short jean, short thể thao và short đi biển, mang lại sự mát mẻ và tự do vận động.",
+  "parentCategory": {
+    "$oid": "691ae868e7366df9ba142d68"
+  },
+  "image": "/uploads/image-1763373635596-363485656.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T10:00:35.605Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:00:35.605Z"
+  },
+  "slug": "quan-short-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691af36ae7366df9ba142e44"
+  },
+  "name": "Giày công sở nam",
+  "description": "Mang đến vẻ ngoài lịch lãm và chuyên nghiệp. Bao gồm các kiểu giày da như Oxfords, Derbys, lý tưởng cho môi trường công sở và các sự kiện trang trọng.",
+  "parentCategory": {
+    "$oid": "691ae987e7366df9ba142d84"
+  },
+  "image": "/uploads/image-1763373930294-251866256.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T10:05:30.303Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:05:30.303Z"
+  },
+  "slug": "giay-cong-so-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691af51be7366df9ba142e4a"
+  },
+  "name": "Giày lười nam",
+  "description": "Sự lựa chọn tiện lợi và tinh tế cho phong cách smart-casual. Dễ dàng mang vào và tháo ra mà không cần dây buộc, phù hợp với cả quần âu lẫn quần short.",
+  "parentCategory": {
+    "$oid": "691ae987e7366df9ba142d84"
+  },
+  "image": "/uploads/image-1763374363011-55881271.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T10:12:43.075Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:12:43.075Z"
+  },
+  "slug": "giay-luoi-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691af59ce7366df9ba142e50"
+  },
+  "name": "Boots nam",
+  "description": "Thể hiện sự bền bỉ và cá tính mạnh mẽ. Khám phá các kiểu bốt cổ cao, cổ lửng như Chelsea boots, Chukka boots, hoàn hảo cho thời tiết lạnh hoặc một set đồ bụi bặm.",
+  "parentCategory": {
+    "$oid": "691ae987e7366df9ba142d84"
+  },
+  "image": "/uploads/image-1763374492441-567111596.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T10:14:52.453Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:14:52.453Z"
+  },
+  "slug": "boots-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691afb13e7366df9ba142e64"
+  },
+  "name": "Phụ kiện nam",
+  "description": "Hoàn thiện phong cách của bạn. Đây là nơi chứa đựng những chi tiết nhỏ nhưng tạo nên sự khác biệt lớn, thể hiện cá tính và sự tinh tế trong bộ trang phục của bạn.",
+  "parentCategory": {
+    "$oid": "6919beaaae5c33d446fe690d"
+  },
+  "image": "",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T10:38:11.170Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:38:11.170Z"
+  },
+  "slug": "phu-kien-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691afb62e7366df9ba142e6a"
+  },
+  "name": "Thắt lưng nam",
+  "description": "Cố định trang phục và tạo điểm nhấn cho vòng eo. Khám phá các mẫu thắt lưng từ da thật lịch lãm đến chất liệu vải dù cá tính, phù hợp cho cả quần âu và quần jean.",
+  "parentCategory": {
+    "$oid": "691afb13e7366df9ba142e64"
+  },
+  "image": "/uploads/image-1763375970920-185859405.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T10:39:30.943Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:39:30.943Z"
+  },
+  "slug": "that-lung-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691afcf8e7366df9ba142e80"
+  },
+  "name": "Ví nam",
+  "description": "Vật dụng thiết yếu để quản lý tiền mặt và thẻ. Từ các loại ví da gập (Bi-fold) cổ điển, ví đứng (Vertical) đến các mẫu ví đựng thẻ (Cardholder) siêu mỏng và gọn nhẹ.",
+  "parentCategory": {
+    "$oid": "691afb13e7366df9ba142e64"
+  },
+  "image": "/uploads/image-1763376376972-337572921.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T10:46:16.982Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:46:16.982Z"
+  },
+  "slug": "vi-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691afd51e7366df9ba142e86"
+  },
+  "name": "Túi Cầm Tay nam",
+  "description": "Nâng tầm phong cách và sự tiện lợi. Lý tưởng để mang theo những vật dụng lớn hơn ví (như điện thoại, chìa khóa, sạc dự phòng), hoàn hảo cho các buổi tiệc, gặp gỡ đối tác hoặc thay thế cho một chiếc túi xách.",
+  "parentCategory": {
+    "$oid": "691afb13e7366df9ba142e64"
+  },
+  "image": "/uploads/image-1763376465228-374047774.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T10:47:45.239Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:47:45.239Z"
+  },
+  "slug": "tui-cam-tay-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691afd96e7366df9ba142e8c"
+  },
+  "name": "Kính mắt nam",
+  "description": "Nâng tầm diện mạo và bảo vệ đôi mắt. Tìm kiếm các mẫu kính râm sành điệu cho ngày hè hoặc gọng kính thời trang để tạo điểm nhấn tri thức.",
+  "parentCategory": {
+    "$oid": "691afb13e7366df9ba142e64"
+  },
+  "image": "/uploads/image-1763376534554-919827924.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T10:48:54.563Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:48:54.563Z"
+  },
+  "slug": "kinh-mat-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691aff06e7366df9ba142e92"
+  },
+  "name": "Đồng hồ nam",
+  "description": "Hơn cả việc xem giờ, đây là biểu tượng cho phong cách và sự trưởng thành. Lựa chọn giữa đồng hồ cơ tinh xảo, đồng hồ điện tử hiện đại hay đồng hồ thông minh đa năng.",
+  "parentCategory": {
+    "$oid": "691afb13e7366df9ba142e64"
+  },
+  "image": "/uploads/image-1763376902326-597473165.png",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T10:55:02.349Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T10:55:02.349Z"
+  },
+  "slug": "dong-ho-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691b0034e7366df9ba142e98"
+  },
+  "name": "Tất nam",
+  "description": "Chi tiết nhỏ thể hiện sự chỉn chu. Cung cấp sự thoải mái và giữ ấm, với các kiểu dáng từ tất cổ cao, cổ ngắn đến tất \"tàng hình\" (tất lười).",
+  "parentCategory": {
+    "$oid": "691afb13e7366df9ba142e64"
+  },
+  "image": "/uploads/image-1763377204236-378021368.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-17T11:00:04.247Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T11:00:04.247Z"
+  },
+  "slug": "tat-nam",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c97e87fd700a6b8c5effd"
+  },
+  "name": "Áo, Quần & Áo khoác",
+  "description": "Nền tảng của mọi tủ đồ. Danh mục này bao gồm tất cả trang phục \"mix & match\" cơ bản: từ áo phông, áo sơ mi, áo kiểu; các loại quần jean, quần âu; và hoàn thiện với các mẫu áo khoác blazer, denim hay áo khoác dạ.",
+  "parentCategory": {
+    "$oid": "691ac9e2b241c09613b50896"
+  },
+  "image": "",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T15:59:36.734Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T15:59:36.734Z"
+  },
+  "slug": "ao-quan-and-ao-khoac",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c98207fd700a6b8c5f00c"
+  },
+  "name": "Váy & Chân váy",
+  "description": "Nét đặc trưng cho sự nữ tính và đa dạng. Đây là nơi bạn tìm thấy mọi kiểu dáng từ đầm dự tiệc lộng lẫy, đầm suông dạo phố thoải mái, đến các kiểu chân váy công sở (bút chì, chữ A) và chân váy xếp ly sành điệu.",
+  "parentCategory": {
+    "$oid": "691ac9e2b241c09613b50896"
+  },
+  "image": "",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:00:32.977Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:00:32.977Z"
+  },
+  "slug": "vay-and-chan-vay",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c98437fd700a6b8c5f012"
+  },
+  "name": "Giày dép",
+  "description": "Hoàn thiện mỗi bước đi với phong cách riêng. Lựa chọn từ giày cao gót quyến rũ, giày búp bê/giày bệt thoải mái, sneakers năng động cho dạo phố, đến các loại sandal, dép và bốt cá tính.",
+  "parentCategory": {
+    "$oid": "691ac9e2b241c09613b50896"
+  },
+  "image": "",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:01:07.922Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:01:07.922Z"
+  },
+  "slug": "giay-dep",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c98ae7fd700a6b8c5f026"
+  },
+  "name": "Túi xách & Phụ kiện",
+  "description": "Những mảnh ghép cuối cùng tạo nên tuyên ngôn thời trang. Bao gồm các mẫu túi xách (tote, đeo chéo), ví cầm tay (clutch), cùng các phụ kiện nhỏ như trang sức, kính mắt, khăn choàng và đồng hồ.",
+  "parentCategory": {
+    "$oid": "691ac9e2b241c09613b50896"
+  },
+  "image": "",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:02:54.623Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:02:54.623Z"
+  },
+  "slug": "tui-xach-and-phu-kien",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c98e37fd700a6b8c5f058"
+  },
+  "name": "Đồ mặc trong, Đồ ngủ & Đồ bộ",
+  "description": "Mang lại sự thoải mái và tự tin từ bên trong. Khám phá các bộ sưu tập đồ lót tinh tế, đồ ngủ/váy ngủ quyến rũ, và các bộ đồ mặc nhà (pijama, set đồ) sành điệu, thoải mái.",
+  "parentCategory": {
+    "$oid": "691ac9e2b241c09613b50896"
+  },
+  "image": "",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:03:47.229Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:03:47.229Z"
+  },
+  "slug": "do-mac-trong-do-ngu-and-do-bo",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9a6b7fd700a6b8c5f06c"
+  },
+  "name": "Áo phông nữ",
+  "description": "Món đồ cơ bản nhất, dễ mặc và dễ phối cho mọi hoạt động hàng ngày.",
+  "parentCategory": {
+    "$oid": "691c97e87fd700a6b8c5effd"
+  },
+  "image": "/uploads/image-1763482219040-40622167.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:10:19.056Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:10:19.056Z"
+  },
+  "slug": "ao-phong-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9aae7fd700a6b8c5f072"
+  },
+  "name": "Áo sơ mi nữ",
+  "description": "Trang phục thiết yếu cho công sở hoặc những dịp cần sự thanh lịch, chỉn chu.",
+  "parentCategory": {
+    "$oid": "691c97e87fd700a6b8c5effd"
+  },
+  "image": "/uploads/image-1763482286601-280149756.webp",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:11:26.609Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:11:26.609Z"
+  },
+  "slug": "ao-so-mi-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9b0e7fd700a6b8c5f078"
+  },
+  "name": "Quần Jean nữ",
+  "description": "Item \"quốc dân\" không bao giờ lỗi mốt, từ dáng ôm (skinny) đến dáng suông rộng (wide-leg).",
+  "parentCategory": {
+    "$oid": "691c97e87fd700a6b8c5effd"
+  },
+  "image": "/uploads/image-1763482382355-844643901.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:13:02.367Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:13:02.367Z"
+  },
+  "slug": "quan-jean-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9b677fd700a6b8c5f08c"
+  },
+  "name": "Quần Tây nữ",
+  "description": "Lựa chọn chuẩn mực cho môi trường văn phòng hoặc phong cách hiện đại, tối giản.",
+  "parentCategory": {
+    "$oid": "691c97e87fd700a6b8c5effd"
+  },
+  "image": "/uploads/image-1763482470998-743336932.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:14:31.008Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:14:31.008Z"
+  },
+  "slug": "quan-tay-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9ba87fd700a6b8c5f092"
+  },
+  "name": "Quần Short nữ",
+  "description": "Món đồ không thể thiếu cho mùa hè, đi chơi hoặc những ngày cần sự thoải mái năng động.",
+  "parentCategory": {
+    "$oid": "691c97e87fd700a6b8c5effd"
+  },
+  "image": "/uploads/image-1763482536866-195297997.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:15:36.873Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:15:36.873Z"
+  },
+  "slug": "quan-short-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9be77fd700a6b8c5f098"
+  },
+  "name": "Áo Blazer",
+  "description": "Chiếc áo khoác \"thần thánh\" giúp nâng tầm set đồ trở nên sang trọng và thời thượng ngay lập tức.",
+  "parentCategory": {
+    "$oid": "691c97e87fd700a6b8c5effd"
+  },
+  "image": "/uploads/image-1763482599464-859594623.webp",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:16:39.476Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:16:39.476Z"
+  },
+  "slug": "ao-blazer",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9c2f7fd700a6b8c5f0ac"
+  },
+  "name": "Áo khoác nữ",
+  "description": "Bao gồm các loại áo khoác có chức năng bảo vệ hoặc giữ ấm như: khoác gió, khoác jean, khoác da.",
+  "parentCategory": {
+    "$oid": "691c97e87fd700a6b8c5effd"
+  },
+  "image": "/uploads/image-1763482671033-617529327.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:17:51.043Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:17:51.043Z"
+  },
+  "slug": "ao-khoac-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9d6d7fd700a6b8c5f0b2"
+  },
+  "name": "Giày cao gót",
+  "description": "\"Vũ khí\" tôn dáng của phái đẹp, mang lại vẻ ngoài quyến rũ và tự tin cho những buổi tiệc hay môi trường công sở.",
+  "parentCategory": {
+    "$oid": "691c98437fd700a6b8c5f012"
+  },
+  "image": "/uploads/image-1763482989904-136382506.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:23:09.916Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:23:09.916Z"
+  },
+  "slug": "giay-cao-got",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9db77fd700a6b8c5f0b8"
+  },
+  "name": "Giày thể thao nữ",
+  "description": "Lựa chọn hàng đầu cho sự năng động, trẻ trung và cảm giác êm ái, thoải mái suốt cả ngày dài.",
+  "parentCategory": {
+    "$oid": "691c98437fd700a6b8c5f012"
+  },
+  "image": "/uploads/image-1763483063928-74879251.webp",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:24:23.937Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:24:23.937Z"
+  },
+  "slug": "giay-the-thao-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9df17fd700a6b8c5f0be"
+  },
+  "name": "Sandal nữ",
+  "description": "Thiết kế thoáng mát với đa dạng kiểu dáng quai dây, vừa lịch sự để đi làm, vừa thoải mái để dạo phố.",
+  "parentCategory": {
+    "$oid": "691c98437fd700a6b8c5f012"
+  },
+  "image": "/uploads/image-1763483121405-193889737.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:25:21.412Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:25:21.412Z"
+  },
+  "slug": "sandal-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9e2b7fd700a6b8c5f0c4"
+  },
+  "name": "Giày búp bê",
+  "description": "Sự kết hợp giữa nét nữ tính, dịu dàng và sự tiện lợi, giúp đôi chân luôn thoải mái, không lo đau mỏi.",
+  "parentCategory": {
+    "$oid": "691c98437fd700a6b8c5f012"
+  },
+  "image": "/uploads/image-1763483179132-789205898.webp",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:26:19.140Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:26:19.140Z"
+  },
+  "slug": "giay-bup-be",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691c9e767fd700a6b8c5f0ca"
+  },
+  "name": "Boots nữ",
+  "description": "Điểm nhấn thời trang cá tính và sành điệu. Bao gồm các loại boots cổ thấp, cổ cao, rất hợp cho mùa thu đông.",
+  "parentCategory": {
+    "$oid": "691c98437fd700a6b8c5f012"
+  },
+  "image": "/uploads/image-1763483254448-214071369.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T16:27:34.454Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T16:27:34.454Z"
+  },
+  "slug": "boots-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cac79979c0e131eb9a153"
+  },
+  "name": "Dép nữ & Sục",
+  "description": "Đề cao sự tiện lợi và phóng khoáng. Bao gồm dép lê thời trang, dép xỏ ngón đi biển và các loại sục (mules) dễ mang.",
+  "parentCategory": {
+    "$oid": "691c98437fd700a6b8c5f012"
+  },
+  "image": "/uploads/image-1763486841536-792843934.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:27:21.562Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:27:21.562Z"
+  },
+  "slug": "dep-nu-and-suc",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cad46979c0e131eb9a159"
+  },
+  "name": "Đầm dạo phố",
+  "description": "Những thiết kế nhẹ nhàng, thoải mái (như đầm suông, đầm xòe) phù hợp cho các hoạt động hàng ngày, đi chơi hay cà phê.",
+  "parentCategory": {
+    "$oid": "691c98207fd700a6b8c5f00c"
+  },
+  "image": "/uploads/image-1763487046375-579543066.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:30:46.385Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:30:46.385Z"
+  },
+  "slug": "dam-dao-pho",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cad95979c0e131eb9a15f"
+  },
+  "name": "Đầm dự tiệc",
+  "description": "Sang trọng và nổi bật. Bao gồm các mẫu đầm body quyến rũ, đầm lụa hay đầm thiết kế cầu kỳ dành cho các sự kiện quan trọng.",
+  "parentCategory": {
+    "$oid": "691c98207fd700a6b8c5f00c"
+  },
+  "image": "/uploads/image-1763487125661-352887990.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:32:05.671Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:32:05.671Z"
+  },
+  "slug": "dam-du-tiec",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cadd9979c0e131eb9a165"
+  },
+  "name": "Đầm sơ mi",
+  "description": "Sự kết hợp hoàn hảo giữa nét thanh lịch của áo sơ mi và sự duyên dáng của váy, là lựa chọn đa năng cho cả công sở và dạo phố.",
+  "parentCategory": {
+    "$oid": "691c98207fd700a6b8c5f00c"
+  },
+  "image": "/uploads/image-1763487193177-624458470.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:33:13.187Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:33:13.187Z"
+  },
+  "slug": "dam-so-mi",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cae18979c0e131eb9a16b"
+  },
+  "name": "Chân váy chữ A",
+  "description": "Kiểu chân váy \"quốc dân\" dễ phối đồ nhất, giúp tôn vòng eo và che khuyết điểm hông hiệu quả.",
+  "parentCategory": {
+    "$oid": "691c98207fd700a6b8c5f00c"
+  },
+  "image": "/uploads/image-1763487256591-267435492.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:34:16.603Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:34:16.603Z"
+  },
+  "slug": "chan-vay-chu-a",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cae5d979c0e131eb9a171"
+  },
+  "name": "Chân váy bút chì",
+  "description": "Biểu tượng của thời trang công sở, ôm nhẹ theo đường cong cơ thể, mang lại vẻ ngoài chuyên nghiệp và chỉn chu.",
+  "parentCategory": {
+    "$oid": "691c98207fd700a6b8c5f00c"
+  },
+  "image": "/uploads/image-1763487325295-953163646.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:35:25.303Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:35:25.303Z"
+  },
+  "slug": "chan-vay-but-chi",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cae9a979c0e131eb9a177"
+  },
+  "name": "Chân váy xếp ly",
+  "description": "Nữ tính và bay bổng. Những nếp gấp tinh tế tạo độ xòe tự nhiên, rất thời trang và giúp che khuyết điểm chân tốt.",
+  "parentCategory": {
+    "$oid": "691c98207fd700a6b8c5f00c"
+  },
+  "image": "/uploads/image-1763487386233-320356951.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:36:26.246Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:36:26.246Z"
+  },
+  "slug": "chan-vay-xep-ly",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691caf44979c0e131eb9a17d"
+  },
+  "name": "Túi đeo chéo nữ",
+  "description": "Mẫu túi tiện lợi và phổ biến nhất. Thiết kế dây đeo dài năng động, phù hợp đi chơi, dạo phố và giúp bạn rảnh tay hoạt động.",
+  "parentCategory": {
+    "$oid": "691c98ae7fd700a6b8c5f026"
+  },
+  "image": "/uploads/image-1763487556339-794270686.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:39:16.348Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:39:16.348Z"
+  },
+  "slug": "tui-deo-cheo-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691caf97979c0e131eb9a183"
+  },
+  "name": "Túi Tote & Túi xách lớn",
+  "description": "Ưu tiên sự rộng rãi và tiện dụng. Đựng được \"cả thế giới\" (laptop, tài liệu, đồ trang điểm), là lựa chọn số 1 cho cô nàng công sở bận rộn.",
+  "parentCategory": {
+    "$oid": "691c98ae7fd700a6b8c5f026"
+  },
+  "image": "/uploads/image-1763487639796-996521163.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:40:39.803Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:40:39.803Z"
+  },
+  "slug": "tui-tote-and-tui-xach-lon",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb030979c0e131eb9a189"
+  },
+  "name": "Ví & Clutch cầm tay",
+  "description": "Nhỏ gọn và tinh tế. Bao gồm ví đựng tiền hàng ngày và các mẫu Clutch sang trọng, lấp lánh dành riêng cho các buổi tiệc tối.",
+  "parentCategory": {
+    "$oid": "691c98ae7fd700a6b8c5f026"
+  },
+  "image": "/uploads/image-1763487792170-230264432.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:43:12.179Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:43:12.179Z"
+  },
+  "slug": "vi-and-clutch-cam-tay",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb076979c0e131eb9a18f"
+  },
+  "name": "Trang sức",
+  "description": "Điểm nhấn lấp lánh không thể thiếu. Các phụ kiện kim loại, ngọc trai giúp gương mặt bừng sáng và set đồ trở nên nữ tính hơn.",
+  "parentCategory": {
+    "$oid": "691c98ae7fd700a6b8c5f026"
+  },
+  "image": "/uploads/image-1763487862108-725056110.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:44:22.116Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:44:22.116Z"
+  },
+  "slug": "trang-suc",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb0de979c0e131eb9a195"
+  },
+  "name": "Kính mắt nữ",
+  "description": "Vừa bảo vệ mắt khỏi tia UV, vừa là phụ kiện thời trang sành điệu giúp nâng tầm phong cách \"cool ngầu\" tức thì.",
+  "parentCategory": {
+    "$oid": "691c98ae7fd700a6b8c5f026"
+  },
+  "image": "/uploads/image-1763487966603-710151698.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:46:06.608Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:46:06.608Z"
+  },
+  "slug": "kinh-mat-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb126979c0e131eb9a19b"
+  },
+  "name": "Đồng hồ nữ",
+  "description": "Món trang sức thể hiện sự thanh lịch và trưởng thành. Dễ dàng kết hợp với mọi trang phục từ đi làm đến đi chơi.",
+  "parentCategory": {
+    "$oid": "691c98ae7fd700a6b8c5f026"
+  },
+  "image": "/uploads/image-1763488038092-640702564.jpeg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:47:18.099Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:47:18.099Z"
+  },
+  "slug": "dong-ho-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb15f979c0e131eb9a1a1"
+  },
+  "name": "Thắt lưng nữ",
+  "description": "Phụ kiện \"nhỏ nhưng có võ\". Giúp định hình vòng eo thon gọn khi mặc váy suông hoặc tạo điểm nhấn cá tính cho quần jean.",
+  "parentCategory": {
+    "$oid": "691c98ae7fd700a6b8c5f026"
+  },
+  "image": "/uploads/image-1763488095308-813061566.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:48:15.317Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:48:15.317Z"
+  },
+  "slug": "that-lung-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb1e5979c0e131eb9a1a7"
+  },
+  "name": "Áo ngực & Bra",
+  "description": "Item thiết yếu tạo sự thoải mái và định hình vóc dáng. Bao gồm áo lót có gọng, không gọng, áo bralette ren và áo lót thể thao (sport bra).",
+  "parentCategory": {
+    "$oid": "691c98e37fd700a6b8c5f058"
+  },
+  "image": "/uploads/image-1763488229787-996109193.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:50:29.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:50:29.796Z"
+  },
+  "slug": "ao-nguc-and-bra",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb24f979c0e131eb9a1ad"
+  },
+  "name": "Quần lót nữ",
+  "description": "Mang lại sự tự tin và vệ sinh. Đa dạng kiểu dáng từ quần lót tam giác, quần lót đùi (boxer) đến quần lót định hình.",
+  "parentCategory": {
+    "$oid": "691c98e37fd700a6b8c5f058"
+  },
+  "image": "/uploads/image-1763488335740-367031509.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:52:15.750Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:52:15.750Z"
+  },
+  "slug": "quan-lot-nu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb294979c0e131eb9a1b3"
+  },
+  "name": "Bộ Pijama & Đồ ngủ",
+  "description": "Trang phục lý tưởng để thư giãn. Các bộ đồ dài/ngắn tay bằng chất liệu lụa, cotton mềm mại, mang lại giấc ngủ ngon và vẻ ngoài dễ thương.",
+  "parentCategory": {
+    "$oid": "691c98e37fd700a6b8c5f058"
+  },
+  "image": "/uploads/image-1763488404186-279101717.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:53:24.194Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:53:24.194Z"
+  },
+  "slug": "bo-pijama-and-do-ngu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb2e1979c0e131eb9a1b9"
+  },
+  "name": "Váy ngủ",
+  "description": "Lựa chọn nữ tính và quyến rũ. Các kiểu váy ngủ hai dây, váy ngủ ren hoặc váy ngủ suông dài bằng chất liệu satin, voan.",
+  "parentCategory": {
+    "$oid": "691c98e37fd700a6b8c5f058"
+  },
+  "image": "/uploads/image-1763488481709-741313535.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:54:41.717Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:54:41.717Z"
+  },
+  "slug": "vay-ngu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb334979c0e131eb9a1bf"
+  },
+  "name": "Bộ đồ mặc nhà",
+  "description": "Thiết kế thoải mái, lịch sự, có thể mặc khi tiếp khách hoặc đi chợ gần nhà. Thường làm từ chất liệu cotton, thun lạnh.",
+  "parentCategory": {
+    "$oid": "691c98e37fd700a6b8c5f058"
+  },
+  "image": "/uploads/image-1763488564533-645129964.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:56:04.541Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:56:04.541Z"
+  },
+  "slug": "bo-do-mac-nha",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691cb39c979c0e131eb9a1c5"
+  },
+  "name": "Đồ lót giữ nhiệt",
+  "description": "Sản phẩm cần thiết cho mùa đông. Các bộ đồ mặc lót mỏng nhẹ nhưng có khả năng giữ ấm cao, mặc bên trong áo quần thông thường.",
+  "parentCategory": {
+    "$oid": "691c98e37fd700a6b8c5f058"
+  },
+  "image": "/uploads/image-1763488668491-237572568.jpg",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-11-18T17:57:48.500Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T17:57:48.500Z"
+  },
+  "slug": "do-lot-giu-nhiet",
+  "__v": 0
+}]

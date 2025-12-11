@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import slugify from "slugify"; // <-- 1. IMPORT SLUGIFY
-
+// ngoc
 const categorySchema = new mongoose.Schema(
     {
         // 🏷️ Tên danh mục (ví dụ: “Áo Thun”, “Giày Nam”)

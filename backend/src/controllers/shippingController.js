@@ -5,21 +5,28 @@ import Shipping from "../models/shippingModel.js";
  */
 export const createShippingMethod = async (req, res, next) => {
     try {
-        // Sử dụng req.validated.body từ middleware validate
-        const { name, description, price, estimatedDelivery, isActive } = req.validated.body;
+        // Lấy dữ liệu từ body (đảm bảo validator đã cho qua các trường mới)
+        const { 
+            name, type, cost, 
+            freeShipOrderThreshold, allowedProvinceCodes, 
+            estimatedDelivery, description, isActive 
+        } = req.body; // Lưu ý: Nếu dùng req.validated.body thì phải update Joi schema trước
 
         const existing = await Shipping.findOne({ name });
         if (existing) {
-            const error = new Error("Phương thức vận chuyển đã tồn tại");
+            const error = new Error("Tên phương thức vận chuyển đã tồn tại");
             error.statusCode = 400;
             return next(error);
         }
 
         const shipping = await Shipping.create({
             name,
-            description,
-            price,
+            type,
+            cost,
+            freeShipOrderThreshold,
+            allowedProvinceCodes,
             estimatedDelivery,
+            description,
             isActive,
         });
 
@@ -28,25 +35,47 @@ export const createShippingMethod = async (req, res, next) => {
             shipping,
         });
     } catch (error) {
-        next(error); // Chuyền lỗi cho errorMiddleware
+        next(error);
     }
 };
 
 /**
- * 📋 Lấy danh sách tất cả phương thức vận chuyển
- * (Người dùng cũng cần dùng để chọn khi thanh toán)
+ * 📋 Lấy danh sách phương thức vận chuyển
+ * LOGIC MỚI: Hỗ trợ lọc theo 'provinceCode' (Mã tỉnh) nếu frontend gửi lên
  */
 export const getAllShippingMethods = async (req, res, next) => {
     try {
-        const shippingMethods = await Shipping.find().sort({ price: 1 });
-        res.status(200).json(shippingMethods);
+        const { provinceCode } = req.query; // Nhận mã tỉnh từ query params (VD: ?provinceCode=79)
+        
+        let query = { isActive: true }; // Mặc định chỉ lấy cái đang hoạt động
+
+        // Nếu là Admin gọi API (không có query provinceCode), có thể muốn xem cả cái đang ẩn
+        // Nhưng ở đây ta giả định đây là API public cho người dùng
+        
+        const allMethods = await Shipping.find(query).sort({ cost: 1 });
+
+        // Lọc logic khu vực (Nếu có provinceCode)
+        const availableMethods = allMethods.filter(method => {
+            // Nếu allowedProvinceCodes rỗng -> Toàn quốc -> Lấy
+            if (!method.allowedProvinceCodes || method.allowedProvinceCodes.length === 0) return true;
+            
+            // Nếu có provinceCode gửi lên, check xem có nằm trong danh sách cho phép không
+            if (provinceCode) {
+                return method.allowedProvinceCodes.includes(provinceCode);
+            }
+            
+            // Nếu không gửi provinceCode nhưng method này lại yêu cầu tỉnh -> Tạm ẩn hoặc hiện tùy logic
+            return true; 
+        });
+
+        res.status(200).json(availableMethods);
     } catch (error) {
-        next(error); // Chuyền lỗi cho errorMiddleware
+        next(error);
     }
 };
 
 /**
- * 🔍 Lấy chi tiết 1 phương thức vận chuyển theo ID
+ * 🔍 Lấy chi tiết 1 phương thức (Admin dùng để sửa)
  */
 export const getShippingById = async (req, res, next) => {
     try {
@@ -58,7 +87,7 @@ export const getShippingById = async (req, res, next) => {
         }
         res.status(200).json(shipping);
     } catch (error) {
-        next(error); // Chuyền lỗi cho errorMiddleware
+        next(error);
     }
 };
 
@@ -68,8 +97,7 @@ export const getShippingById = async (req, res, next) => {
 export const updateShippingMethod = async (req, res, next) => {
     try {
         const { id } = req.params;
-        // Sử dụng req.validated.body từ middleware validate
-        const { name, description, price, estimatedDelivery, isActive } = req.validated.body;
+        const updateData = req.body; 
 
         const shipping = await Shipping.findById(id);
         if (!shipping) {
@@ -78,20 +106,19 @@ export const updateShippingMethod = async (req, res, next) => {
             return next(error);
         }
 
-        // Cập nhật chỉ nếu field được cung cấp (từ validated body)
-        if (name !== undefined) shipping.name = name;
-        if (description !== undefined) shipping.description = description;
-        if (price !== undefined) shipping.price = price;
-        if (estimatedDelivery !== undefined) shipping.estimatedDelivery = estimatedDelivery;
-        if (isActive !== undefined) shipping.isActive = isActive;
+        // Cập nhật dữ liệu
+        Object.keys(updateData).forEach((key) => {
+            shipping[key] = updateData[key];
+        });
 
         const updated = await shipping.save();
+        
         res.status(200).json({
-            message: "Cập nhật phương thức vận chuyển thành công",
+            message: "Cập nhật thành công",
             shipping: updated,
         });
     } catch (error) {
-        next(error); // Chuyền lỗi cho errorMiddleware
+        next(error);
     }
 };
 
@@ -110,6 +137,6 @@ export const deleteShippingMethod = async (req, res, next) => {
         await shipping.deleteOne();
         res.status(200).json({ message: "Đã xóa phương thức vận chuyển" });
     } catch (error) {
-        next(error); // Chuyền lỗi cho errorMiddleware
+        next(error);
     }
 };

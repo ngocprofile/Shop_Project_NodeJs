@@ -27,6 +27,7 @@ import staffRoutes from "./routes/staffRoutes.js";
 import statRoutes from "./routes/statsRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 // import variantRoutes from "./routes/variantRoutes.js"; // ❌ ĐÃ XÓA/HỢP NHẤT
+//them cartRoutes
 import cartRoutes from "./routes/cartRoutes.js";
 import voucherRoutes from "./routes/voucherRoutes.js";
 
@@ -44,7 +45,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: process.env.CLIENT_URL || "*", credentials: true }));
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(morgan("dev"));
-app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 2000, standardHeaders: true, legacyHeaders: false }));
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 10000, standardHeaders: true, legacyHeaders: false }));
 
 // Middleware 1: Logging
 app.use('/uploads', (req, res, next) => {

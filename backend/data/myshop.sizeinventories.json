@@ -1,0 +1,152 @@
+[{
+  "_id": {
+    "$oid": "691eb35171f2c5a7b0f5a4ac"
+  },
+  "variant": {
+    "$oid": "691eb200aca24a984783d815"
+  },
+  "size": "38",
+  "price": 800000,
+  "stock": 15,
+  "finalPrice": 800000,
+  "createdAt": {
+    "$date": "2025-11-20T06:21:05.823Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T06:21:05.823Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691eb647db9a16dd3cc686ea"
+  },
+  "variant": {
+    "$oid": "691eb200aca24a984783d815"
+  },
+  "size": "39",
+  "price": 800000,
+  "stock": 18,
+  "finalPrice": 800000,
+  "createdAt": {
+    "$date": "2025-11-20T06:33:43.665Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T06:33:43.665Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ec66990fca34ce690495a"
+  },
+  "variant": {
+    "$oid": "691ec5ed90fca34ce690490c"
+  },
+  "size": "40",
+  "price": 800000,
+  "stock": 20,
+  "finalPrice": 800000,
+  "createdAt": {
+    "$date": "2025-11-20T07:42:33.638Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T07:42:33.638Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ef2b9136737b25bc38013"
+  },
+  "variant": {
+    "$oid": "691ef1f1d414d647a3af9d61"
+  },
+  "size": "XS",
+  "price": 1600000,
+  "stock": 20,
+  "finalPrice": 1600000,
+  "createdAt": {
+    "$date": "2025-11-20T10:51:37.013Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T10:51:37.013Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ef2e9136737b25bc38039"
+  },
+  "variant": {
+    "$oid": "691ef1f1d414d647a3af9d61"
+  },
+  "size": "S",
+  "price": 1600000,
+  "stock": 20,
+  "finalPrice": 1600000,
+  "createdAt": {
+    "$date": "2025-11-20T10:52:25.296Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T10:52:25.296Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ef311136737b25bc38052"
+  },
+  "variant": {
+    "$oid": "691ef1f1d414d647a3af9d61"
+  },
+  "size": "M",
+  "price": 1600000,
+  "stock": 20,
+  "finalPrice": 1600000,
+  "createdAt": {
+    "$date": "2025-11-20T10:53:05.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T10:53:05.423Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ef32a136737b25bc3806b"
+  },
+  "variant": {
+    "$oid": "691ef1f1d414d647a3af9d61"
+  },
+  "size": "L",
+  "price": 1600000,
+  "stock": 20,
+  "finalPrice": 1600000,
+  "createdAt": {
+    "$date": "2025-11-20T10:53:30.604Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T10:53:30.604Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691ef348136737b25bc38084"
+  },
+  "variant": {
+    "$oid": "691ef1f1d414d647a3af9d61"
+  },
+  "size": "XL",
+  "price": 1600000,
+  "stock": 20,
+  "finalPrice": 1600000,
+  "createdAt": {
+    "$date": "2025-11-20T10:54:00.744Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T10:54:00.744Z"
+  },
+  "__v": 0
+}]

@@ -12,6 +12,9 @@ const DashboardAdmin = () => {
         totalUsers: 0,
         newUsersToday: 0,
     });
+    const [orderStats , setOrderStats] = useState({
+        newOrderToday: 0
+    });
     const [loading, setLoading] = useState(true);
 
     // 4. GỌI API KHI COMPONENT Mở RA
@@ -27,9 +30,27 @@ const DashboardAdmin = () => {
                 setLoading(false);
             }
         };
+        
 
         fetchUserStats();
+        
     }, []); // Mảng rỗng [] đảm bảo chỉ chạy 1 lần
+
+    useEffect(() => {
+        const fetchOrderStats = async () => {
+            try {
+                setLoading(true);
+                const res = await api.get('/orders/stats'); // Gọi API stats
+                setOrderStats(res.data);
+                console.log("setOrderStats",setOrderStats)
+            } catch (error) {
+                console.error("Lỗi khi tải thống kê newOrders:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchOrderStats();
+    },[])
 
     return (
         <div className={styles.productPage}> {/* Dùng class chung cho layout trang */}
@@ -48,7 +69,7 @@ const DashboardAdmin = () => {
                 </div>
                 <div className={styles.statCard}>
                     <h4>Đơn hàng mới</h4>
-                    <p>0</p>
+                    <p>{loading ? '...' : orderStats.newOrderToday}</p>
                 </div>
 
                 {/* === 5. CẬP NHẬT THẺ THỐNG KÊ USER === */}
