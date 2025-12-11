@@ -27,6 +27,7 @@ import staffRoutes from "./routes/staffRoutes.js";
 import statRoutes from "./routes/statsRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 // import variantRoutes from "./routes/variantRoutes.js"; // ❌ ĐÃ XÓA/HỢP NHẤT
+//them cartRoutes
 import cartRoutes from "./routes/cartRoutes.js";
 import voucherRoutes from "./routes/voucherRoutes.js";
 
