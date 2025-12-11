@@ -1,3 +1,4 @@
+// cart controller
 import Cart from "../models/cartModel.js";
 import SizeInventory from "../models/sizeInventoryModel.js"; // Model tồn kho mới
 import Voucher from "../models/voucherModel.js";
@@ -42,9 +43,7 @@ const calculateCartTotals = async (cart) => {
     return cart;
 };
 
-// ==============================================================================
-// 🎮 CART CONTROLLERS
-// ==============================================================================
+//  CART CONTROLLERS
 
 /**
  * 1. 🛒 LẤY GIỎ HÀNG CỦA USER HIỆN TẠI

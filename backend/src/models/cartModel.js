@@ -1,3 +1,4 @@
+//car models
 import mongoose from "mongoose";
 
 // 🔹 Mỗi mục trong giỏ hàng (Cart Item)
@@ -94,6 +95,7 @@ cartSchema.pre("save", function (next) {
     // 2. Tính Subtotal (Tổng tiền các món hàng sau khi đã trừ giảm giá từng món)
     this.subtotal = this.items.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
 
+    
     // 3. Tính Total Price (Tạm thời = Subtotal, voucher đơn hàng sẽ tính ở Controller lúc checkout)
     // Nếu có logic voucher đơn hàng lưu trực tiếp trong DB thì trừ ở đây
     this.totalPrice = Math.max(this.subtotal - this.totalDiscount, 0);
