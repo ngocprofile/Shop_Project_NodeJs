@@ -12,7 +12,7 @@ import Login from './pages/Login';
 import ProductList from './pages/ProductList';
 import ProductViewDetail from './pages/ProductViewDetail';
 import Register from './pages/Register';
-import UserProfile from './pages/userprofile/UserProfile';
+import UserProfile from "./pages/userprofile/UserProfile";
 import VoucherDashboard from './pages/VoucherDashboard';
 import CheckoutPage from './pages/CheckoutPage'
 
