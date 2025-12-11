@@ -1,8 +1,8 @@
-import { AlertCircle, Check, Minus, Plus, ShoppingCart, Star } from 'lucide-react';
+import { AlertCircle, Check, Minus, Plus, ShoppingCart, Star } from 'lucide-react'; 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../api'; // Import axios instance đã cấu hình
-import { useCart } from '../context/CartContext'; // Import Context để cập nhật Header
+import { useCart } from '../context/CartContext'; // Import Context để cập nhật Header 
 import styles from './ProductViewDetail.module.css'; // Import CSS Modules
 
 // Cấu hình URL ảnh (Nên đưa vào biến môi trường trong thực tế)
@@ -24,7 +24,7 @@ const ProductViewDetail = () => {
     
     // --- CONTEXT ---
     // Lấy hàm cập nhật số lượng giỏ hàng ngay lập tức
-    const { updateCountImmediately } = useCart();
+    const { updateCountImmediately } = useCart();    
 
     // --- STATE ---
     const [product, setProduct] = useState(null);
@@ -134,7 +134,7 @@ const ProductViewDetail = () => {
     };
 
     // Thêm vào giỏ hàng
-    const handleAddToCart = async () => {
+    const handleAddToCart = async () => { 
         // Validate
         if (!activeColorVariant || !activeSizeInventory) {
             alert("Vui lòng chọn đầy đủ Màu sắc và Kích cỡ.");
@@ -156,20 +156,20 @@ const ProductViewDetail = () => {
             quantity: Number(quantity)
         };
 
-        try {
-            // Gọi API
-            const res = await api.post('/cart/add', payload);
-
-            // --- CẬP NHẬT CONTEXT ---
-            // Lấy totalQuantity mới từ response và cập nhật Header ngay lập tức
-            if (res.data.cart && typeof res.data.cart.totalQuantity === 'number') {
-                updateCountImmediately(res.data.cart.totalQuantity);
-            }
-
-            alert(`Đã thêm "${product.name}" vào giỏ hàng!`);
+        try { 
+            // Gọi API 
+            const res = await api.post('/cart/add', payload);  
+ 
+            // --- CẬP NHẬT CONTEXT --- 
+            // Lấy totalQuantity mới từ response và cập nhật Header ngay lập tức 
+            if (res.data.cart && typeof res.data.cart.totalQuantity === 'number') { 
+                updateCountImmediately(res.data.cart.totalQuantity); 
+            } 
+ 
+            alert(`Đã thêm "${product.name}" vào giỏ hàng!`); 
 
         } catch (err) {
-            console.error("Add to cart error:", err);
+            console.error("Add to cart error:", err); 
             const msg = err.response?.data?.message || "Có lỗi xảy ra khi thêm vào giỏ hàng.";
             alert(msg);
         }
@@ -291,18 +291,18 @@ const ProductViewDetail = () => {
                             <p className={styles.noSizeMsg}>Vui lòng chọn màu sắc để xem kích cỡ.</p>
                         )}
 
-                        {/* 3. Số lượng & Button */}
-                        <div className={styles.actionGroup}>
-                            <div className={styles.quantityBox}>
-                                <button onClick={() => handleQuantityUpdate(quantity - 1)} disabled={quantity <= 1}>
-                                    <Minus size={16} />
+                        {/* 3. Số lượng & Button */} 
+                        <div className={styles.actionGroup}> 
+                            <div className={styles.quantityBox}> 
+                                <button onClick={() => handleQuantityUpdate(quantity - 1)} disabled={quantity <= 1}> 
+                                    <Minus size={16} /> 
                                 </button>
-                                <input 
-                                    type="number" 
-                                    value={quantity} 
-                                    onChange={(e) => handleQuantityUpdate(parseInt(e.target.value) || 1)}
-                                    min="1"
-                                    max={currentStock}
+                                <input  
+                                    type="number"  
+                                    value={quantity}  
+                                    onChange={(e) => handleQuantityUpdate(parseInt(e.target.value) || 1)} 
+                                    min="1" 
+                                    max={currentStock} 
                                 />
                                 <button onClick={() => handleQuantityUpdate(quantity + 1)} disabled={quantity >= currentStock}>
                                     <Plus size={16} />
@@ -323,8 +323,8 @@ const ProductViewDetail = () => {
                         </div>
 
                         <button 
-                            className={styles.addToCartBtn}
-                            onClick={handleAddToCart}
+                            className={styles.addToCartBtn} 
+                            onClick={handleAddToCart} 
                             disabled={!activeSizeInventory || currentStock <= 0}
                         >
                             <ShoppingCart size={20} />
