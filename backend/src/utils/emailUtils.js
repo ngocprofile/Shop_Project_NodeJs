@@ -3,39 +3,24 @@ import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 dotenv.config();
 
-import nodemailer from 'nodemailer'; // Đảm bảo đã import Nodemailer
-
 /**
- * Cấu hình SMTP và tạo transporter Nodemailer
+ * Tạo transporter Nodemailer (cấu hình SMTP)
  */
 const createTransporter = () => {
-    // 1. Tách cấu hình SMTP ra để dễ đọc hơn
-    const smtpConfig = {
-        // Lấy host từ biến môi trường
-        host: process.env.EMAIL_HOST, 
-        
-        // Chuyển đổi port thành số và dùng 587 làm mặc định (hoặc 465 nếu secure: true)
-        port: parseInt(process.env.EMAIL_PORT, 10) || 587, 
-        
-        // secure: true nếu port là 465, secure: false cho TLS (port 587)
-        // Chúng ta giữ nguyên theo cấu hình ban đầu là false
-        secure: false, 
-        
+    return nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: Number(process.env.EMAIL_PORT) || 587,
+        secure: false,
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
-        
-        // Tắt kiểm tra chứng chỉ SSL/TLS không hợp lệ
-        // Cảnh báo: Chỉ nên dùng setting này trong môi trường phát triển (development)
         tls: {
             rejectUnauthorized: false
         }
-    };
-
-    // 2. Trả về Transporter đã tạo
-    return nodemailer.createTransport(smtpConfig);
+    });
 };
+
 /**
  * HÀM CHUNG: GỬI EMAIL – BẮT LỖI, KHÔNG CRASH SERVER
  */
@@ -93,24 +78,6 @@ export const sendWelcomeEmail = async (email, name, verifyLink = '') => {
     }
 };
 
-// --- Tách hàm tạo nội dung HTML ra bên ngoài ---
-const createOtpHtmlBody = (name, otp) => {
-    return `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #0d6efd;">Xin chào ${name}!</h2>
-            <p>Bạn đã yêu cầu mã xác thực để đặt lại mật khẩu hoặc xác minh tài khoản.</p>
-            <p>Mã OTP của bạn là:</p>
-            <div style="font-size: 32px; font-weight: bold; color: #0d6efd; letter-spacing: 4px; text-align: center; margin: 20px 0;">
-                ${otp}
-            </div>
-            <p>Mã này có hiệu lực trong <strong>10 phút</strong>. Vui lòng không chia sẻ mã này với bất kỳ ai.</p>
-            <p>Nếu bạn không yêu cầu mã này, vui lòng bỏ qua email.</p>
-            <hr style="margin-top: 30px;">
-            <p style="font-size: 14px; color: #555;">Trân trọng,<br>Đội ngũ hỗ trợ Shop API</p>
-        </div>
-    `;
-};
-
 /**
  * Gửi email chứa mã OTP xác thực
  */
@@ -121,8 +88,20 @@ export const sendOtpEmail = async (email, otp, name) => {
         from: `"Shop API" <${process.env.EMAIL_USER}>`,
         to: email,
         subject: 'Mã Xác Thực OTP - Shop API',
-        // Gọi hàm đã tách để lấy nội dung HTML
-        html: createOtpHtmlBody(name, otp), 
+        html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #0d6efd;">Xin chào ${name}!</h2>
+                <p>Bạn đã yêu cầu mã xác thực để đặt lại mật khẩu hoặc xác minh tài khoản.</p>
+                <p>Mã OTP của bạn là:</p>
+                <div style="font-size: 32px; font-weight: bold; color: #0d6efd; letter-spacing: 4px; text-align: center; margin: 20px 0;">
+                    ${otp}
+                </div>
+                <p>Mã này có hiệu lực trong <strong>10 phút</strong>. Vui lòng không chia sẻ mã này với bất kỳ ai.</p>
+                <p>Nếu bạn không yêu cầu mã này, vui lòng bỏ qua email.</p>
+                <hr style="margin-top: 30px;">
+                <p style="font-size: 14px; color: #555;">Trân trọng,<br>Đội ngũ hỗ trợ Shop API</p>
+            </div>
+        `,
     };
 
     try {
@@ -130,7 +109,7 @@ export const sendOtpEmail = async (email, otp, name) => {
         console.log(`✅ OTP email sent to ${email}`);
         return true;
     } catch (error) {
-        console.error('❌ Lỗi gửi email OTP:', error.message || error);
+        console.error('❌ Lỗi gửi email OTP:', error);
         return false;
     }
 };
