@@ -14,6 +14,7 @@ import ProductViewDetail from './pages/ProductViewDetail';
 import Register from './pages/Register';
 import UserProfile from "./pages/userprofile/UserProfile";
 import VoucherDashboard from './pages/VoucherDashboard';
+import CheckoutPage from './pages/CheckoutPage'
 
 // === Admin Pages ===
 import AdminLayout from './pages/admin/AdminLayout';
@@ -83,7 +84,8 @@ function App() {
                 {/* Routes voucher (user) */}
                 <Route path="/vouchers" element={< VoucherDashboard />} />
                 {/* Routes giỏ hàng */}
-                <Route path="/cart" element={<CartDashboard />} />    
+                <Route path="/cart" element={<CartDashboard />} />
+                <Route path="/checkout" element={<CheckoutPage />} />    
                 {/* UserProfile */}
                 <Route path="/profile" element={<UserProfile />} />
 
