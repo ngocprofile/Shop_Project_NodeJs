@@ -1,7 +1,7 @@
 //cartDashboard.jsx
 import { ArrowRight, Calendar, ShoppingBag, Tag, Ticket, Trash2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import api from '../api'; // Import cấu hình axios của dự án
 import styles from './CartDashboard.module.css'; // Import CSS Module
 
@@ -35,6 +35,9 @@ const CartDashboard = () => {
     // 🎯 STATE MỚI: Danh sách voucher trong ví người dùng
     const [myVouchers, setMyVouchers] = useState([]); 
     const [showVoucherModal, setShowVoucherModal] = useState(false);
+    const [selectedItems, setSelectedItems] = useState([]);
+
+    const Navigate = useNavigate([])
 
     // const navigate = useNavigate();
 
@@ -90,6 +93,30 @@ const CartDashboard = () => {
             console.error("Lỗi xóa sản phẩm:", error);
         }
     };
+
+    const toggleSelectItem = (itemId) => {
+        setSelectedItems((prev) =>
+            prev.includes(itemId)
+                ? prev.filter(id => id !== itemId)
+                : [...prev, itemId]
+        );
+    };
+
+    const toggleSelectAll = () => {
+        if (selectedItems.length === cart.items.length) {
+            setSelectedItems([]);
+        } else {
+            setSelectedItems(cart.items.map(item => item._id));
+        }
+    };
+
+    const selectedTotal = (cart?.items ?? [])
+    .filter(item => selectedItems.includes(item._id))
+    .reduce((sum, item) => sum + item.finalPrice * item.quantity, 0);
+
+
+
+
 
     // 4. Áp dụng Voucher
     const applyVoucherCode = async (code) => {
@@ -172,6 +199,13 @@ const CartDashboard = () => {
                 <div className={styles.leftColumn}>
                     <div className={styles.cartItemsList}>
                         <div className={styles.cartHeader}>
+                            <input 
+                                type="checkbox" 
+                                className={styles.cartcheckbox}
+                                checked={selectedItems.length === cart.items.length}
+                                onChange={toggleSelectAll}
+                                style={{ marginRight: 8 }}
+                            />
                             <span>Sản phẩm</span>
                             <span style={{textAlign: 'center'}}>Số lượng</span>
                             <span style={{textAlign: 'right'}}>Thành tiền</span>
@@ -180,6 +214,13 @@ const CartDashboard = () => {
 
                         {cart.items.map((item) => (
                             <div key={item._id} className={styles.cartItem}>
+                                <input
+                                    type="checkbox"
+                                    checked={selectedItems.includes(item._id)}
+                                    onChange={() => toggleSelectItem(item._id)}
+                                    className={styles.itemCheckbox}
+                                />
+
                                 <div className={styles.productInfo}>
                                     <img 
                                         src={getProductImage(item)} 
@@ -312,12 +353,20 @@ const CartDashboard = () => {
                             </div>
                         )}
 
+                        <div className={styles.summaryRow}>
+                            <span>Tổng sản phẩm đã chọn:</span>
+                            <span>{formatCurrency(selectedTotal)}</span>
+                        </div>
+
+
                         <div className={styles.summaryTotal}>
                             <span>Tổng cộng:</span>
                             <span>{formatCurrency(cart.totalPrice)}</span>
                         </div>
                         
-                        <button className={styles.checkoutBtn} onClick={() => alert("Chức năng thanh toán sẽ được cập nhật sau!")}>
+                        <button className={styles.checkoutBtn} 
+                            disabled={selectedItems.length === 0}
+                            onClick={() => Navigate('/checkout', { state: { selectedItems } })}>
                             Thanh toán ngay <ArrowRight size={20} />
                         </button>
                     </div>
