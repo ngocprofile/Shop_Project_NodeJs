@@ -7,6 +7,7 @@ import {
     getAllOrders,
     getMyOrders,
     getOrderById,
+    getOrderStats,
     previewOrder,
     updateOrderStatus
 } from "../controllers/orderController.js";
@@ -104,5 +105,12 @@ router.delete("/:id",
     postActivityLog, 
     deleteOrder
 );
+
+router.get("/stats",
+    protect,
+    authorizeRoles("admin"),
+    activityLogMiddleware(["get order stat"]),
+    getOrderStats
+)
 
 export default router;

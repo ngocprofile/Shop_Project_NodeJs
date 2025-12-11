@@ -317,15 +317,28 @@ export const confirmOrderReceived = async (req, res, next) => {
  */
 export const getOrderById = async (req, res, next) => {
     try {
-        // Tìm đơn hàng theo ID và phải thuộc về User đang đăng nhập
-        const order = await Order.findOne({ 
-            _id: req.params.id, 
-            user: req.user._id 
-        }).populate("user", "name email");
+        // 1. Tìm đơn hàng theo ID (không kèm điều kiện user ở đây)
+        const order = await Order.findById(req.params.id).populate("user", "name email");
 
         if (!order) {
             const error = new Error("Không tìm thấy đơn hàng");
             error.statusCode = 404;
+            throw error;
+        }
+
+        // 2. LOGIC KIỂM TRA QUYỀN (Đã sửa theo Middleware của bạn)
+        
+        // Kiểm tra xem user có role là 'admin' không
+        // Lưu ý: Chuỗi 'admin' phải khớp với giá trị trong Database (viết hoa/thường)
+        const isAdmin = req.user.role === 'admin'; 
+        
+        // Kiểm tra xem user có phải chủ đơn hàng không
+        const isOwner = order.user && order.user._id.toString() === req.user._id.toString();
+
+        // Nếu không phải Admin VÀ không phải Chủ đơn -> Chặn
+        if (!isAdmin && !isOwner) {
+            const error = new Error("Không tìm thấy đơn hàng (Không đủ quyền truy cập)");
+            error.statusCode = 404; // Trả về 404 để bảo mật
             throw error;
         }
 
@@ -414,5 +427,37 @@ export const deleteOrder = async (req, res, next) => {
         res.status(200).json({ message: "Đã xóa đơn hàng" });
     } catch (error) {
         next(error);
+    }
+};
+
+export const getOrderStats = async (req, res, next) => {
+    try {
+        // 1. Lấy ngày bắt đầu của hôm nay (00:00:00)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // 2. Tạo các promise để chạy song song
+        // const totalOrdersPromise = User.countDocuments({});
+        const newOrdersTodayPromise = Order.countDocuments({
+            createdAt: { $gte: today }
+        });
+
+        // 3. Chạy song song 2 câu lệnh đếm
+        /* const [totalOrder, newOrderToday] = await Promise.all([
+            totalOrdersPromise,
+            newOrdersTodayPromise
+        ]); */
+        const newOrderToday = await Promise.all([
+            newOrdersTodayPromise
+        ])
+
+        // 4. Trả về kết quả
+        res.status(200).json({
+            // totalOrder,
+            newOrderToday
+        });
+
+    } catch (error) {
+        next(error); // Chuyền lỗi cho errorMiddleware
     }
 };
