@@ -1,24 +1,32 @@
 import fs from 'fs';
 import path from 'path';
 import Category from "../models/categoryModel.js";
-// ngoc
+
 // ==============================================================================
 // 🛠️ HELPER: XÓA FILE ẢNH
 // ==============================================================================
+/**
+ * Hàm tiện ích giúp xóa file ảnh khỏi ổ cứng Server
+ * Dùng khi: Xóa danh mục, Cập nhật ảnh mới (xóa ảnh cũ).
+ */
 const deleteFile = (filePath) => {
-    // filePath trong DB thường dạng: /uploads/image.png
+    // 1. Kiểm tra an toàn: Chỉ xóa file nằm trong thư mục uploads
     if (!filePath || !filePath.startsWith('/uploads/')) return;
     
-    // Bỏ dấu '/' ở đầu để lấy đường dẫn tương đối: uploads/image.png
+    // 2. Chuyển đổi đường dẫn:
+    // Input (DB): '/uploads/cat-1.png'
+    // Substring(1): 'uploads/cat-1.png' (Relative path)
+    // Resolve: 'D:\Project\uploads\cat-1.png' (Absolute System path)
     const fullPath = path.resolve(filePath.substring(1));
     
-    console.log(`--- [Helper deleteFile]: Đang cố gắng xóa file tại: ${fullPath} ---`);
+    // console.log(`[DeleteFile] Đang xóa: ${fullPath}`); // Bật để debug
 
     fs.unlink(fullPath, (err) => {
         if (err) {
-            console.error(`Lỗi khi xóa file cũ: ${fullPath}`, err);
+            // Nếu lỗi không tìm thấy file (ENOENT) thì bỏ qua, còn lỗi khác thì log
+            if (err.code !== 'ENOENT') console.error(`[DeleteFile Error] ${fullPath}:`, err);
         } else {
-            console.log(`Đã xóa file cũ: ${fullPath}`);
+            console.log(`[DeleteFile Success] Đã xóa file: ${fullPath}`);
         }
     });
 };
@@ -28,13 +36,13 @@ const deleteFile = (filePath) => {
 // ==============================================================================
 
 /**
- * 🧩 Lấy danh sách tất cả danh mục (Flat List - cho Admin Table)
- * @route GET /api/categories
+ * 🧩 Lấy danh sách tất cả danh mục (Dạng phẳng - Flat List)
+ * Thường dùng cho trang Admin (Table quản lý)
  */
 export const getAllCategories = async (req, res, next) => {
     try {
         const categories = await Category.find()
-            .populate("parentCategory", "name")
+            .populate("parentCategory", "name") // Lấy tên danh mục cha thay vì chỉ ID
             .sort({ createdAt: -1 });
 
         res.status(200).json(categories);
@@ -45,13 +53,16 @@ export const getAllCategories = async (req, res, next) => {
 
 /**
  * 🍃 Lấy danh sách các danh mục lá (Leaf Nodes)
- * (Dùng cho dropdown chọn danh mục khi thêm sản phẩm)
+ * Logic: "Lá" là danh mục cuối cùng, KHÔNG làm cha của ai cả.
+ * Dùng cho: Dropdown chọn danh mục khi thêm sản phẩm (Vì thường chỉ thêm SP vào danh mục con)
  */
 export const getLeafCategories = async (req, res, next) => {
     try {
+        // 1. Lấy tất cả danh mục (chỉ cần ID và ParentID để tính toán)
         const allCategories = await Category.find({ isActive: true }).select("name parentCategory").lean();
 
-        // Tìm tất cả ID đang làm cha
+        // 2. Thuật toán tìm danh mục cha:
+        // Duyệt qua tất cả, nếu ai có parentCategory -> Lưu ID đó vào Set `parentIds`
         const parentIds = new Set();
         allCategories.forEach(cat => {
             if (cat.parentCategory) {
@@ -59,7 +70,8 @@ export const getLeafCategories = async (req, res, next) => {
             }
         });
 
-        // Lọc ra các danh mục KHÔNG nằm trong nhóm cha -> Là lá
+        // 3. Lọc lấy danh mục lá:
+        // Giữ lại những danh mục mà ID của nó KHÔNG nằm trong tập `parentIds`
         const leafCategories = allCategories.filter(cat => 
             !parentIds.has(cat._id.toString())
         );
@@ -71,8 +83,7 @@ export const getLeafCategories = async (req, res, next) => {
 };
 
 /**
- * 🧩 Lấy thông tin chi tiết 1 danh mục theo ID
- * @route GET /api/categories/:id
+ * 🧩 Lấy thông tin chi tiết 1 danh mục theo ID (Cho trang Edit)
  */
 export const getCategoryById = async (req, res, next) => {
     try {
@@ -90,12 +101,9 @@ export const getCategoryById = async (req, res, next) => {
     }
 };
 
-// ---------------------------------------------------------
-// 🆕 QUAN TRỌNG: HÀM NÀY GIẢI QUYẾT LỖI 404 Ở FRONTEND
-// ---------------------------------------------------------
 /**
- * 🔍 Lấy danh mục theo Slug (Dùng cho URL thân thiện)
- * @route GET /api/categories/slug/:slug
+ * 🔍 Lấy danh mục theo Slug (URL thân thiện)
+ * Dùng cho Frontend: Khi user vào 'shop.com/collections/ao-thun'
  */
 export const getCategoryBySlug = async (req, res, next) => {
     try {
@@ -118,31 +126,34 @@ export const getCategoryBySlug = async (req, res, next) => {
 };
 
 // ==============================================================================
-// 🌳 NAVIGATION / MEGA MENU LOGIC
+// 🌳 NAVIGATION / MEGA MENU LOGIC (Recursive Tree)
 // ==============================================================================
 
 /**
- * [Helper] Xây dựng cây từ danh sách phẳng
+ * [Helper] Thuật toán biến danh sách phẳng (Flat) thành cây (Tree)
+ * Input: [{id: 1, parent: null}, {id: 2, parent: 1}]
+ * Output: [{id: 1, children: [{id: 2}]}]
  */
 function buildNavTree(categories) {
     const map = {};
     const roots = [];
 
-    // 1. Map ID -> Object và thêm href
+    // Bước 1: Tạo Hash Map để truy cập nhanh O(1) và khởi tạo mảng children
     categories.forEach(doc => {
         const cat = doc.toObject();
-        cat.href = `/collections/${cat.slug}`; // Tạo link frontend
+        cat.href = `/collections/${cat.slug}`; // Tạo sẵn link cho frontend đỡ phải ghép chuỗi
         cat.children = [];
         map[cat._id] = cat;
     });
 
-    // 2. Xếp vào cây
+    // Bước 2: Xếp hình
     Object.values(map).forEach(cat => {
+        // Nếu có cha và cha tồn tại trong map
         if (cat.parentCategory && map[cat.parentCategory]) {
-            // Nếu có cha -> chui vào mảng children của cha
+            // -> Chui vào mảng children của cha
             map[cat.parentCategory].children.push(cat);
         } else {
-            // Không cha -> Là root (Menu cấp 1)
+            // Không cha (hoặc cha bị ẩn/xóa) -> Là Root (Menu cấp 1)
             roots.push(cat);
         }
     });
@@ -151,16 +162,18 @@ function buildNavTree(categories) {
 }
 
 /**
- * 🌳 API lấy Mega Menu (Tree Structure)
- * @route GET /api/categories/nav-tree
+ * 🌳 API lấy Mega Menu
+ * Trả về cấu trúc cây phân cấp để Frontend render menu đa cấp
  */
 export const getNavTree = async (req, res, next) => {
     try {
+        // Chỉ lấy danh mục đang hoạt động (isActive: true)
         const categories = await Category.find(
             { isActive: true }, 
-            "name slug parentCategory image" // Chỉ lấy các trường cần thiết
+            "name slug parentCategory image" 
         ).sort({ name: 1 });
 
+        // Gọi hàm helper dựng cây
         const navTree = buildNavTree(categories);
 
         res.status(200).json(navTree);
@@ -170,32 +183,31 @@ export const getNavTree = async (req, res, next) => {
 };
 
 // ==============================================================================
-// 🔒 ADMIN CONTROLLERS (CREATE / UPDATE / DELETE)
+// 🔒 ADMIN CONTROLLERS (WRITE OPERATIONS)
 // ==============================================================================
 
 /**
  * 📦 Tạo danh mục mới
- * @route POST /api/categories
  */
 export const createCategory = async (req, res, next) => {
-    console.log("--- Controller: createCategory (POST) ---");
     try {
         const { name, description, parentCategory } = req.body;
         
-        // Xử lý file upload
+        // 1. Xử lý file upload
         let imageUrl = "";
         if (req.file) {
-            // Chuẩn hóa path cho URL (vd: /uploads/image-12345.png)
+            // Chuẩn hóa path: Window dùng '\', Web dùng '/'
             imageUrl = '/' + req.file.path.replace(/\\/g, "/"); 
         }
 
-        // Validate thủ công
+        // 2. Validate dữ liệu
         if (!name) {
             const error = new Error("Tên danh mục là bắt buộc");
             error.statusCode = 400;
             return next(error);
         }
         
+        // 3. Check trùng tên
         const existing = await Category.findOne({ name });
         if (existing) {
             const error = new Error("Danh mục này đã tồn tại");
@@ -203,12 +215,13 @@ export const createCategory = async (req, res, next) => {
             return next(error);
         }
 
+        // 4. Lưu DB
         const category = new Category({
             name,
             description,
             parentCategory: parentCategory || null,
             image: imageUrl,
-            // Slug tự động tạo bởi Mongoose Middleware
+            // Slug được Mongoose Middleware tự tạo từ 'name'
         });
 
         const createdCategory = await category.save();
@@ -224,10 +237,8 @@ export const createCategory = async (req, res, next) => {
 
 /**
  * ✏️ Cập nhật danh mục
- * @route PUT /api/categories/:id
  */
 export const updateCategory = async (req, res, next) => {
-    console.log("--- Controller: updateCategory (PUT) ---");
     try {
         const { name, description, parentCategory, isActive } = req.body;
 
@@ -238,19 +249,21 @@ export const updateCategory = async (req, res, next) => {
             return next(error);
         }
         
+        // Lưu đường dẫn ảnh cũ để xử lý
         const oldImagePath = category.image;
         
-        // Xử lý ảnh mới
+        // [LOGIC XỬ LÝ ẢNH]
+        // Case 1: User upload ảnh mới
         if (req.file) {
-            // Có upload ảnh mới -> Lưu đường dẫn mới -> Xóa ảnh cũ
             category.image = '/' + req.file.path.replace(/\\/g, "/");
-            deleteFile(oldImagePath);
-        } else if (req.body.image === 'null') {
-            // Client gửi string 'null' -> Muốn xóa ảnh hiện tại
-            category.image = "";
-            deleteFile(oldImagePath);
+            deleteFile(oldImagePath); // Xóa ảnh cũ
         } 
-        // Nếu không có req.file và image != 'null' -> Giữ nguyên ảnh cũ
+        // Case 2: User bấm nút xóa ảnh (không set ảnh mới)
+        else if (req.body.image === 'null') {
+            category.image = "";
+            deleteFile(oldImagePath); // Xóa ảnh cũ
+        } 
+        // Case 3: Không làm gì -> Giữ nguyên ảnh cũ
 
         // Cập nhật thông tin text
         category.name = name; 
@@ -271,10 +284,8 @@ export const updateCategory = async (req, res, next) => {
 
 /**
  * 🗑️ Xóa danh mục
- * @route DELETE /api/categories/:id
  */
 export const deleteCategory = async (req, res, next) => {
-    console.log("--- Controller: deleteCategory (DELETE) ---");
     try {
         const category = await Category.findById(req.params.id);
 
@@ -284,11 +295,13 @@ export const deleteCategory = async (req, res, next) => {
             return next(error);
         }
 
+        // Lưu đường dẫn ảnh trước khi xóa bản ghi trong DB
         const imagePath = category.image; 
 
+        // 1. Xóa bản ghi trong DB
         await category.deleteOne();
 
-        // Xóa file ảnh vật lý sau khi xóa DB thành công
+        // 2. Xóa file ảnh vật lý (Dọn rác)
         deleteFile(imagePath);
 
         res.status(200).json({ message: "Xóa danh mục thành công" });
