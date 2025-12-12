@@ -42,7 +42,6 @@ const DashboardAdmin = () => {
                 setLoading(true);
                 const res = await api.get('/orders/stats'); // Gọi API stats
                 setOrderStats(res.data);
-                console.log("setOrderStats",setOrderStats)
             } catch (error) {
                 console.error("Lỗi khi tải thống kê newOrders:", error);
             } finally {

@@ -432,32 +432,30 @@ export const deleteOrder = async (req, res, next) => {
 
 export const getOrderStats = async (req, res, next) => {
     try {
-        // 1. Lấy ngày bắt đầu của hôm nay (00:00:00)
+        // 1. Lấy thời gian hiện tại
+        const now = new Date();
+        
+        // 2. Chuyển đổi sang đầu ngày hôm nay theo giờ Việt Nam (UTC+7)
+        // Nếu server là UTC, ta cần cẩn thận. Cách đơn giản nhất là set giờ thủ công:
+        
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0); 
+        // Lưu ý: Nếu server chạy UTC, dòng trên sẽ là 00:00 UTC (tức 7:00 sáng VN).
+        // Nếu bạn muốn chính xác 00:00 giờ VN dù server ở đâu, hãy dùng thư viện 'moment-timezone' hoặc 'dayjs'.
+        // Tuy nhiên, nếu chấp nhận lệch nhẹ hoặc server đã set Localtime là VN thì code này ổn.
 
-        // 2. Tạo các promise để chạy song song
-        // const totalOrdersPromise = User.countDocuments({});
-        const newOrdersTodayPromise = Order.countDocuments({
+        // 3. Đếm số lượng đơn hàng (Bỏ Promise.all cho gọn vì chỉ có 1 lệnh)
+        const newOrderToday = await Order.countDocuments({
             createdAt: { $gte: today }
         });
 
-        // 3. Chạy song song 2 câu lệnh đếm
-        /* const [totalOrder, newOrderToday] = await Promise.all([
-            totalOrdersPromise,
-            newOrdersTodayPromise
-        ]); */
-        const newOrderToday = await Promise.all([
-            newOrdersTodayPromise
-        ])
-
-        // 4. Trả về kết quả
+        // 4. Trả về kết quả (Là số nguyên, không phải mảng)
         res.status(200).json({
-            // totalOrder,
+            success: true,
             newOrderToday
         });
 
     } catch (error) {
-        next(error); // Chuyền lỗi cho errorMiddleware
+        next(error); 
     }
 };

@@ -22,6 +22,12 @@ const router = express.Router();
 // 👤 USER ROUTES
 // =================================================================
 
+router.get("/stats",
+    protect,
+    authorizeRoles("admin"),
+    activityLogMiddleware(["get order stat"]),
+    getOrderStats
+)
 /**
  * 👁️ PREVIEW: Tính toán giá trước khi đặt
  * - Endpoint này KHÔNG cần validate(schemas.createOrder) vì createOrder yêu cầu cả địa chỉ, 
@@ -106,11 +112,6 @@ router.delete("/:id",
     deleteOrder
 );
 
-router.get("/stats",
-    protect,
-    authorizeRoles("admin"),
-    activityLogMiddleware(["get order stat"]),
-    getOrderStats
-)
+
 
 export default router;
